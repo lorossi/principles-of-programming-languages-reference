@@ -10,22 +10,20 @@
 \usepackage{color}
 
 % page geometry
-\geometry{left=1cm,right=1cm,bottom=1cm,top=1cm}
+\geometry{left=2cm,right=2cm,bottom=2cm,top=2cm}
 % columns spacing
 \setlength{\columnsep}{2em}
 % tighter titles, sections, etc.
-\titlespacing{\section}{0pt}{*0}{1em}
-\titlespacing{\subsection}{0pt}{*0}{0.5em}
-\titlespacing{\subsubsection}{0pt}{*0}{0.5em}
-\titlespacing{\paragraph}{0pt}{*0}{0.25em}
-
+\titlespacing{\section}{0pt}{1em}{0.5em}
+\titlespacing{\subsection}{0pt}{1em}{0.5em}
+\titlespacing{\subsubsection}{0pt}{1em}{0.5em}
+\titlespacing{\paragraph}{0pt}{1em}{0.5em}
 % changed bullet for lists
 \renewcommand\labelitemi{\small\bfseries\texttt{>}}
 \renewcommand\labelitemii{\small\bfseries\texttt{-}}
 % tighter lists
-\setlist[itemize]{noitemsep}
-\setlist[enumerate]{noitemsep}
-
+\setlist[itemize]{noitemsep, after=\vspace{0.25em}, before=\vspace{0.25em}}
+\setlist[enumerate]{noitemsep, after=\vspace{0.25em}, before=\vspace{0.25em}}
 % tighter lstlisting
 \lstdefinestyle{tight}{
   xleftmargin=1em,
@@ -36,20 +34,11 @@
 }
 % lstlisting default style
 \lstset{style=tight}
-
 % racket language
-\lstdefinelanguage{Scheme}{
-  morekeywords=[1]{define, define-syntax, define-macro, lambda, define-stream, stream-lambda},
-  morekeywords=[2]{begin, call-with-current-continuation, call/cc,
-      call-with-input-file, call-with-output-file, case, cond,
-      do, else, for-each, if,
-      let*, let, let-syntax, letrec, letrec-syntax,
-      let-values, let*-values,
-      and, or, not, delay, force,
-      quasiquote, quote, unquote, unquote-splicing,
-      map, fold, syntax, syntax-rules, eval, environment, query },
-  morekeywords=[3]{import, export},
+\lstdefinelanguage{Racket}{
+  morekeywords={add1, and, append, apply, begin, call-with-current-continuation, call-with-input-file, call-with-output-file, call/cc, car, case, cdr, cond, cons, count, define, define-macro, define-stream, define-syntax, delay, do, else, environment, eq?, equal?, eqv?, eval, even?, export, filter, first, fold, foldl, foldr, for-each, force, if, implies, import, lambda, last, length, let, let*, let*-values, let-syntax, let-values, letrec, letrec-syntax, list, list->string, list-ref, list-tail, map, not, odd?, or, or, quasiquote, query, quote, quotient, remainder, rest, reverse, string-append, stream-lambda, string->list, string-length, string-ref, struct, sub1, syntax, syntax-rules, tring-append, true?, unquote, unquote-splicing, vector-ref, xor},
   alsodigit=!\$\%&*+-./:<=>?@^_~,
+  alsoletter=!?>,
   sensitive=true,
   morecomment=[l]{;},
   morecomment=[s]{\#|}{|\#},
@@ -64,4 +53,6 @@
   literate=*{`}{{`}}{1},
   showstringspaces=false
 }
+% command to switch column
+\newcommand{\switchcolumn}{\vspace*{\fill}\columnbreak}
 
