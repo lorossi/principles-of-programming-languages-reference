@@ -7,7 +7,7 @@
 \begin{multicols*}{2}
   \subsection{Comments}
 
-  \begin{lstlisting}[language=Scheme]
+  \begin{lstlisting}[language=Racket]
 ; single line comment
 #|
   multi-line-comment
@@ -20,12 +20,12 @@
   \subsection{Datum evaluation}
 
   \begin{itemize}
-    \item \texttt{(quote <datum>)} or \texttt{'<datum>} leaved the datum as-is
+    \item \lstinline[language=Racket]!(quote <datum>)! or \texttt{'<datum>} leaves the datum as-is
     \item \texttt{(unquote <datum>)} or \texttt{,<datum>} is the opposite of \texttt{quote}
     \item \texttt{(quasiquote <datum>)} or \texttt{,@<datum>} allows to apply the unquote where needed
   \end{itemize}
 
-  \begin{lstlisting}[language=Scheme]
+  \begin{lstlisting}[language=Racket]
 '(1 2 3); => (1 2 3)
 (1 ,(+ 1 1) 3) ; => '(1 2 3)
 \end{lstlisting}
@@ -39,11 +39,13 @@
     \item check if a datum is true: \texttt{true?}
   \end{itemize}
 
-  \begin{lstlisting}[language=Scheme]
+  \begin{lstlisting}[language=Racket]
 (even? 2) ; => #t
 (odd? 2) ; => #f
 (true? #t) ; => #t
 \end{lstlisting}
+
+  \switchcolumn
 
   \subsubsection{Equivalence}
 
@@ -54,7 +56,7 @@
     \item checks if two objects are the same: \texttt{equal?}
   \end{itemize}
 
-  \begin{lstlisting}[language=Scheme]
+  \begin{lstlisting}[language=Racket]
 (= 1 1) ; => #t
 (eq? 1 1) ; => #t
 (eqv? 1 1) ; => #t
@@ -78,12 +80,14 @@
     \item lists: \texttt{'(1 2 3)}
   \end{itemize}
 
-  \begin{lstlisting}[language=Scheme]
+  \begin{lstlisting}[language=Racket]
 (define x 5) ; => x = 5
 (define y "Hello, world!") ; => y = "Hello, world!"
 (define z #t) ; => z = #t
 null ; => '()
 \end{lstlisting}
+
+  \switchcolumn
 
   \subsubsection{Basic operations}
 
@@ -100,7 +104,7 @@ null ; => '()
     \item subtract \(1\): \texttt{sub1}
   \end{itemize}
 
-  \begin{lstlisting}[language=Scheme]
+  \begin{lstlisting}[language=Racket]
 (+ 1 2 3) ; => 6
 (- 1 2 3) ; => -4
 (quotient 5 2) ; => 2
@@ -119,7 +123,7 @@ null ; => '()
     \item get n-th character: \texttt{string-ref}
   \end{itemize}
 
-  \begin{lstlisting}[language=Scheme]
+  \begin{lstlisting}[language=Racket]
 (string-length "Hello, world!") ; => 13
 (string-append "Hello, " "world!") ; => "Hello, world!"
 (string->list "Hello") ; => '(#\H #\e #\l #\l #\o)
@@ -127,20 +131,20 @@ null ; => '()
 (string-ref "Hello" 0) ; => #\H
 \end{lstlisting}
 
+  \switchcolumn
+
   \paragraph{Operations on bools}
 
   \begin{itemize}
-    \item logic operations: \texttt{and}, \texttt{or}, \texttt{not}, \texttt{xor}, \texttt{nor}, \texttt{nand}
+    \item logic operations: \texttt{and}, \texttt{or}, \texttt{not}, \texttt{xor}
     \item implication: \texttt{implies}
   \end{itemize}
 
-  \begin{lstlisting}[language=Scheme]
+  \begin{lstlisting}[language=Racket]
 (and #t #f) ; => #f
 (or #t #f) ; => #t
 (not #t) ; => #f
 (xor #t #f) ; => #t
-(nor #t #f) ; => #f
-(nand #t #f) ; => #t
 (implies #t #f) ; => #f
 \end{lstlisting}
 
@@ -152,7 +156,7 @@ null ; => '()
     \item old way: \texttt{(define <name> (lambda (<arg1> <arg2> ...) <body>))}
   \end{itemize}
 
-  \begin{lstlisting}[language=Scheme]
+  \begin{lstlisting}[language=Racket]
 (lambda (x) (+ x 1)) ;
 (define (add1 x) (+ x 1)) ;
 \end{lstlisting}
@@ -166,7 +170,7 @@ null ; => '()
     \item fold a list: \texttt{foldl}, \texttt{foldr}
   \end{itemize}
 
-  \begin{lstlisting}[language=Scheme]
+  \begin{lstlisting}[language=Racket]
 (map add1 '(1 2 3)) ; => '(2 3 4)
 (filter even? '(1 2 3 4)) ; => '(2 4)
 (apply append '((1 2) (3 4))) ; => '(1 2 3 4)
@@ -183,10 +187,12 @@ null ; => '()
     \item recursive binding: \texttt{letrec}
   \end{itemize}
 
-  \begin{lstlisting}[language=Scheme]
+  \begin{lstlisting}[language=Racket]
 (let ((x 5) (y 2)) (list x y)) ; => '(5 2)
 (let* ((x 1) (y (add1 x))) (list x y)) ; // '(1 2)
 \end{lstlisting}
+
+  \switchcolumn
 
   \subsection{Collections}
 
@@ -202,7 +208,7 @@ null ; => '()
     \item use \texttt{\#:mutable} keyword on struct or field to make it mutable
   \end{itemize}
 
-  \begin{lstlisting}[language=Scheme]
+  \begin{lstlisting}[language=Racket]
 (struct point (x y)) ; => point
 (define p (point 1 2)) ; => p = (point 1 2)
 (point-x p) ; => 1
@@ -223,7 +229,7 @@ null ; => '()
     \item pairs are immutable
   \end{itemize}
 
-  \begin{lstlisting}[language=Scheme]
+  \begin{lstlisting}[language=Racket, morekeywords={caar, cadr, cdar, cddr}]
 (cons 1 2) ; => '(1 . 2)
 (car '(1 . 2)) ; => 1
 (cdr '(1 . 2)) ; => 2
@@ -246,7 +252,7 @@ null ; => '()
           \end{itemize}
   \end{itemize}
 
-  \begin{lstlisting}[language=Scheme]
+  \begin{lstlisting}[language=Racket]
 '(1 2 3) ; => '(1 2 3)
 '(1 . (2 . (3 . ()))) ; => '(1 2 3)
 \end{lstlisting}
@@ -265,11 +271,10 @@ null ; => '()
     \item apply a filter: \texttt{filter <predicate>}
     \item apply a function to each element: \texttt{map <function>}
     \item get the reverse of a list: \texttt{reverse}
-    \item get the first element: \texttt{first}
     \item get the elements after the first: \texttt{rest}
   \end{itemize}
 
-  \begin{lstlisting}[language=Scheme]
+  \begin{lstlisting}[language=Racket]
 (length '(1 2 3)) ; => 3
 (cons 1 '(2 3)) ; => '(1 2 3)
 (append '(1 2) '(3 4)) ; => '(1 2 3 4)
@@ -281,9 +286,10 @@ null ; => '()
 (filter even? '(1 2 3 4)) ; => '(2 4)
 (map add1 '(1 2 3)) ; => '(2 3 4)
 (reverse '(1 2 3)) ; => '(3 2 1)
-(first '(1 2 3)) ; => 1
 (rest '(1 2 3)) ; => '(2 3)
 \end{lstlisting}
+
+  \vfill
 
   \paragraph{Lists folding}
 
@@ -295,7 +301,7 @@ null ; => '()
     \item the function is applied to the accumulator and the first element of the list
   \end{itemize}
 
-  \begin{lstlisting}[language=Scheme]
+  \begin{lstlisting}[language=Racket]
 (foldl + 0 '(1 2 3 4)) ; => 10
 (foldr * 1 '(1 2 3 4)) ; => 24
   \end{lstlisting}
@@ -308,35 +314,36 @@ null ; => '()
     \item vector are immutable, fixed size and zero-indexed
   \end{itemize}
 
-  \begin{lstlisting}[language=Scheme]
+  \begin{lstlisting}[language=Racket]
 #(1 2 3) ; => '#(1 2 3)
 (vector-ref '#(1 2 3) 0) ; => 1
   \end{lstlisting}
+
+  \subsubsection{Sets}
+
+  \dots
+
+  \subsubsection{Hash}
+
+  \dots
+
+  \subsection{Control flow}
+
+  \subsubsection{Conditionals}
+
+  \paragraph{if}
+
+  \dots
+
+  \paragraph{cond}
+
+  \dots
+
+  \paragraph{pattern matching}
+
+  \dots
+
 \end{multicols*}
-
-\subsubsection{Sets}
-
-\dots
-
-\subsubsection{Hash}
-
-\dots
-
-\subsection{Control flow}
-
-\subsubsection{Conditionals}
-
-\paragraph{if}
-
-\dots
-
-\paragraph{cond}
-
-\dots
-
-\paragraph{pattern matching}
-
-\dots
 
 \clearpage
 
