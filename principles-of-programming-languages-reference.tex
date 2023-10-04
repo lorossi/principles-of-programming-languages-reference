@@ -20,9 +20,9 @@
   \subsection{Datum evaluation}
 
   \begin{itemize}
-    \item \lstinline[language=Racket]!(quote <datum>)! or \texttt{'<datum>} leaves the datum as-is
-    \item \texttt{(unquote <datum>)} or \texttt{,<datum>} is the opposite of \texttt{quote}
-    \item \texttt{(quasiquote <datum>)} or \texttt{,@<datum>} allows to apply the unquote where needed
+    \item \lstinline[language=Racket]!(quote <datum>)! or \lstinline[language=Racket]!'<datum>! leaves the datum as-is
+    \item \lstinline[language=Racket]!(unquote <datum>)! or \lstinline[language=Racket]!,<datum>! is the opposite of \lstinline[language=Racket]!quote!
+    \item \lstinline[language=Racket]!(quasiquote <datum>)! or \lstinline[language=Racket]!,@<datum>! allows to apply the unquote where needed
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -33,10 +33,10 @@
   \subsection{Predicates}
 
   \begin{itemize}
-    \item all predicates end with \texttt{?}
-    \item checks if a number is even: \texttt{even?}
-    \item checks if a number is odd: \texttt{odd?}
-    \item check if a datum is true: \texttt{true?}
+    \item all predicates end with \lstinline[language=Racket]!?!
+    \item checks if a number is even: \lstinline[language=Racket]!even?!
+    \item checks if a number is odd: \lstinline[language=Racket]!odd?!
+    \item check if a datum is true: \lstinline[language=Racket]!true?!
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -50,10 +50,10 @@
   \subsubsection{Equivalence}
 
   \begin{itemize}
-    \item check if two numbers are equal: \texttt{=}
-    \item checks if two objects or numbers are the same: \texttt{eq?}
-    \item checks if two objects are the same: \texttt{eqv?}
-    \item checks if two objects are the same: \texttt{equal?}
+    \item check if two numbers are equal: \lstinline[language=Racket]!=!
+    \item checks if two objects or numbers are the same: \lstinline[language=Racket]!eq?!
+    \item checks if two objects are the same: \lstinline[language=Racket]!eqv?!
+    \item checks if two objects are the same: \lstinline[language=Racket]!equal?!
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -66,18 +66,18 @@
   \subsection{Data types}
 
   \begin{itemize}
-    \item integer: \texttt{9125}
-    \item binary: \texttt{\#b10001110100101}
-    \item octal: \texttt{\#o21645}
-    \item hexadecimal: \texttt{\#x23a5}
-    \item real: \texttt{91.25}
-    \item rational: \texttt{91/25}
-    \item complex: \texttt{91+25i}
-    \item boolean: \texttt{\#t, \#f}
-    \item character: \texttt{\#A, \#\(\lambda\), \#\(\backslash\backslash\)u30BB}
-    \item string: \texttt{"Hello, world!"}
-    \item null element: \texttt{'(), null}
-    \item lists: \texttt{'(1 2 3)}
+    \item integer: \lstinline[language=Racket]!9125!
+    \item binary: \lstinline[language=Racket]!#b10001110100101!
+    \item octal: \lstinline[language=Racket]!#o21645!
+    \item hexadecimal: \lstinline[language=Racket]!#x23a5!
+    \item real: \lstinline[language=Racket]!91.25!
+    \item rational: \lstinline[language=Racket]!91/25!
+    \item complex: \lstinline[language=Racket]!91+25i!
+    \item boolean: \lstinline[language=Racket]!#t, #f!
+    \item character: \lstinline[language=Racket]!#\A, #\$\lambda$, #\u30BB!
+    \item string: \lstinline[language=Racket]!"Hello, world!"!
+    \item null element: \lstinline[language=Racket]!'(), null!
+    \item lists: \lstinline[language=Racket]!'(1 2 3)!
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -91,17 +91,17 @@ null ; => '()
 
   \subsubsection{Basic operations}
 
-  All the operators are in the form \texttt{(<operator> <operand> ...)} \textit{(prefix notation).}
+  All the operators are in the form \lstinline[language=Racket]!(<operator> <operand> ...)! \textit{(prefix notation).}
 
   \paragraph{Operations on numbers}
 
   \begin{itemize}
-    \item arithmetic operations: \texttt{+}, \texttt{-}, \texttt{*}, \texttt{/}
-    \item exponentiation: \texttt{exp}
-    \item quotient: \texttt{quotient}
-    \item remainder: \texttt{remainder}
-    \item add \(1\): \texttt{add1}
-    \item subtract \(1\): \texttt{sub1}
+    \item arithmetic operations: \lstinline[language=Racket]!+!, \lstinline[language=Racket]!-!, \lstinline[language=Racket]!*!, \lstinline[language=Racket]!/!
+    \item exponentiation: \lstinline[language=Racket]!exp!
+    \item quotient: \lstinline[language=Racket]!quotient!
+    \item remainder: \lstinline[language=Racket]!remainder!
+    \item add \(1\): \lstinline[language=Racket]!add1!
+    \item subtract \(1\): \lstinline[language=Racket]!sub1!
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -116,11 +116,11 @@ null ; => '()
   \paragraph{Operations on strings}
 
   \begin{itemize}
-    \item string length: \texttt{string-length}
-    \item string append: \texttt{string-append}
-    \item string to list: \texttt{string->list}
-    \item list to string: \texttt{list->string}
-    \item get n-th character: \texttt{string-ref}
+    \item string length: \lstinline[language=Racket]!string-length!
+    \item string append: \lstinline[language=Racket]!string-append!
+    \item string to list: \lstinline[language=Racket]!string->list!
+    \item list to string: \lstinline[language=Racket]!list->string!
+    \item get n-th character: \lstinline[language=Racket]!string-ref!
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -136,8 +136,8 @@ null ; => '()
   \paragraph{Operations on bools}
 
   \begin{itemize}
-    \item logic operations: \texttt{and}, \texttt{or}, \texttt{not}, \texttt{xor}
-    \item implication: \texttt{implies}
+    \item logic operations: \lstinline[language=Racket]!and!, \lstinline[language=Racket]!or!, \lstinline[language=Racket]!not!, \lstinline[language=Racket]!xor!
+    \item implication: \lstinline[language=Racket]!implies!
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -151,9 +151,9 @@ null ; => '()
   \subsection{Functions}
 
   \begin{itemize}
-    \item anonymous functions: \texttt{(lambda (<arg1> <arg2> ...) <body>)}
-    \item named functions: \texttt{(define (<name> <arg1> <arg2> ...) <body>)}
-    \item old way: \texttt{(define <name> (lambda (<arg1> <arg2> ...) <body>))}
+    \item anonymous functions: \lstinline[language=Racket]!(lambda (<arg1> <arg2> ...) <body>)!
+    \item named functions: \lstinline[language=Racket]!(define (<name> <arg1> <arg2> ...) <body>)!
+    \item old way: \lstinline[language=Racket]!(define <name> (lambda (<arg1> <arg2> ...) <body>))!
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -164,10 +164,10 @@ null ; => '()
   \subsubsection{Higher order functions}
 
   \begin{itemize}
-    \item apply a function to each element of a list: \texttt{map}
-    \item apply a filter: \texttt{filter}
-    \item apply a function to each element of a list and flatten the result: \texttt{apply}
-    \item fold a list: \texttt{foldl}, \texttt{foldr}
+    \item apply a function to each element of a list: \lstinline[language=Racket]!map!
+    \item apply a filter: \lstinline[language=Racket]!filter!
+    \item apply a function to each element of a list and flatten the result: \lstinline[language=Racket]!apply!
+    \item fold a list: \lstinline[language=Racket]!foldl!, \lstinline[language=Racket]!foldr!
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -182,9 +182,9 @@ null ; => '()
   \subsection{Variables}
 
   \begin{itemize}
-    \item parallel binding: \texttt{let}
-    \item serial binding: \texttt{let*}
-    \item recursive binding: \texttt{letrec}
+    \item parallel binding: \lstinline[language=Racket]!let!
+    \item serial binding: \lstinline[language=Racket]!let*!
+    \item recursive binding: \lstinline[language=Racket]!letrec!
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -199,13 +199,13 @@ null ; => '()
   \subsubsection{Structs}
 
   \begin{itemize}
-    \item definition: \texttt{(struct <struct-name> (<field> ...))}
-    \item constructor: \texttt{(define <name> <struct-name> <field-value> ...)}
-    \item getter: \texttt{<struct-name>-<field-name>}
-    \item setter: \texttt{set-<struct-name>-<field-name>!}
-    \item predicate: \texttt{<struct-name>?}
+    \item definition: \lstinline[language=Racket]!(struct <struct-name> (<field> ...))!
+    \item constructor: \lstinline[language=Racket]!(define <name> <struct-name> <field-value> ...)!
+    \item getter: \lstinline[language=Racket]!<struct-name>-<field-name>!
+    \item setter: \lstinline[language=Racket]!set-<struct-name>-<field-name>!!
+    \item predicate: \lstinline[language=Racket]!<struct-name>?!
     \item structs and fields are immutable by default
-    \item use \texttt{\#:mutable} keyword on struct or field to make it mutable
+    \item use \lstinline[language=Racket]!#:mutable! keyword on struct or field to make it mutable
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -222,10 +222,10 @@ null ; => '()
   \subsubsection{Pairs}
 
   \begin{itemize}
-    \item definition: \texttt{(cons <first> <second>)}
-    \item getter of first element: \texttt{car}
-    \item getter of second element: \texttt{cdr}
-    \item car and cdr can be composed \textit{(\texttt{cdadadr}, \texttt{caaar})}
+    \item definition: \lstinline[language=Racket]!(cons <first> <second>)!
+    \item getter of first element: \lstinline[language=Racket]!car!
+    \item getter of second element: \lstinline[language=Racket]!cdr!
+    \item car and cdr can be composed \textit{(\lstinline[language=Racket]!cdadadr!, \lstinline[language=Racket]!caaar!)}
     \item pairs are immutable
   \end{itemize}
 
@@ -243,12 +243,12 @@ null ; => '()
 
   \begin{itemize}
     \item lists are composed of pairs
-    \item manually defined via \texttt{quote}: \texttt{'(1 2 3)}
-    \item empty list: \texttt{'()}
+    \item manually defined via \lstinline[language=Racket]!quote!: \lstinline[language=Racket]!'(1 2 3)!
+    \item empty list: \lstinline[language=Racket]!'()!
     \item lists are made by pairs
-          \begin{itemize} \item the \texttt{car} contains the first value
-            \item the \texttt{cdr} contains the the rest of the list
-            \item the last pair has \texttt{cdr} equal to \texttt{'()}
+          \begin{itemize} \item the \lstinline[language=Racket]!car! contains the first value
+            \item the \lstinline[language=Racket]!cdr! contains the the rest of the list
+            \item the last pair has \lstinline[language=Racket]!cdr! equal to \lstinline[language=Racket]!'()!
           \end{itemize}
   \end{itemize}
 
@@ -260,18 +260,18 @@ null ; => '()
   \paragraph{Operations on lists}
 
   \begin{itemize}
-    \item list length: \texttt{length}
-    \item add an element at the beginning: \texttt{cons}
-    \item add an element at the end: \texttt{append}
-    \item take the first element: \texttt{first}
-    \item take the last element: \texttt{last}
-    \item take the n-th element: \texttt{list-ref <list> <n>}
-    \item take the n-th element after pos: \texttt{list-tail <list> <pos>}
-    \item count the occurrences of an element: \texttt{count <predicate> <list>}
-    \item apply a filter: \texttt{filter <predicate>}
-    \item apply a function to each element: \texttt{map <function>}
-    \item get the reverse of a list: \texttt{reverse}
-    \item get the elements after the first: \texttt{rest}
+    \item list length: \lstinline[language=Racket]!length!
+    \item add an element at the beginning: \lstinline[language=Racket]!cons!
+    \item add an element at the end: \lstinline[language=Racket]!append!
+    \item take the first element: \lstinline[language=Racket]!first!
+    \item take the last element: \lstinline[language=Racket]!last!
+    \item take the n-th element: \lstinline[language=Racket]!list-ref <list> <n>!
+    \item take the n-th element after pos: \lstinline[language=Racket]!list-tail <list> <pos>!
+    \item count the occurrences of an element: \lstinline[language=Racket]!count <predicate> <list>!
+    \item apply a filter: \lstinline[language=Racket]!filter <predicate>!
+    \item apply a function to each element: \lstinline[language=Racket]!map <function>!
+    \item get the reverse of a list: \lstinline[language=Racket]!reverse!
+    \item get the elements after the first: \lstinline[language=Racket]!rest!
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -294,8 +294,8 @@ null ; => '()
   \paragraph{Lists folding}
 
   \begin{itemize}
-    \item lists can be folded from the left with \texttt{foldl}
-    \item lists can be folded from the right with \texttt{foldr}
+    \item lists can be folded from the left with \lstinline[language=Racket]!foldl!
+    \item lists can be folded from the right with \lstinline[language=Racket]!foldr!
     \item the accumulator is the first argument of the function
     \item the list is the second argument of the function
     \item the function is applied to the accumulator and the first element of the list
@@ -309,8 +309,8 @@ null ; => '()
   \subsubsection{Vectors}
 
   \begin{itemize}
-    \item definition: \texttt{\#(<element> ...)}
-    \item getter: \texttt{vector-ref}
+    \item definition: \lstinline[language=Racket]!#(<element> ...)!
+    \item getter: \lstinline[language=Racket]!vector-ref!
     \item vector are immutable, fixed size and zero-indexed
   \end{itemize}
 
@@ -340,6 +340,10 @@ null ; => '()
   \dots
 
   \paragraph{pattern matching}
+
+  \dots
+
+  \subsection{Object Oriented}
 
   \dots
 
