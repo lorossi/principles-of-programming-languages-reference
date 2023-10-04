@@ -1,0 +1,350 @@
+\documentclass[a4paper,landscape,10pt]{article}
+\usepackage{settings}
+
+\begin{document}
+
+\section{Racket}
+\begin{multicols*}{2}
+  \subsection{Comments}
+
+  \begin{lstlisting}[language=Scheme]
+; single line comment
+#|
+  multi-line-comment
+	can span
+	multiple lines
+  end of comment
+|#
+\end{lstlisting}
+
+  \subsection{Datum evaluation}
+
+  \begin{itemize}
+    \item \texttt{(quote <datum>)} or \texttt{'<datum>} leaved the datum as-is
+    \item \texttt{(unquote <datum>)} or \texttt{,<datum>} is the opposite of \texttt{quote}
+    \item \texttt{(quasiquote <datum>)} or \texttt{,@<datum>} allows to apply the unquote where needed
+  \end{itemize}
+
+  \begin{lstlisting}[language=Scheme]
+'(1 2 3); => (1 2 3)
+(1 ,(+ 1 1) 3) ; => '(1 2 3)
+\end{lstlisting}
+
+  \subsection{Predicates}
+
+  \begin{itemize}
+    \item all predicates end with \texttt{?}
+    \item checks if a number is even: \texttt{even?}
+    \item checks if a number is odd: \texttt{odd?}
+    \item check if a datum is true: \texttt{true?}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Scheme]
+(even? 2) ; => #t
+(odd? 2) ; => #f
+(true? #t) ; => #t
+\end{lstlisting}
+
+  \subsubsection{Equivalence}
+
+  \begin{itemize}
+    \item check if two numbers are equal: \texttt{=}
+    \item checks if two objects or numbers are the same: \texttt{eq?}
+    \item checks if two objects are the same: \texttt{eqv?}
+    \item checks if two objects are the same: \texttt{equal?}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Scheme]
+(= 1 1) ; => #t
+(eq? 1 1) ; => #t
+(eqv? 1 1) ; => #t
+(equal? 1 1) ; => #t
+\end{lstlisting}
+
+  \subsection{Data types}
+
+  \begin{itemize}
+    \item integer: \texttt{9125}
+    \item binary: \texttt{\#b10001110100101}
+    \item octal: \texttt{\#o21645}
+    \item hexadecimal: \texttt{\#x23a5}
+    \item real: \texttt{91.25}
+    \item rational: \texttt{91/25}
+    \item complex: \texttt{91+25i}
+    \item boolean: \texttt{\#t, \#f}
+    \item character: \texttt{\#A, \#\(\lambda\), \#\(\backslash\backslash\)u30BB}
+    \item string: \texttt{"Hello, world!"}
+    \item null element: \texttt{'(), null}
+    \item lists: \texttt{'(1 2 3)}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Scheme]
+(define x 5) ; => x = 5
+(define y "Hello, world!") ; => y = "Hello, world!"
+(define z #t) ; => z = #t
+null ; => '()
+\end{lstlisting}
+
+  \subsubsection{Basic operations}
+
+  All the operators are in the form \texttt{(<operator> <operand> ...)} \textit{(prefix notation).}
+
+  \paragraph{Operations on numbers}
+
+  \begin{itemize}
+    \item arithmetic operations: \texttt{+}, \texttt{-}, \texttt{*}, \texttt{/}
+    \item exponentiation: \texttt{exp}
+    \item quotient: \texttt{quotient}
+    \item remainder: \texttt{remainder}
+    \item add \(1\): \texttt{add1}
+    \item subtract \(1\): \texttt{sub1}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Scheme]
+(+ 1 2 3) ; => 6
+(- 1 2 3) ; => -4
+(quotient 5 2) ; => 2
+(remainder 5 2) ; => 1
+(add1 5) ; => 6
+(sub1 5) ; => 4
+\end{lstlisting}
+
+  \paragraph{Operations on strings}
+
+  \begin{itemize}
+    \item string length: \texttt{string-length}
+    \item string append: \texttt{string-append}
+    \item string to list: \texttt{string->list}
+    \item list to string: \texttt{list->string}
+    \item get n-th character: \texttt{string-ref}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Scheme]
+(string-length "Hello, world!") ; => 13
+(string-append "Hello, " "world!") ; => "Hello, world!"
+(string->list "Hello") ; => '(#\H #\e #\l #\l #\o)
+(list->string '(#\H #\e #\l #\l #\o)) ; => "Hello"
+(string-ref "Hello" 0) ; => #\H
+\end{lstlisting}
+
+  \paragraph{Operations on bools}
+
+  \begin{itemize}
+    \item logic operations: \texttt{and}, \texttt{or}, \texttt{not}, \texttt{xor}, \texttt{nor}, \texttt{nand}
+    \item implication: \texttt{implies}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Scheme]
+(and #t #f) ; => #f
+(or #t #f) ; => #t
+(not #t) ; => #f
+(xor #t #f) ; => #t
+(nor #t #f) ; => #f
+(nand #t #f) ; => #t
+(implies #t #f) ; => #f
+\end{lstlisting}
+
+  \subsection{Functions}
+
+  \begin{itemize}
+    \item anonymous functions: \texttt{(lambda (<arg1> <arg2> ...) <body>)}
+    \item named functions: \texttt{(define (<name> <arg1> <arg2> ...) <body>)}
+    \item old way: \texttt{(define <name> (lambda (<arg1> <arg2> ...) <body>))}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Scheme]
+(lambda (x) (+ x 1)) ;
+(define (add1 x) (+ x 1)) ;
+\end{lstlisting}
+
+  \subsubsection{Higher order functions}
+
+  \begin{itemize}
+    \item apply a function to each element of a list: \texttt{map}
+    \item apply a filter: \texttt{filter}
+    \item apply a function to each element of a list and flatten the result: \texttt{apply}
+    \item fold a list: \texttt{foldl}, \texttt{foldr}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Scheme]
+(map add1 '(1 2 3)) ; => '(2 3 4)
+(filter even? '(1 2 3 4)) ; => '(2 4)
+(apply append '((1 2) (3 4))) ; => '(1 2 3 4)
+(foldl + 0 '(1 2 3)) ; => 6
+(foldr + 0 '(1 2 3)) ; => 6
+\end{lstlisting}
+
+
+  \subsection{Variables}
+
+  \begin{itemize}
+    \item parallel binding: \texttt{let}
+    \item serial binding: \texttt{let*}
+    \item recursive binding: \texttt{letrec}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Scheme]
+(let ((x 5) (y 2)) (list x y)) ; => '(5 2)
+(let* ((x 1) (y (add1 x))) (list x y)) ; // '(1 2)
+\end{lstlisting}
+
+  \subsection{Collections}
+
+  \subsubsection{Structs}
+
+  \begin{itemize}
+    \item definition: \texttt{(struct <struct-name> (<field> ...))}
+    \item constructor: \texttt{(define <name> <struct-name> <field-value> ...)}
+    \item getter: \texttt{<struct-name>-<field-name>}
+    \item setter: \texttt{set-<struct-name>-<field-name>!}
+    \item predicate: \texttt{<struct-name>?}
+    \item structs and fields are immutable by default
+    \item use \texttt{\#:mutable} keyword on struct or field to make it mutable
+  \end{itemize}
+
+  \begin{lstlisting}[language=Scheme]
+(struct point (x y)) ; => point
+(define p (point 1 2)) ; => p = (point 1 2)
+(point-x p) ; => 1
+(point? p) ; => #t
+
+(struct mut-point (x y #:mutable)) ; => point
+(define mp (mut-point 1 2)) ; => mp = (mut-point 1 2)
+(set-mut-point-x! mp 5) ; => mp = (mut-point 5 2)
+\end{lstlisting}
+
+  \subsubsection{Pairs}
+
+  \begin{itemize}
+    \item definition: \texttt{(cons <first> <second>)}
+    \item getter of first element: \texttt{car}
+    \item getter of second element: \texttt{cdr}
+    \item car and cdr can be composed \textit{(\texttt{cdadadr}, \texttt{caaar})}
+    \item pairs are immutable
+  \end{itemize}
+
+  \begin{lstlisting}[language=Scheme]
+(cons 1 2) ; => '(1 . 2)
+(car '(1 . 2)) ; => 1
+(cdr '(1 . 2)) ; => 2
+(caar '((1 . 2) . 3)) ; => 1
+(cadr '((1 . 2) . 3)) ; => 2
+(cdar '((1 . 2) . 3)) ; => 2
+(cddr '((1 . 2) . 3)) ; => 3
+\end{lstlisting}
+
+  \subsubsection{Lists}
+
+  \begin{itemize}
+    \item lists are composed of pairs
+    \item manually defined via \texttt{quote}: \texttt{'(1 2 3)}
+    \item empty list: \texttt{'()}
+    \item lists are made by pairs
+          \begin{itemize} \item the \texttt{car} contains the first value
+            \item the \texttt{cdr} contains the the rest of the list
+            \item the last pair has \texttt{cdr} equal to \texttt{'()}
+          \end{itemize}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Scheme]
+'(1 2 3) ; => '(1 2 3)
+'(1 . (2 . (3 . ()))) ; => '(1 2 3)
+\end{lstlisting}
+
+  \paragraph{Operations on lists}
+
+  \begin{itemize}
+    \item list length: \texttt{length}
+    \item add an element at the beginning: \texttt{cons}
+    \item add an element at the end: \texttt{append}
+    \item take the first element: \texttt{first}
+    \item take the last element: \texttt{last}
+    \item take the n-th element: \texttt{list-ref <list> <n>}
+    \item take the n-th element after pos: \texttt{list-tail <list> <pos>}
+    \item count the occurrences of an element: \texttt{count <predicate> <list>}
+    \item apply a filter: \texttt{filter <predicate>}
+    \item apply a function to each element: \texttt{map <function>}
+    \item get the reverse of a list: \texttt{reverse}
+    \item get the first element: \texttt{first}
+    \item get the elements after the first: \texttt{rest}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Scheme]
+(length '(1 2 3)) ; => 3
+(cons 1 '(2 3)) ; => '(1 2 3)
+(append '(1 2) '(3 4)) ; => '(1 2 3 4)
+(first '(1 2 3)) ; => 1
+(last '(1 2 3)) ; => 3
+(list-ref '(1 2 3) 1) ; => 2
+(list-tail '(1 2 3) 1) ; => '(2 3)
+(count even? '(1 2 3 4)) ; => 2
+(filter even? '(1 2 3 4)) ; => '(2 4)
+(map add1 '(1 2 3)) ; => '(2 3 4)
+(reverse '(1 2 3)) ; => '(3 2 1)
+(first '(1 2 3)) ; => 1
+(rest '(1 2 3)) ; => '(2 3)
+\end{lstlisting}
+
+  \paragraph{Lists folding}
+
+  \begin{itemize}
+    \item lists can be folded from the left with \texttt{foldl}
+    \item lists can be folded from the right with \texttt{foldr}
+    \item the accumulator is the first argument of the function
+    \item the list is the second argument of the function
+    \item the function is applied to the accumulator and the first element of the list
+  \end{itemize}
+
+  \begin{lstlisting}[language=Scheme]
+(foldl + 0 '(1 2 3 4)) ; => 10
+(foldr * 1 '(1 2 3 4)) ; => 24
+  \end{lstlisting}
+
+  \subsubsection{Vectors}
+
+  \begin{itemize}
+    \item definition: \texttt{\#(<element> ...)}
+    \item getter: \texttt{vector-ref}
+    \item vector are immutable, fixed size and zero-indexed
+  \end{itemize}
+
+  \begin{lstlisting}[language=Scheme]
+#(1 2 3) ; => '#(1 2 3)
+(vector-ref '#(1 2 3) 0) ; => 1
+  \end{lstlisting}
+\end{multicols*}
+
+\subsubsection{Sets}
+
+\dots
+
+\subsubsection{Hash}
+
+\dots
+
+\subsection{Control flow}
+
+\subsubsection{Conditionals}
+
+\paragraph{if}
+
+\dots
+
+\paragraph{cond}
+
+\dots
+
+\paragraph{pattern matching}
+
+\dots
+
+\clearpage
+
+\section{Erlang}
+
+\clearpage
+
+\section{Haskell}
+
+
+\end{document}

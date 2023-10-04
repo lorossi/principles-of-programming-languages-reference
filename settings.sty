@@ -1,0 +1,67 @@
+% required packages
+\usepackage[compact]{titlesec}
+\usepackage[utf8]{inputenc}
+\usepackage{tabularray}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{textcomp}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{color}
+
+% page geometry
+\geometry{left=1cm,right=1cm,bottom=1cm,top=1cm}
+% columns spacing
+\setlength{\columnsep}{2em}
+% tighter titles, sections, etc.
+\titlespacing{\section}{0pt}{*0}{1em}
+\titlespacing{\subsection}{0pt}{*0}{0.5em}
+\titlespacing{\subsubsection}{0pt}{*0}{0.5em}
+\titlespacing{\paragraph}{0pt}{*0}{0.25em}
+
+% changed bullet for lists
+\renewcommand\labelitemi{\small\bfseries\texttt{>}}
+\renewcommand\labelitemii{\small\bfseries\texttt{-}}
+% tighter lists
+\setlist[itemize]{noitemsep}
+\setlist[enumerate]{noitemsep}
+
+% tighter lstlisting
+\lstdefinestyle{tight}{
+  xleftmargin=1em,
+  xrightmargin=1em,
+  aboveskip=0em,
+  belowskip=0.5em,
+  backgroundcolor=\color[rgb]{0.95,0.95,0.95},
+}
+% lstlisting default style
+\lstset{style=tight}
+
+% racket language
+\lstdefinelanguage{Scheme}{
+  morekeywords=[1]{define, define-syntax, define-macro, lambda, define-stream, stream-lambda},
+  morekeywords=[2]{begin, call-with-current-continuation, call/cc,
+      call-with-input-file, call-with-output-file, case, cond,
+      do, else, for-each, if,
+      let*, let, let-syntax, letrec, letrec-syntax,
+      let-values, let*-values,
+      and, or, not, delay, force,
+      quasiquote, quote, unquote, unquote-splicing,
+      map, fold, syntax, syntax-rules, eval, environment, query },
+  morekeywords=[3]{import, export},
+  alsodigit=!\$\%&*+-./:<=>?@^_~,
+  sensitive=true,
+  morecomment=[l]{;},
+  morecomment=[s]{\#|}{|\#},
+  morestring=[b]",
+  basicstyle=\small\ttfamily,
+  keywordstyle=\bf\ttfamily\color[rgb]{0,.3,.7},
+  commentstyle=\color[rgb]{0.133,0.545,0.133},
+  stringstyle={\color[rgb]{0.75,0.49,0.07}},
+  upquote=true,
+  breaklines=true,
+  breakatwhitespace=true,
+  literate=*{`}{{`}}{1},
+  showstringspaces=false
+}
+
