@@ -1,11 +1,19 @@
 \documentclass[a4paper,landscape,10pt]{article}
 \usepackage{settings}
 
+% TODO: when everything has been written, space correctly the content by breaking the columns via the \switchcolumn command
+
 \begin{document}
 
 \section{Racket}
 \begin{multicols*}{2}
   \subsection{Comments}
+
+  \begin{itemize}
+    \item single line comment: \iracket{;}
+    \item multi-line comment: \iracket{\#| ... |\#}
+    \item multi-line comments can be nested
+  \end{itemize}
 
   \begin{lstlisting}[language=Racket]
 ; single line comment
@@ -20,9 +28,9 @@
   \subsection{Datum evaluation}
 
   \begin{itemize}
-    \item \lstinline[language=Racket]!(quote <datum>)! or \lstinline[language=Racket]!'<datum>! leaves the datum as-is
-    \item \lstinline[language=Racket]!(unquote <datum>)! or \lstinline[language=Racket]!,<datum>! is the opposite of \lstinline[language=Racket]!quote!
-    \item \lstinline[language=Racket]!(quasiquote <datum>)! or \lstinline[language=Racket]!,@<datum>! allows to apply the unquote where needed
+    \item \iracket{(quote <datum>)} or \iracket{'<datum>} leaves the datum as-is
+    \item \iracket{(unquote <datum>)} or \iracket{,<datum>} is the opposite of \iracket{quote}
+    \item \iracket{(quasiquote <datum>)} or \iracket{,@<datum>} allows to apply the unquote where needed
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -33,10 +41,13 @@
   \subsection{Predicates}
 
   \begin{itemize}
-    \item all predicates end with \lstinline[language=Racket]!?!
-    \item checks if a number is even: \lstinline[language=Racket]!even?!
-    \item checks if a number is odd: \lstinline[language=Racket]!odd?!
-    \item check if a datum is true: \lstinline[language=Racket]!true?!
+    \item all predicates end with \iracket{?}
+    \item checks if a number is even: \iracket{even?}
+    \item checks if a number is odd: \iracket{odd?}
+    \item check if a datum is true: \iracket{true?}
+    \item check if a number is positive: \iracket{positive?}
+    \item check if a number is negative: \iracket{negative?}
+    \item check if a number is zero: \iracket{zero?}
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -45,15 +56,13 @@
 (true? #t) ; => #t
 \end{lstlisting}
 
-  \switchcolumn
-
   \subsubsection{Equivalence}
 
   \begin{itemize}
-    \item check if two numbers are equal: \lstinline[language=Racket]!=!
-    \item checks if two objects or numbers are the same: \lstinline[language=Racket]!eq?!
-    \item checks if two objects are the same: \lstinline[language=Racket]!eqv?!
-    \item checks if two objects are the same: \lstinline[language=Racket]!equal?!
+    \item check if two numbers are equal: \iracket{=}
+    \item checks if two objects or numbers are the same: \iracket{eq?}
+    \item checks if two objects are the same: \iracket{eqv?}
+    \item checks if two objects are the same: \iracket{equal?}
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -66,61 +75,71 @@
   \subsection{Data types}
 
   \begin{itemize}
-    \item integer: \lstinline[language=Racket]!9125!
-    \item binary: \lstinline[language=Racket]!#b10001110100101!
-    \item octal: \lstinline[language=Racket]!#o21645!
-    \item hexadecimal: \lstinline[language=Racket]!#x23a5!
-    \item real: \lstinline[language=Racket]!91.25!
-    \item rational: \lstinline[language=Racket]!91/25!
-    \item complex: \lstinline[language=Racket]!91+25i!
-    \item boolean: \lstinline[language=Racket]!#t, #f!
-    \item character: \lstinline[language=Racket]!#\A, #\$\lambda$, #\u30BB!
-    \item string: \lstinline[language=Racket]!"Hello, world!"!
-    \item null element: \lstinline[language=Racket]!'(), null!
-    \item lists: \lstinline[language=Racket]!'(1 2 3)!
+    \item integer: \iracket{9125}
+    \item binary: \iracket{#b10001110100101}
+    \item octal: \iracket{#o21645}
+    \item hexadecimal: \iracket{#x23a5}
+    \item real: \iracket{91.25}
+    \item rational: \iracket{91/25}
+    \item complex: \iracket{91+25i}
+    \item boolean: \iracket{#t, #f}
+    \item character: \lstinline[language=Racket]!#\A, #\$\lambda$, #\u30BB! % this cannot be changed to a macro because of the special characters
+    \item null element: \iracket{'(), null}
+    \item lists: \iracket{'(1 2 3)}
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
 (define x 5) ; => x = 5
 (define y "Hello, world!") ; => y = "Hello, world!"
 (define z #t) ; => z = #t
+(define w #\A) ; => w = #\A
 null ; => '()
 \end{lstlisting}
 
-  \switchcolumn
-
   \subsubsection{Basic operations}
 
-  All the operators are in the form \lstinline[language=Racket]!(<operator> <operand> ...)! \textit{(prefix notation).}
+  All the operators are in the form \iracket{(<operator> <operand> ...)} \textit{(prefix notation).}
 
   \paragraph{Operations on numbers}
 
   \begin{itemize}
-    \item arithmetic operations: \lstinline[language=Racket]!+!, \lstinline[language=Racket]!-!, \lstinline[language=Racket]!*!, \lstinline[language=Racket]!/!
-    \item exponentiation: \lstinline[language=Racket]!exp!
-    \item quotient: \lstinline[language=Racket]!quotient!
-    \item remainder: \lstinline[language=Racket]!remainder!
-    \item add \(1\): \lstinline[language=Racket]!add1!
-    \item subtract \(1\): \lstinline[language=Racket]!sub1!
+    \item arithmetic operations: \iracket{+}, \iracket{-}, \iracket{*}, \iracket{/}
+    \item exponentiation: \iracket{expt}
+    \item exponentiation by $e$: \iracket{exp}
+    \item logarithm: \iracket{log}
+    \item quotient: \iracket{quotient}
+    \item remainder: \iracket{remainder}
+    \item largest and smallest of two numbers: \iracket{max}, \iracket{min}
+    \item add \(1\): \iracket{add1}
+    \item subtract \(1\): \iracket{sub1}
+    \item greatest common divisor: \iracket{gcd}
+    \item least common multiple: \iracket{lcm}
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
 (+ 1 2 3) ; => 6
 (- 1 2 3) ; => -4
+(expt 2 3) ; => 8
+(exp 1) ; => 2.718281828459045
+(log 10) ; => 2.302585092994046
 (quotient 5 2) ; => 2
 (remainder 5 2) ; => 1
+(max 1 2) ; => 2
+(min 1 2) ; => 1
 (add1 5) ; => 6
 (sub1 5) ; => 4
+(gcd 12 18) ; => 6
+(lcm 12 18) ; => 36
 \end{lstlisting}
 
   \paragraph{Operations on strings}
 
   \begin{itemize}
-    \item string length: \lstinline[language=Racket]!string-length!
-    \item string append: \lstinline[language=Racket]!string-append!
-    \item string to list: \lstinline[language=Racket]!string->list!
-    \item list to string: \lstinline[language=Racket]!list->string!
-    \item get n-th character: \lstinline[language=Racket]!string-ref!
+    \item string length: \iracket{string-length}
+    \item string append: \iracket{string-append}
+    \item string to list: \iracket{string->list}
+    \item list to string: \iracket{list->string}
+    \item get n-th character: \iracket{string-ref}
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -131,13 +150,11 @@ null ; => '()
 (string-ref "Hello" 0) ; => #\H
 \end{lstlisting}
 
-  \switchcolumn
-
   \paragraph{Operations on bools}
 
   \begin{itemize}
-    \item logic operations: \lstinline[language=Racket]!and!, \lstinline[language=Racket]!or!, \lstinline[language=Racket]!not!, \lstinline[language=Racket]!xor!
-    \item implication: \lstinline[language=Racket]!implies!
+    \item logic operations: \iracket{and}, \iracket{or}, \iracket{not}, \iracket{xor}
+    \item implication: \iracket{implies}
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -151,9 +168,9 @@ null ; => '()
   \subsection{Functions}
 
   \begin{itemize}
-    \item anonymous functions: \lstinline[language=Racket]!(lambda (<arg1> <arg2> ...) <body>)!
-    \item named functions: \lstinline[language=Racket]!(define (<name> <arg1> <arg2> ...) <body>)!
-    \item old way: \lstinline[language=Racket]!(define <name> (lambda (<arg1> <arg2> ...) <body>))!
+    \item anonymous functions: \iracket{(lambda (<arg1> <arg2> ...) <body>)}
+    \item named functions: \iracket{(define (<name> <arg1> <arg2> ...) <body>)}
+    \item old way: \iracket{(define <name> (lambda (<arg1> <arg2> ...) <body>))}
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -164,10 +181,10 @@ null ; => '()
   \subsubsection{Higher order functions}
 
   \begin{itemize}
-    \item apply a function to each element of a list: \lstinline[language=Racket]!map!
-    \item apply a filter: \lstinline[language=Racket]!filter!
-    \item apply a function to each element of a list and flatten the result: \lstinline[language=Racket]!apply!
-    \item fold a list: \lstinline[language=Racket]!foldl!, \lstinline[language=Racket]!foldr!
+    \item apply a function to each element of a list: \iracket{map}
+    \item apply a filter: \iracket{filter}
+    \item apply a function to each element of a list and flatten the result: \iracket{apply}
+    \item fold a list: \iracket{foldl}, \iracket{foldr}
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -182,9 +199,10 @@ null ; => '()
   \subsection{Variables}
 
   \begin{itemize}
-    \item parallel binding: \lstinline[language=Racket]!let!
-    \item serial binding: \lstinline[language=Racket]!let*!
-    \item recursive binding: \lstinline[language=Racket]!letrec!
+    \item parallel binding: \iracket{let}
+    \item serial binding: \iracket{let*}
+    \item recursive binding: \iracket{letrec}
+    \item recursive serial binding: \iracket{letrec*}
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -199,13 +217,13 @@ null ; => '()
   \subsubsection{Structs}
 
   \begin{itemize}
-    \item definition: \lstinline[language=Racket]!(struct <struct-name> (<field> ...))!
-    \item constructor: \lstinline[language=Racket]!(define <name> <struct-name> <field-value> ...)!
-    \item getter: \lstinline[language=Racket]!<struct-name>-<field-name>!
-    \item setter: \lstinline[language=Racket]!set-<struct-name>-<field-name>!!
-    \item predicate: \lstinline[language=Racket]!<struct-name>?!
+    \item definition: \iracket{(struct <struct-name> (<field> ...))}
+    \item constructor: \iracket{(define <name> <struct-name> <field-value> ...)}
+    \item getter: \iracket{<struct-name>-<field-name>}
+    \item setter: \iracket{set-<struct-name>-<field-name>}!
+    \item predicate: \iracket{<struct-name>?}
     \item structs and fields are immutable by default
-    \item use \lstinline[language=Racket]!#:mutable! keyword on struct or field to make it mutable
+    \item use \iracket{#:mutable} keyword on struct or field to make it mutable
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -222,10 +240,10 @@ null ; => '()
   \subsubsection{Pairs}
 
   \begin{itemize}
-    \item definition: \lstinline[language=Racket]!(cons <first> <second>)!
-    \item getter of first element: \lstinline[language=Racket]!car!
-    \item getter of second element: \lstinline[language=Racket]!cdr!
-    \item car and cdr can be composed \textit{(\lstinline[language=Racket]!cdadadr!, \lstinline[language=Racket]!caaar!)}
+    \item definition: \iracket{(cons <first> <second>)}
+    \item getter of first element: \iracket{car}
+    \item getter of second element: \iracket{cdr}
+    \item car and cdr can be composed \textit{(\iracket{cdadadr}, \iracket{caaar})}
     \item pairs are immutable
   \end{itemize}
 
@@ -243,12 +261,12 @@ null ; => '()
 
   \begin{itemize}
     \item lists are composed of pairs
-    \item manually defined via \lstinline[language=Racket]!quote!: \lstinline[language=Racket]!'(1 2 3)!
-    \item empty list: \lstinline[language=Racket]!'()!
+    \item manually defined via \iracket{quote}: \iracket{'(1 2 3)}
+    \item empty list: \iracket{'()}
     \item lists are made by pairs
-          \begin{itemize} \item the \lstinline[language=Racket]!car! contains the first value
-            \item the \lstinline[language=Racket]!cdr! contains the the rest of the list
-            \item the last pair has \lstinline[language=Racket]!cdr! equal to \lstinline[language=Racket]!'()!
+          \begin{itemize} \item the \iracket{car} contains the first value
+            \item the \iracket{cdr} contains the the rest of the list
+            \item the last pair has \iracket{cdr} equal to \iracket{'()}
           \end{itemize}
   \end{itemize}
 
@@ -260,18 +278,20 @@ null ; => '()
   \paragraph{Operations on lists}
 
   \begin{itemize}
-    \item list length: \lstinline[language=Racket]!length!
-    \item add an element at the beginning: \lstinline[language=Racket]!cons!
-    \item add an element at the end: \lstinline[language=Racket]!append!
-    \item take the first element: \lstinline[language=Racket]!first!
-    \item take the last element: \lstinline[language=Racket]!last!
-    \item take the n-th element: \lstinline[language=Racket]!list-ref <list> <n>!
-    \item take the n-th element after pos: \lstinline[language=Racket]!list-tail <list> <pos>!
-    \item count the occurrences of an element: \lstinline[language=Racket]!count <predicate> <list>!
-    \item apply a filter: \lstinline[language=Racket]!filter <predicate>!
-    \item apply a function to each element: \lstinline[language=Racket]!map <function>!
-    \item get the reverse of a list: \lstinline[language=Racket]!reverse!
-    \item get the elements after the first: \lstinline[language=Racket]!rest!
+    \item list length: \iracket{length}
+    \item add an element at the beginning: \iracket{cons}
+    \item add an element at the end: \iracket{append}
+    \item take the first element: \iracket{first}
+    \item take the last element: \iracket{last}
+    \item take the n-th element: \iracket{list-ref <list> <n>}
+    \item take the n-th element after pos: \iracket{list-tail <list> <pos>}
+    \item take the first n elements: \iracket{take <list> <n>}
+    \item take the last n elements: \iracket{drop <list> <n>}
+    \item count the occurrences of an element: \iracket{count <predicate> <list>}
+    \item apply a filter: \iracket{filter <predicate>}
+    \item apply a function to each element: \iracket{map <function>}
+    \item get the reverse of a list: \iracket{reverse}
+    \item get the elements after the first: \iracket{rest}
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -282,6 +302,8 @@ null ; => '()
 (last '(1 2 3)) ; => 3
 (list-ref '(1 2 3) 1) ; => 2
 (list-tail '(1 2 3) 1) ; => '(2 3)
+(take '(1 2 3) 2) ; => '(1 2)
+(drop '(1 2 3) 1) ; => '(2 3)
 (count even? '(1 2 3 4)) ; => 2
 (filter even? '(1 2 3 4)) ; => '(2 4)
 (map add1 '(1 2 3)) ; => '(2 3 4)
@@ -294,8 +316,8 @@ null ; => '()
   \paragraph{Lists folding}
 
   \begin{itemize}
-    \item lists can be folded from the left with \lstinline[language=Racket]!foldl!
-    \item lists can be folded from the right with \lstinline[language=Racket]!foldr!
+    \item lists can be folded from the left with \iracket{foldl}
+    \item lists can be folded from the right with \iracket{foldr}
     \item the accumulator is the first argument of the function
     \item the list is the second argument of the function
     \item the function is applied to the accumulator and the first element of the list
@@ -309,8 +331,8 @@ null ; => '()
   \subsubsection{Vectors}
 
   \begin{itemize}
-    \item definition: \lstinline[language=Racket]!#(<element> ...)!
-    \item getter: \lstinline[language=Racket]!vector-ref!
+    \item definition: \iracket{#(<element> ...)}
+    \item getter: \iracket{vector-ref}
     \item vector are immutable, fixed size and zero-indexed
   \end{itemize}
 
@@ -321,11 +343,41 @@ null ; => '()
 
   \subsubsection{Sets}
 
-  \dots
+  \begin{itemize}
+    \item definition: \iracket{(set <element> ...)}
+    \item convert a list to a set: \iracket{list->set}
+    \item add an element: \iracket{set-add}
+    \item remove an element: \iracket{set-remove}
+    \item test if an element is in the set: \iracket{set-member?} \textit{(returns a boolean)}
+    \item sets don't allow duplicates, are unordered and mutable
+    \item methods return a new set instead of changing the original one
+  \end{itemize}
+
+  \begin{lstlisting}[language=Racket]
+(set 1 2 3) ; => '#(1 2 3)
+(list->set '(1 2 3)) ; => '#(1 2 3)
+(set-add (set 1 2 3) 4) ; => '#(1 2 3 4)
+(set-remove (set 1 2 3) 2) ; => '#(1 3)
+(set-member? (set 1 2 3) 2) ; => #t
+  \end{lstlisting}
 
   \subsubsection{Hash}
 
-  \dots
+  \begin{itemize}
+    \item definition: \iracket{(hash <key> <value> ...)}
+    \item add a key-value pair: \iracket{hash-set}
+    \item remove a key-value pair: \iracket{hash-remove}
+    \item get a value from a key: \iracket{hash-ref}
+    \item test if a key is in the hash: \iracket{hash-has-key?} \textit{(returns a boolean)}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Racket]
+(hash 1 2 3 4) ; => '#hash((1 . 2) (3 . 4))
+(hash-set (hash 1 2 3 4) 5 6) ; => '#hash((1 . 2) (3 . 4) (5 . 6))
+(hash-remove (hash 1 2 3 4) 3) ; => '#hash((1 . 2) (4 . 4))
+(hash-ref (hash 1 2 3 4) 1) ; => 2
+(hash-has-key? (hash 1 2 3 4) 1) ; => #t
+  \end{lstlisting}
 
   \subsection{Control flow}
 
@@ -333,15 +385,138 @@ null ; => '()
 
   \paragraph{if}
 
-  \dots
+  \begin{itemize}
+    \item if: \iracket{(if <predicate> <then> <else>)}
+    \item when: \iracket{(when <predicate> <then>)}
+    \item unless: \iracket{(unless <predicate> <else>)}
+  \end{itemize}
 
-  \paragraph{cond}
+  \begin{lstlisting}[language=Racket]
+    (if #t 1 2) ; => 1
+    (when #t 1) ; => 1
+    (when #f 1) ; => #<void>
+    (unless #t 1) ; => #<void>
+    (unless #f 1) ; => 1
+  \end{lstlisting}
 
-  \dots
+  \paragraph{cond - case}
+
+  \begin{itemize}
+    \item cond: \iracket{(cond [<predicate> <then>] ... [<else> <else-then>])}
+    \item case: \iracket{(case <value> [<case-clause> <then>] ... [<else> <else-then>])}
+    \item the \iracket{else} clause is optional
+    \item in cond, the value is evaluated against each predicate
+    \item in case, the value is evaluated against each clause whose quote is \iracket{eqv?}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Racket]
+  (case (+ 7 5)
+    [(1 2 3) 'small]
+    [(10 11 12) 'big]
+    [else 'neither]) ; => 'big
+
+  (let ((x 0))
+  (cond ((positive? x) 'positive)
+        ((negative? x) 'negative)
+        (else 'zero))) ; => 'zero
+  \end{lstlisting}
 
   \paragraph{pattern matching}
 
-  \dots
+  \begin{itemize}
+    \item match: \iracket{(match <value> [<pattern> <then>] ... [_ <else-then>])}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Racket]
+    (define (fizzbuzz? n)
+    (match (list (remainder n 3) (remainder n 5))
+      [(list 0 0) 'fizzbuzz]
+      [(list 0 _) 'fizz]
+      [(list _ 0) 'buzz]
+      [_          #f]))
+
+  (fizzbuzz? 15) ; => 'fizzbuzz
+  (fizzbuzz? 37) ; => #f
+  \end{lstlisting}
+
+  \subsubsection{Loops}
+
+  \paragraph{when}
+
+  \begin{itemize}
+    \item when: \iracket{(when <predicate> <then>)}
+    \item also available as named let
+  \end{itemize}
+
+  \begin{lstlisting}[language=Racket]
+  ;; named let
+  (let label ((x 0)) ; initialize x as 0
+	(when (< x 10) ; iterate while x < 10
+		(display x) ; print x
+		(newline)
+		(label (+ x 1)))) ; increment x, go back to label
+
+  (define (loop i)
+    (when (< i 10)
+      (printf "i=~a\n" i)
+      (loop (add1 i))))
+  (loop 5) ; => i=5, i=6, i=7, i=8, i=9,
+  \end{lstlisting}
+
+  \paragraph{for}
+
+  \begin{itemize}
+    \item for in a range: \iracket{(for ([<var> <start> <end>]) <body>)}
+    \item for over lists: \iracket{(for ([<var> <list>]) <body>)}
+    \item for is available for other collections
+  \end{itemize}
+
+  \begin{lstlisting}[language=Racket]
+(for ([i 10])
+  (printf "i=~a\n" i)) ; => i=0, i=1, ...
+(for ([i (in-range 5 10)])
+  (printf "i=~a\n" i)) ; => i=5, i=6, ...
+
+(for ([i (in-list '(l i s t))])
+  (displayln i))
+
+(for ([i (in-vector #(v e c t o r))])
+  (displayln i))
+
+(for ([i (in-string "string")])
+  (displayln i))
+
+(for ([i (in-set (set 'x 'y 'z))])
+  (displayln i))
+
+(for ([(k v) (in-hash (hash 'a 1 'b 2 'c 3))])
+  (printf "key:~a value:~a\n" k v))
+  \end{lstlisting}
+
+  \subsection{Macros and syntax rules}
+
+  \begin{itemize}
+    \item macros are defined via \iracket{define-syntax(<name> <expansion>)}
+    \item syntax rules are defined via \iracket{syntax-rules(<pattern> <expansion>)}
+    \item macros are expanded at compile time
+    \item syntax rule are pairs \iracket{(<pattern> <expansion>)}
+    \item the \iracket{...} operator indicates repetitions of patterns
+    \item the \iracket{_} operator is used to match any syntax object
+  \end{itemize}
+
+  \begin{lstlisting}[language=Racket]
+  (define-syntax while
+    (syntax-rules ()          ; no other keyword is needed
+      ((_ condition body ...) ; pattern P
+       (let loop ()           ; expansion of P
+         (when condition
+           ((begin body ...
+                   (loop))))))))
+  \end{lstlisting}
+
+  \subsection{Continuations}
+
+  \subsection{Exceptions}
 
   \subsection{Object Oriented}
 
