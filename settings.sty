@@ -34,9 +34,9 @@
 }
 % lstlisting default style
 \lstset{style=tight}
-% racket language
+% racket language, based on ttps://github.com/stuhlmueller/scheme-listings
 \lstdefinelanguage{Racket}{
-  morekeywords={add1, and, append, apply, begin, call-with-current-continuation, call-with-input-file, call-with-output-file, call/cc, car, case, cdr, cond, cons, count, define, define-macro, define-stream, define-syntax, delay, do, else, environment, eq?, equal?, eqv?, eval, even?, export, filter, first, fold, foldl, foldr, for-each, force, if, implies, import, lambda, last, length, let, let*, let*-values, let-syntax, let-values, letrec, letrec-syntax, list, list->string, list-ref, list-tail, map, not, odd?, or, or, quasiquote, query, quote, quotient, remainder, rest, reverse, string-append, stream-lambda, string->list, string-length, string-ref, struct, sub1, syntax, syntax-rules, tring-append, true?, unquote, unquote-splicing, vector-ref, xor},
+  morekeywords={add1, ake, and, append, apply, begin, call-with-current-continuation, call-with-input-file, call-with-output-file, call/cc, car, case, cdr, cond, cons, count, define, define-macro, define-stream, define-syntax, delay, display, displayln, do, drop, else, environment, eq?, equal?, eqv?, eval, even?, exp, export, expt, filter, first, fold, foldl, foldr, for, for-each, force, gcd, hash, hash-has-key?, hash-ref, hash-remove, hash-set, if, implies, import, in-hash, in-list, in-range, in-set, in-string, in-vector, lambda, last, lcm, length, let, let*, let*-values, let-syntax, let-values, letrec, letrec-syntax, list, list->set, list->string, list-ref, list-tail, log, map, match, max, min, negative?, newline, not, odd?, or, positive?, print, printf, println, quasiquote, query, quote, quotient, remainder, rest, reverse, set, set-add, set-member?, set-remove, stream-lambda, string->list, string-append, string-length, string-ref, struct, sub1, syntax, syntax-rules, take, true?, unless, unquote, unquote-splicing, vector-ref, when, xor, zero?},
   alsodigit=!\$\%&*+-./:<=>?@^_~,
   alsoletter=!?>,
   sensitive=true,
@@ -56,4 +56,7 @@
 }
 % command to switch column
 \newcommand{\switchcolumn}{\vspace*{\fill}\columnbreak}
+% command for inline code
+\newcommand{\icode}[2]{\lstinline[language=#1]!#2!}
+\newcommand{\iracket}[1]{\icode{Racket}{#1}}
 
