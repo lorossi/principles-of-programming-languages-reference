@@ -6,6 +6,11 @@
     "cdadadr",
     "cdar",
     "cddr",
+    "displayln",
+    "expt",
+    "lstlisting",
+    "partlist",
+    "println",
     "quasiquote",
     "struct",
     "structs"
