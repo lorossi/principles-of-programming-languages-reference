@@ -1,3 +1,5 @@
+% !TeX root = principles-of-programming-languages-reference.tex
+
 % required packages
 \usepackage[compact]{titlesec}
 \usepackage[utf8]{inputenc}
@@ -9,21 +11,24 @@
 \usepackage{enumitem}
 \usepackage{color}
 
+\usepackage[rm,light]{roboto}
+\usepackage[T1]{fontenc}
+
 % page geometry
 \geometry{left=2cm,right=2cm,bottom=2cm,top=2cm}
 % columns spacing
-\setlength{\columnsep}{2em}
+\setlength{\columnsep}{1.1em}
 % tighter titles, sections, etc.
 \titlespacing{\section}{0pt}{1em}{0.5em}
-\titlespacing{\subsection}{0pt}{1em}{0.5em}
-\titlespacing{\subsubsection}{0pt}{1em}{0.5em}
-\titlespacing{\paragraph}{0pt}{1em}{0.5em}
+\titlespacing{\subsection}{0pt}{0.5em}{0.25em}
+\titlespacing{\subsubsection}{0pt}{0.5em}{0.25em}
+\titlespacing{\paragraph}{0pt}{0.5em}{0.25em}
 % changed bullet for lists
 \renewcommand\labelitemi{\small\bfseries\texttt{>}}
 \renewcommand\labelitemii{\small\bfseries\texttt{-}}
 % tighter lists
-\setlist[itemize]{noitemsep, after=\vspace{0.25em}, before=\vspace{0.25em}}
-\setlist[enumerate]{noitemsep, after=\vspace{0.25em}, before=\vspace{0.25em}}
+\setlist[itemize]{noitemsep,after=\vspace{0.25em},before=\vspace{0.25em}}
+\setlist[enumerate]{noitemsep,after=\vspace{0.25em},before=\vspace{0.25em}}
 % tighter lstlisting
 \lstdefinestyle{tight}{
   xleftmargin=1em,
@@ -36,15 +41,15 @@
 \lstset{style=tight}
 % racket language, based on ttps://github.com/stuhlmueller/scheme-listings
 \lstdefinelanguage{Racket}{
-  morekeywords={add1, ake, and, append, apply, begin, call-with-current-continuation, call-with-input-file, call-with-output-file, call/cc, car, case, cdr, cond, cons, count, define, define-macro, define-stream, define-syntax, delay, display, displayln, do, drop, else, environment, eq?, equal?, eqv?, eval, even?, exp, export, expt, filter, first, fold, foldl, foldr, for, for-each, force, gcd, hash, hash-has-key?, hash-ref, hash-remove, hash-set, if, implies, import, in-hash, in-list, in-range, in-set, in-string, in-vector, lambda, last, lcm, length, let, let*, let*-values, let-syntax, let-values, letrec, letrec-syntax, list, list->set, list->string, list-ref, list-tail, log, map, match, max, min, negative?, newline, not, odd?, or, positive?, print, printf, println, quasiquote, query, quote, quotient, remainder, rest, reverse, set, set-add, set-member?, set-remove, stream-lambda, string->list, string-append, string-length, string-ref, struct, sub1, syntax, syntax-rules, take, true?, unless, unquote, unquote-splicing, vector-ref, when, xor, zero?},
+  morekeywords={, *, +, -, /, =, add1, and, append, apply, begin, caaaar, caaadr, caaar, caadar, caaddr, caadr, caar, cadaar, cadadr, cadar, caddar, cadddr, caddr, cadr, call-with-current-continuation, call-with-input-file, call-with-output-file, call/cc, car, case, cdaaar, cdaadr, cdaar, cdadar, cdaddr, cdadr, cdar, cddaar, cddadr, cddar, cdddar, cddddr, cdddr, cddr, cdr, cond, cons, count, define, define-macro, define-stream, define-syntax, delay, display, displayln, do, drop, else, environment, eq?, equal?, eqv?, eval, even?, exp, export, expt, filter, first, fold, foldl, foldr, for, for-each, force, gcd, hash, hash-has-key?, hash-ref, hash-remove, hash-set, if, implies, import, in-hash, in-list, in-range, in-set, in-string, in-vector, lambda, last, lcm, length, let, let*, let*-values, let-syntax, let-values, letrec, letrec*, letrec-syntax, list, list->set, list->string, list-ref, list-tail, log, map, match, max, min, negative?, newline, not, odd?, or, positive?, print, printf, println, quasiquote, query, quote, quotient, raise, remainder, rest, reverse, save!, set, set!, set-add, set-member?, set-remove, stream-lambda, string->list, string-append, string-length, string-ref, struct, sub1, syntax, syntax-rules, take, true?, unless, unquote, unquote-splicing, vector-ref, vector-set!, when, with-handlers, xor, zero?}
   alsodigit=!\$\%&*+-./:<=>?@^_~,
-  alsoletter=!?>,
+  alsoletter=!?>+-*/=,
   sensitive=true,
   morecomment=[l]{;},
   morecomment=[s]{\#|}{|\#},
   morestring=[b]",
   basicstyle=\small\ttfamily,
-  keywordstyle=\bf\ttfamily\color[rgb]{0,.3,.7},
+  keywordstyle=\bf\ttfamily\color[rgb]{0,0.3,0.7},
   commentstyle=\color[rgb]{0.133,0.545,0.133},
   stringstyle={\color[rgb]{0.75,0.49,0.07}},
   upquote=true,
@@ -55,7 +60,7 @@
   mathescape=true,
 }
 % command to switch column
-\newcommand{\switchcolumn}{\vspace*{\fill}\columnbreak}
+\newcommand{\breakcolumn}{\vspace*{\fill}\columnbreak}
 % command for inline code
 \newcommand{\icode}[2]{\lstinline[language=#1]!#2!}
 \newcommand{\iracket}[1]{\icode{Racket}{#1}}
