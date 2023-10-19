@@ -1,7 +1,8 @@
 \documentclass[a4paper,landscape,10pt]{article}
+
 \usepackage{settings}
 
-% TODO: when everything has been written, space correctly the content by breaking the columns via the \switchcolumn command
+% TODO: when everything has been written, space correctly the content by breaking the columns via the \breakcolumn command
 
 \begin{document}
 
@@ -98,14 +99,16 @@ null ; => '()
 
   \subsubsection{Basic operations}
 
-  All the operators are in the form \iracket{(<operator> <operand> ...)} \textit{(prefix notation).}
+  \begin{itemize}
+    \item all operations are in prefix notation \iracket{(<operator> <operand> ...)}
+  \end{itemize}
 
   \paragraph{Operations on numbers}
 
   \begin{itemize}
     \item arithmetic operations: \iracket{+}, \iracket{-}, \iracket{*}, \iracket{/}
     \item exponentiation: \iracket{expt}
-    \item exponentiation by $e$: \iracket{exp}
+    \item exponentiation by e: \iracket{exp}
     \item logarithm: \iracket{log}
     \item quotient: \iracket{quotient}
     \item remainder: \iracket{remainder}
@@ -120,7 +123,7 @@ null ; => '()
 (+ 1 2 3) ; => 6
 (- 1 2 3) ; => -4
 (expt 2 3) ; => 8
-(exp 1) ; => 2.718281828459045
+(exp 2) ; => e ** 2 = 7.38905609893065
 (log 10) ; => 2.302585092994046
 (quotient 5 2) ; => 2
 (remainder 5 2) ; => 1
@@ -210,7 +213,20 @@ null ; => '()
 (let* ((x 1) (y (add1 x))) (list x y)) ; // '(1 2)
 \end{lstlisting}
 
-  \switchcolumn
+  \subsection{Mutation}
+
+  \begin{itemize}
+    \item all mutators end with \iracket{\!}
+    \item \iracket{set\!} is used to mutate variables
+    \item \iracket{vector-set\!} is used to mutate vectors
+  \end{itemize}
+
+  \begin{lstlisting}[language=Racket]
+(define x 5) ; => x = 5
+(set! x 6) ; => x = 6
+(define v (vector 2 2 3 4)) ; => v = '#(2 2 3 4)
+(vector-set! v 0 1) ; => v = '#(1 2 3 4)
+\end{lstlisting}
 
   \subsection{Collections}
 
@@ -220,7 +236,7 @@ null ; => '()
     \item definition: \iracket{(struct <struct-name> (<field> ...))}
     \item constructor: \iracket{(define <name> <struct-name> <field-value> ...)}
     \item getter: \iracket{<struct-name>-<field-name>}
-    \item setter: \iracket{set-<struct-name>-<field-name>}!
+    \item setter: \iracket{set-<struct-name>-<field-name>\!}
     \item predicate: \iracket{<struct-name>?}
     \item structs and fields are immutable by default
     \item use \iracket{#:mutable} keyword on struct or field to make it mutable
@@ -243,11 +259,11 @@ null ; => '()
     \item definition: \iracket{(cons <first> <second>)}
     \item getter of first element: \iracket{car}
     \item getter of second element: \iracket{cdr}
-    \item car and cdr can be composed \textit{(\iracket{cdadadr}, \iracket{caaar})}
+    \item car and cdr can be composed: \iracket{cadddr}, \iracket{caaar}
     \item pairs are immutable
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket, morekeywords={caar, cadr, cdar, cddr}]
+  \begin{lstlisting}[language=Racket]
 (cons 1 2) ; => '(1 . 2)
 (car '(1 . 2)) ; => 1
 (cdr '(1 . 2)) ; => 2
@@ -263,6 +279,8 @@ null ; => '()
     \item lists are composed of pairs
     \item manually defined via \iracket{quote}: \iracket{'(1 2 3)}
     \item empty list: \iracket{'()}
+    \item list of length \iracket{n}: \iracket{(build-list <n> <procedure>)}
+    \item list of length \iracket{n} with initial value \iracket{<init>}: \iracket{(make-list <n> <init>)}
     \item lists are made by pairs
           \begin{itemize} \item the \iracket{car} contains the first value
             \item the \iracket{cdr} contains the the rest of the list
@@ -311,8 +329,6 @@ null ; => '()
 (rest '(1 2 3)) ; => '(2 3)
 \end{lstlisting}
 
-  \vfill
-
   \paragraph{Lists folding}
 
   \begin{itemize}
@@ -348,7 +364,7 @@ null ; => '()
     \item convert a list to a set: \iracket{list->set}
     \item add an element: \iracket{set-add}
     \item remove an element: \iracket{set-remove}
-    \item test if an element is in the set: \iracket{set-member?} \textit{(returns a boolean)}
+    \item test if an element is in the set: \iracket{set-member?}
     \item sets don't allow duplicates, are unordered and mutable
     \item methods return a new set instead of changing the original one
   \end{itemize}
@@ -368,7 +384,7 @@ null ; => '()
     \item add a key-value pair: \iracket{hash-set}
     \item remove a key-value pair: \iracket{hash-remove}
     \item get a value from a key: \iracket{hash-ref}
-    \item test if a key is in the hash: \iracket{hash-has-key?} \textit{(returns a boolean)}
+    \item test if a key is in the hash: \iracket{hash-has-key?}
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -392,11 +408,11 @@ null ; => '()
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
-    (if #t 1 2) ; => 1
-    (when #t 1) ; => 1
-    (when #f 1) ; => #<void>
-    (unless #t 1) ; => #<void>
-    (unless #f 1) ; => 1
+(if #t 1 2) ; => 1
+(when #t 1) ; => 1
+(when #f 1) ; => #<void>
+(unless #t 1) ; => #<void>
+(unless #f 1) ; => 1
   \end{lstlisting}
 
   \paragraph{cond - case}
@@ -410,15 +426,14 @@ null ; => '()
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
-  (case (+ 7 5)
-    [(1 2 3) 'small]
-    [(10 11 12) 'big]
-    [else 'neither]) ; => 'big
-
-  (let ((x 0))
+(case (+ 7 5)
+  [(1 2 3) 'small]
+  [(10 11 12) 'big]
+  [else 'neither]) ; => 'big
+(let ((x 0))
   (cond ((positive? x) 'positive)
-        ((negative? x) 'negative)
-        (else 'zero))) ; => 'zero
+    ((negative? x) 'negative)
+    (else 'zero))) ; => 'zero
   \end{lstlisting}
 
   \paragraph{pattern matching}
@@ -449,18 +464,18 @@ null ; => '()
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
-  ;; named let
-  (let label ((x 0)) ; initialize x as 0
-	(when (< x 10) ; iterate while x < 10
-		(display x) ; print x
-		(newline)
-		(label (+ x 1)))) ; increment x, go back to label
+;; named let
+(let label ((x 0)) ; initialize x as 0
+(when (< x 10) ; iterate while x < 10
+  (display x) ; print x
+  (newline)
+  (label (+ x 1)))) ; increment x, go back to label
 
-  (define (loop i)
-    (when (< i 10)
-      (printf "i=~a\n" i)
-      (loop (add1 i))))
-  (loop 5) ; => i=5, i=6, i=7, i=8, i=9,
+(define (loop i)
+  (when (< i 10)
+    (printf "i=~a\n" i)
+    (loop (add1 i))))
+(loop 5) ; => i=5, i=6, i=7, i=8, i=9
   \end{lstlisting}
 
   \paragraph{for}
@@ -505,22 +520,38 @@ null ; => '()
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
-  (define-syntax while
-    (syntax-rules ()          ; no other keyword is needed
-      ((_ condition body ...) ; pattern P
-       (let loop ()           ; expansion of P
-         (when condition
-           ((begin body ...
-                   (loop))))))))
+(define-syntax while
+  (syntax-rules ()          ; no other keyword is needed
+    ((_ condition body ...) ; pattern P
+      (let loop ()           ; expansion of P
+        (when condition
+          ((begin body ...
+                  (loop))))))))
   \end{lstlisting}
 
   \subsection{Continuations}
 
+  \begin{itemize}
+    \item two ways to call a continuation:
+          \begin{itemize}
+            \item \iracket{call-with-current-continuation <procedure>}
+            \item \iracket{call/cc <procedure>}
+          \end{itemize}
+    \item saving the continuation: \iracket{save\! <continuation>}
+  \end{itemize}
+
   \subsection{Exceptions}
 
-  \subsection{Object Oriented}
+  \begin{itemize}
+    \item exceptions are implemented via continuations
+    \item raise an exception: \iracket{raise}
+    \item catch an exception: \iracket{with-handlers}
+  \end{itemize}
 
-  \dots
+  \begin{lstlisting}[language=Racket]
+(with-handlers ([exn:fail? (lambda (e) (printf "error: ~a\n" e))])
+  (raise (exn:fail "error message"))) ; => error: error message
+  \end{lstlisting}
 
 \end{multicols*}
 
