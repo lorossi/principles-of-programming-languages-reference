@@ -15,11 +15,13 @@ def main(file_name: str):
     with open(file_name) as f:
         data = f.read()
 
-    keywords = data.split(",")
-    sorted_keyword = sorted(set(k.strip() for k in keywords))
+    keywords = data.replace("\n", ",").split(",")
+    unique_keywords = set(k.strip() for k in keywords)
+    sorted_keywords = sorted(unique_keywords, key=len)
+    sorted_keywords = sorted(sorted_keywords, key=str.lower)
 
     with open(file_name, "w") as f:
-        f.write(", ".join(sorted_keyword))
+        f.write(", ".join(sorted_keywords))
 
 
 if __name__ == "__main__":
