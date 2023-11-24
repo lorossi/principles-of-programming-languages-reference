@@ -188,6 +188,10 @@ null ; => '()
     \item apply a filter: \iracket{filter}
     \item apply a function to each element of a list and flatten the result: \iracket{apply}
     \item fold a list: \iracket{foldl}, \iracket{foldr}
+          \begin{itemize}
+            \item \iracket{foldl} has space complexity \(O(1)\)
+            \item \iracket{foldr} has space complexity \(O(n)\)
+          \end{itemize}
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -511,19 +515,18 @@ null ; => '()
   \subsection{Macros and syntax rules}
 
   \begin{itemize}
-    \item macros are defined via \iracket{define-syntax(<name> <expansion>)}
+    \item macros are defined via \iracket{define-syntax((<literals>) [(<syntax-rule> ...), ...])}
     \item syntax rules are defined via \iracket{syntax-rules(<pattern> <expansion>)}
     \item macros are expanded at compile time
-    \item syntax rule are pairs \iracket{(<pattern> <expansion>)}
     \item the \iracket{...} operator indicates repetitions of patterns
     \item the \iracket{_} operator is used to match any syntax object
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
 (define-syntax while
-  (syntax-rules ()          ; no other keyword is needed
+  (syntax-rules ()          ; no reserved keywords
     ((_ condition body ...) ; pattern P
-      (let loop ()           ; expansion of P
+      (let loop ()          ; expansion of P
         (when condition
           ((begin body ...
                   (loop))))))))
