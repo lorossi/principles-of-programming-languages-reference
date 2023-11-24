@@ -9,10 +9,12 @@
     "displayln",
     "expt",
     "lstlisting",
+    "multifun",
     "partlist",
     "println",
     "quasiquote",
     "struct",
-    "structs"
+    "structs",
+    "tetranacci"
   ]
 }
