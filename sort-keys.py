@@ -19,9 +19,10 @@ def main(file_name: str):
     unique_keywords = set(k.strip() for k in keywords)
     sorted_keywords = sorted(unique_keywords, key=len)
     sorted_keywords = sorted(sorted_keywords, key=str.lower)
+    keywords_str = ", ".join(sorted_keywords) + ","
 
     with open(file_name, "w") as f:
-        f.write(", ".join(sorted_keywords))
+        f.write(keywords_str)
 
 
 if __name__ == "__main__":
