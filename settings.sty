@@ -9,9 +9,10 @@
 \usepackage{textcomp}
 \usepackage{geometry}
 \usepackage{enumitem}
-\usepackage{color}
+\usepackage{xcolor}
+\usepackage{xspace}
 
-\usepackage[rm,light]{roboto}
+\usepackage[sfdefault,light,condensed]{roboto}
 \usepackage[T1]{fontenc}
 
 % page geometry
@@ -25,33 +26,27 @@
 \titlespacing{\paragraph}{0pt}{0.5em}{0.25em}
 % changed bullet for lists
 \renewcommand\labelitemi{\small\bfseries\texttt{>}}
-\renewcommand\labelitemii{\small\bfseries\texttt{-}}
+\renewcommand\labelitemii{\small\bfseries\texttt{>}}
 % tighter lists
 \setlist[itemize]{noitemsep,after=\vspace{0.25em},before=\vspace{0.25em}}
 \setlist[enumerate]{noitemsep,after=\vspace{0.25em},before=\vspace{0.25em}}
+% define colors
+\definecolor{background}{rgb}{0.95,0.95,0.95}
+\definecolor{keyword}{rgb}{0,0.3,0.7}
+\definecolor{comment}{rgb}{0.133,0.545,0.133}
+\definecolor{string}{rgb}{0.75,0.49,0.07}
+
 % tighter lstlisting
-\lstdefinestyle{tight}{
+\lstdefinestyle{custom}{
   xleftmargin=1em,
   xrightmargin=1em,
   aboveskip=0em,
   belowskip=0.5em,
-  backgroundcolor=\color[rgb]{0.95,0.95,0.95},
-}
-% lstlisting default style
-\lstset{style=tight}
-% racket language, based on ttps://github.com/stuhlmueller/scheme-listings
-\lstdefinelanguage{Racket}{
-  morekeywords={, *, +, -, /, =, add1, and, append, apply, begin, caaaar, caaadr, caaar, caadar, caaddr, caadr, caar, cadaar, cadadr, cadar, caddar, cadddr, caddr, cadr, call-with-current-continuation, call-with-input-file, call-with-output-file, call/cc, car, case, cdaaar, cdaadr, cdaar, cdadar, cdaddr, cdadr, cdar, cddaar, cddadr, cddar, cdddar, cddddr, cdddr, cddr, cdr, cond, cons, count, define, define-macro, define-stream, define-syntax, delay, display, displayln, do, drop, else, environment, eq?, equal?, eqv?, eval, even?, exp, export, expt, filter, first, fold, foldl, foldr, for, for-each, force, gcd, hash, hash-has-key?, hash-ref, hash-remove, hash-set, if, implies, import, in-hash, in-list, in-range, in-set, in-string, in-vector, lambda, last, lcm, length, let, let*, let*-values, let-syntax, let-values, letrec, letrec*, letrec-syntax, list, list->set, list->string, list-ref, list-tail, log, map, match, max, min, negative?, newline, not, odd?, or, positive?, print, printf, println, quasiquote, query, quote, quotient, raise, remainder, rest, reverse, save!, set, set!, set-add, set-member?, set-remove, stream-lambda, string->list, string-append, string-length, string-ref, struct, sub1, syntax, syntax-rules, take, true?, unless, unquote, unquote-splicing, vector-ref, vector-set!, when, with-handlers, xor, zero?}
-  alsodigit=!\$\%&*+-./:<=>?@^_~,
-  alsoletter=!?>+-*/=,
-  sensitive=true,
-  morecomment=[l]{;},
-  morecomment=[s]{\#|}{|\#},
-  morestring=[b]",
+  backgroundcolor=\color{background},
+  commentstyle=\color{comment},
+  stringstyle=\color{string},
+  keywordstyle=\color{keyword},
   basicstyle=\small\ttfamily,
-  keywordstyle=\bf\ttfamily\color[rgb]{0,0.3,0.7},
-  commentstyle=\color[rgb]{0.133,0.545,0.133},
-  stringstyle={\color[rgb]{0.75,0.49,0.07}},
   upquote=true,
   breaklines=true,
   breakatwhitespace=true,
@@ -59,9 +54,25 @@
   showstringspaces=false,
   mathescape=true,
 }
+% lstlisting default style
+\lstset{style=custom}
+% racket language, based on ttps://github.com/stuhlmueller/scheme-listings
+\lstdefinelanguage{Racket}{
+  morekeywords={, *, +, -, /, =, add1, and, append, apply, begin, caaaar, caaadr, caaar, caadar, caaddr, caadr, caar, cadaar, cadadr, cadar, caddar, cadddr, caddr, cadr, call-with-current-continuation, call-with-input-file, call-with-output-file, call/cc, car, case, cdaaar, cdaadr, cdaar, cdadar, cdaddr, cdadr, cdar, cddaar, cddadr, cddar, cdddar, cddddr, cdddr, cddr, cdr, cond, cons, count, define, define-macro, define-stream, define-syntax, delay, display, displayln, do, drop, else, environment, eq?, equal?, eqv?, eval, even?, exp, export, expt, false?, filter, first, fold, foldl, foldr, for, for-each, force, gcd, hash, hash-has-key?, hash-ref, hash-remove, hash-set, if, implies, import, immutable?, in-hash, in-list, in-range, in-set, in-string, in-vector, lambda, last, lcm, length, let, let*, let*-values, let-syntax, let-values, letrec, letrec*, letrec-syntax, list, list->set, list->string, list-ref, list-tail, log, map, match, max, min, negative?, newline, not, odd?, or, positive?, print, printf, println, quasiquote, query, quote, quotient, raise, remainder, rest, reverse, save!, set, set!, set-add, set-member?, set-remove, stream-lambda, string->list, string-append, string-length, string-ref, struct, sub1, syntax, syntax-rules, take, true?, unless, unquote, unquote-splicing, vector-ref, vector-set!, when, with-handlers, xor, zero?,}
+  alsodigit=!?\$\%&*+-./:<=>?@^_~,
+  alsoletter=!?>+-*/=,
+  sensitive=true,
+  morecomment=[l]{;},
+  morecomment=[s]{\#|}{|\#},
+  morestring=[b]",
+}
 % command to switch column
 \newcommand{\breakcolumn}{\vspace*{\fill}\columnbreak}
 % command for inline code
-\newcommand{\icode}[2]{\lstinline[language=#1]!#2!}
+\newcommand{\icode}[2]{\lstinline[language=#1,mathescape=false]!#2!}
 \newcommand{\iracket}[1]{\icode{Racket}{#1}}
-
+\newcommand{\ihaskell}[1]{\icode{Haskell}{#1}}
+\newcommand{\ierlang}[1]{\icode{Erlang}{#1}}
+% placeholder for missing content: MISSING in bold red
+\newcommand{\missing}{\textcolor{red}{\large\xspace\textbf{MISSING}}\xspace}
+\newcommand{\todo}{\textcolor{orange}{\xspace\textbf{TODO}}\xspace}
