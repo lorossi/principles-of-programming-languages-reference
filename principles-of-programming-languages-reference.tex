@@ -3,6 +3,9 @@
 \usepackage{settings}
 
 % TODO: when everything has been written, space correctly the content by breaking the columns via the \breakcolumn command
+% TODO: explain the use of . and , in Erlang and make sure that it was used correctly in the examples
+% TODO: re-order the sections
+% TODO: make sure that all the sections are consistent between languages
 
 \begin{document}
 
@@ -29,9 +32,9 @@
   \subsection{Datum evaluation}
 
   \begin{itemize}
-    \item \iracket{(quote <datum>)} or \iracket{'<datum>} leaves the datum as-is
-    \item \iracket{(unquote <datum>)} or \iracket{,<datum>} is the opposite of \iracket{quote}
-    \item \iracket{(quasiquote <datum>)} or \iracket{,@<datum>} allows to apply the unquote where needed
+    \item \iracket{quote <datum>} or \iracket{'<datum>} leaves the datum as-is
+    \item \iracket{unquote <datum>} or \iracket{,<datum>} is the opposite of \iracket{quote}
+    \item \iracket{quasiquote <datum>} or \iracket{,@<datum>} allows to apply the unquote where needed
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -39,43 +42,10 @@
 (1 ,(+ 1 1) 3) ; => '(1 2 3)
 \end{lstlisting}
 
-  \subsection{Predicates}
-
-  \begin{itemize}
-    \item all predicates end with \iracket{?}
-    \item checks if a number is even: \iracket{even?}
-    \item checks if a number is odd: \iracket{odd?}
-    \item check if a datum is true: \iracket{true?}
-    \item check if a number is positive: \iracket{positive?}
-    \item check if a number is negative: \iracket{negative?}
-    \item check if a number is zero: \iracket{zero?}
-  \end{itemize}
-
-  \begin{lstlisting}[language=Racket]
-(even? 2) ; => #t
-(odd? 2) ; => #f
-(true? #t) ; => #t
-\end{lstlisting}
-
-  \subsubsection{Equivalence}
-
-  \begin{itemize}
-    \item check if two numbers are equal: \iracket{=}
-    \item checks if two objects or numbers are the same: \iracket{eq?}
-    \item checks if two objects are the same: \iracket{eqv?}
-    \item checks if two objects are the same: \iracket{equal?}
-  \end{itemize}
-
-  \begin{lstlisting}[language=Racket]
-(= 1 1) ; => #t
-(eq? 1 1) ; => #t
-(eqv? 1 1) ; => #t
-(equal? 1 1) ; => #t
-\end{lstlisting}
-
   \subsection{Data types}
 
   \begin{itemize}
+    \item boolean: \iracket{#t, #f}
     \item integer: \iracket{9125}
     \item binary: \iracket{#b10001110100101}
     \item octal: \iracket{#o21645}
@@ -83,10 +53,9 @@
     \item real: \iracket{91.25}
     \item rational: \iracket{91/25}
     \item complex: \iracket{91+25i}
-    \item boolean: \iracket{#t, #f}
-    \item character: \lstinline[language=Racket]!#\A, #\$\lambda$, #\u30BB! % this cannot be changed to a macro because of the special characters
+    \item character: \lstinline[language=Racket]!#\A, #\$\lambda$, #\u30BB!
     \item null element: \iracket{'(), null}
-    \item lists: \iracket{'(1 2 3)}
+    \item string: \iracket{"Hello, world!"}
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -97,10 +66,40 @@
 null ; => '()
 \end{lstlisting}
 
+  \subsection{Variables}
+
+  \begin{itemize}
+    \item variables are immutable
+    \item parallel binding: \iracket{let}
+    \item serial binding: \iracket{let*}
+    \item recursive binding: \iracket{letrec}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Racket]
+(let ((x 5) (y 2)) (list x y)) ; => '(5 2)
+(let* ((x 1) (y (add1 x))) (list x y)) ; // '(1 2)
+\end{lstlisting}
+
+  \subsubsection{Equivalence}
+
+  \begin{itemize}
+    \item numbers equivalence: \iracket{=}
+    \item objects or numbers equivalence: \iracket{eq?}
+    \item objects equivalence: \iracket{eqv?}
+    \item objects equivalence: \iracket{equal?}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Racket]
+(= 1 1) ; => #t
+(eq? 1 0) ; => #f
+(eqv? 'yes 'yes) ; => #t
+(equal? 'yes 'no) ; => #f
+\end{lstlisting}
+
   \subsubsection{Basic operations}
 
   \begin{itemize}
-    \item all operations are in prefix notation \iracket{(<operator> <operand> ...)}
+    \item all operations are in prefix notation \iracket{<operator> <operand> ...}
   \end{itemize}
 
   \paragraph{Operations on numbers}
@@ -108,7 +107,7 @@ null ; => '()
   \begin{itemize}
     \item arithmetic operations: \iracket{+}, \iracket{-}, \iracket{*}, \iracket{/}
     \item exponentiation: \iracket{expt}
-    \item exponentiation by e: \iracket{exp}
+    \item exponentiation by \(e\): \iracket{exp}
     \item logarithm: \iracket{log}
     \item quotient: \iracket{quotient}
     \item remainder: \iracket{remainder}
@@ -168,12 +167,40 @@ null ; => '()
 (implies #t #f) ; => #f
 \end{lstlisting}
 
+  \subsubsection{Types conversion}
+
+  \missing
+
+  \subsection{Predicates}
+
+  \begin{itemize}
+    \item all predicates end with \iracket{?}
+    \item checks if a number is even: \iracket{even?}
+    \item checks if a number is odd: \iracket{odd?}
+    \item check if a datum is true: \iracket{true?}
+    \item check if a datum is false: \iracket{false?}
+    \item check if a number is positive: \iracket{positive?}
+    \item check if a number is negative: \iracket{negative?}
+    \item check if a number is zero: \iracket{zero?}
+    \item check if an object is immutable \iracket{immutable?}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Racket]
+(even? 2) ; => #t
+(odd? 2) ; => #f
+(true? #t) ; => #t
+(false? #t) ; => #f
+(positive? 1) ; => #t
+(negative? 1) ; => #f
+(zero? 1) ; => #f
+\end{lstlisting}
+
   \subsection{Functions}
 
   \begin{itemize}
-    \item anonymous functions: \iracket{(lambda (<arg1> <arg2> ...) <body>)}
-    \item named functions: \iracket{(define (<name> <arg1> <arg2> ...) <body>)}
-    \item old way: \iracket{(define <name> (lambda (<arg1> <arg2> ...) <body>))}
+    \item anonymous functions: \iracket{lambda (<arg1> <arg2> ...) <body>}
+    \item named functions: \iracket{define (<name> <arg1> <arg2> ...) <body>}
+    \item old way: \iracket{define <name> (lambda (<arg1> <arg2> ...) <body>)}
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -184,14 +211,13 @@ null ; => '()
   \subsubsection{Higher order functions}
 
   \begin{itemize}
-    \item apply a function to each element of a list: \iracket{map}
-    \item apply a filter: \iracket{filter}
-    \item apply a function to each element of a list and flatten the result: \iracket{apply}
-    \item fold a list: \iracket{foldl}, \iracket{foldr}
-          \begin{itemize}
-            \item \iracket{foldl} has space complexity \(O(1)\)
-            \item \iracket{foldr} has space complexity \(O(n)\)
-          \end{itemize}
+    \item apply a function to each element of a list: \iracket{map <function> <list>}
+    \item apply a filter: \iracket{filter <predicate> <list>}
+    \item apply a function to each element of a list and flatten the result: \iracket{apply <function> <list>}
+    \item fold a list: \iracket{foldl <function> <accumulator> <list>}
+    \item fold a list: \iracket{foldr <function> <accumulator> <list>}
+    \item \iracket{foldl} has space complexity \(O(1)\)
+    \item \iracket{foldr} has space complexity \(O(n)\)
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -200,21 +226,6 @@ null ; => '()
 (apply append '((1 2) (3 4))) ; => '(1 2 3 4)
 (foldl + 0 '(1 2 3)) ; => 6
 (foldr + 0 '(1 2 3)) ; => 6
-\end{lstlisting}
-
-
-  \subsection{Variables}
-
-  \begin{itemize}
-    \item parallel binding: \iracket{let}
-    \item serial binding: \iracket{let*}
-    \item recursive binding: \iracket{letrec}
-    \item recursive serial binding: \iracket{letrec*}
-  \end{itemize}
-
-  \begin{lstlisting}[language=Racket]
-(let ((x 5) (y 2)) (list x y)) ; => '(5 2)
-(let* ((x 1) (y (add1 x))) (list x y)) ; // '(1 2)
 \end{lstlisting}
 
   \subsection{Mutation}
@@ -237,8 +248,8 @@ null ; => '()
   \subsubsection{Structs}
 
   \begin{itemize}
-    \item definition: \iracket{(struct <struct-name> (<field> ...))}
-    \item constructor: \iracket{(define <name> <struct-name> <field-value> ...)}
+    \item definition: \iracket{struct <struct-name> (<field> ...)}
+    \item constructor: \iracket{define <name> <struct-name> <field-value> ...}
     \item getter: \iracket{<struct-name>-<field-name>}
     \item setter: \iracket{set-<struct-name>-<field-name>\!}
     \item predicate: \iracket{<struct-name>?}
@@ -260,10 +271,10 @@ null ; => '()
   \subsubsection{Pairs}
 
   \begin{itemize}
-    \item definition: \iracket{(cons <first> <second>)}
+    \item definition: \iracket{cons <first> <second>}
     \item getter of first element: \iracket{car}
     \item getter of second element: \iracket{cdr}
-    \item car and cdr can be composed: \iracket{cadddr}, \iracket{caaar}
+    \item car and cdr can be composed: \iracket{cadddr}, \iracket{caaar}, \ldots
     \item pairs are immutable
   \end{itemize}
 
@@ -283,8 +294,8 @@ null ; => '()
     \item lists are composed of pairs
     \item manually defined via \iracket{quote}: \iracket{'(1 2 3)}
     \item empty list: \iracket{'()}
-    \item list of length \iracket{n}: \iracket{(build-list <n> <procedure>)}
-    \item list of length \iracket{n} with initial value \iracket{<init>}: \iracket{(make-list <n> <init>)}
+    \item list of length \iracket{n}: \iracket{build-list <n> <procedure>}
+    \item list of length \iracket{n} with initial value \iracket{<init>}: \iracket{make-list <n> <init>}
     \item lists are made by pairs
           \begin{itemize} \item the \iracket{car} contains the first value
             \item the \iracket{cdr} contains the the rest of the list
@@ -303,17 +314,17 @@ null ; => '()
     \item list length: \iracket{length}
     \item add an element at the beginning: \iracket{cons}
     \item add an element at the end: \iracket{append}
-    \item take the first element: \iracket{first}
-    \item take the last element: \iracket{last}
-    \item take the n-th element: \iracket{list-ref <list> <n>}
-    \item take the n-th element after pos: \iracket{list-tail <list> <pos>}
-    \item take the first n elements: \iracket{take <list> <n>}
-    \item take the last n elements: \iracket{drop <list> <n>}
+    \item get the elements after the first: \iracket{rest <list>}
+    \item get the first element: \iracket{first}
+    \item get the last element: \iracket{last}
+    \item get the n-th element: \iracket{list-ref <list> <n>}
+    \item get the elements after the n-th: \iracket{list-tail <list> <pos>}
+    \item get the first n elements: \iracket{take <list> <n>}
+    \item get the last n elements: \iracket{drop <list> <n>}
     \item count the occurrences of an element: \iracket{count <predicate> <list>}
-    \item apply a filter: \iracket{filter <predicate>}
-    \item apply a function to each element: \iracket{map <function>}
-    \item get the reverse of a list: \iracket{reverse}
-    \item get the elements after the first: \iracket{rest}
+    \item apply a filter: \iracket{filter <predicate> <list>}
+    \item apply a function to each element: \iracket{map <function> <list>}
+    \item get the reverse of a list: \iracket{reverse <list>}
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -364,7 +375,7 @@ null ; => '()
   \subsubsection{Sets}
 
   \begin{itemize}
-    \item definition: \iracket{(set <element> ...)}
+    \item definition: \iracket{set <element> ...}
     \item convert a list to a set: \iracket{list->set}
     \item add an element: \iracket{set-add}
     \item remove an element: \iracket{set-remove}
@@ -384,7 +395,7 @@ null ; => '()
   \subsubsection{Hash}
 
   \begin{itemize}
-    \item definition: \iracket{(hash <key> <value> ...)}
+    \item definition: \iracket{hash <key> <value> ...}
     \item add a key-value pair: \iracket{hash-set}
     \item remove a key-value pair: \iracket{hash-remove}
     \item get a value from a key: \iracket{hash-ref}
@@ -406,9 +417,9 @@ null ; => '()
   \paragraph{if}
 
   \begin{itemize}
-    \item if: \iracket{(if <predicate> <then> <else>)}
-    \item when: \iracket{(when <predicate> <then>)}
-    \item unless: \iracket{(unless <predicate> <else>)}
+    \item if: \iracket{if <predicate> <then> <else>}
+    \item when: \iracket{when <predicate> <then>}
+    \item unless: \iracket{unless <predicate> <else>}
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -422,8 +433,8 @@ null ; => '()
   \paragraph{cond - case}
 
   \begin{itemize}
-    \item cond: \iracket{(cond [<predicate> <then>] ... [<else> <else-then>])}
-    \item case: \iracket{(case <value> [<case-clause> <then>] ... [<else> <else-then>])}
+    \item cond: \iracket{cond [<predicate> <then>] ... [<else> <else-then>]}
+    \item case: \iracket{case <value> [<case-clause> <then>] ... [<else> <else-then>]}
     \item the \iracket{else} clause is optional
     \item in cond, the value is evaluated against each predicate
     \item in case, the value is evaluated against each clause whose quote is \iracket{eqv?}
@@ -443,7 +454,7 @@ null ; => '()
   \paragraph{pattern matching}
 
   \begin{itemize}
-    \item match: \iracket{(match <value> [<pattern> <then>] ... [_ <else-then>])}
+    \item match: \iracket{match <value> [<pattern> <then>] ... [_ <else-then>]}
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -463,7 +474,7 @@ null ; => '()
   \paragraph{when}
 
   \begin{itemize}
-    \item when: \iracket{(when <predicate> <then>)}
+    \item when: \iracket{when <predicate> <then>}
     \item also available as named let
   \end{itemize}
 
@@ -485,8 +496,8 @@ null ; => '()
   \paragraph{for}
 
   \begin{itemize}
-    \item for in a range: \iracket{(for ([<var> <start> <end>]) <body>)}
-    \item for over lists: \iracket{(for ([<var> <list>]) <body>)}
+    \item for in a range: \iracket{for ([<var> <start> <end>]) <body>}
+    \item for over lists: \iracket{for ([<var> <list>]) <body>}
     \item for is available for other collections
   \end{itemize}
 
@@ -515,7 +526,7 @@ null ; => '()
   \subsection{Macros and syntax rules}
 
   \begin{itemize}
-    \item macros are defined via \iracket{define-syntax((<literals>) [(<syntax-rule> ...), ...])}
+    \item definition: \iracket{define-syntax((<literals>) [(<syntax-rule> ...), ...])}
     \item syntax rules are defined via \iracket{syntax-rules(<pattern> <expansion>)}
     \item macros are expanded at compile time
     \item the \iracket{...} operator indicates repetitions of patterns
@@ -560,11 +571,631 @@ null ; => '()
 
 \clearpage
 
-\section{Erlang}
+\section{Haskell}
+
+\begin{multicols*}{2}
+
+  \subsection{Comments}
+
+  \begin{itemize}
+    \item single line comment: \ihaskell{--}
+    \item multi-line comment: \ihaskell{\{- ... -\}}
+
+  \end{itemize}
+
+  \begin{lstlisting}[language=Haskell]
+-- single line comment
+{- multi-line comment
+  can span
+  multiple lines
+  end of comment -}
+\end{lstlisting}
+
+  \subsection{Data types}
+
+  \begin{itemize}
+    \item Data type is inferred automatically by the compiler
+    \item Data type can be specified explicitly via type annotations \ihaskell{::}
+          \begin{itemize}
+            \item boolean: \ihaskell{True, False}
+            \item integer: \ihaskell{1, 2, 3}
+            \item float, double: \ihaskell{1.0, 2.0, 3.0}
+            \item complex: \ihaskell{1 :+ 2, 2 :+ 3, 3 :+ 4}
+            \item character: \ihaskell{'a', 'b', 'c'}
+            \item string: \ihaskell{["a", "b", "c"]} or \ihaskell{"abc"}
+            \item lists: \ihaskell{[1, 2, 3]}
+            \item tuples: \ihaskell{(1, 2, 3)}
+          \end{itemize}
+  \end{itemize}
+
+  \subsubsection{User defined types}
+
+  \begin{itemize}
+    \item sum types: \ihaskell{data <type> = <constructor1> | <constructor2> | ...}
+    \item product type: \ihaskell{data <type> = <constructor> <field1> <field2> ...}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Haskell]
+data Bool = True | False -- sum type
+data Point = Point Float Float -- product type
+\end{lstlisting}
+
+  \subsubsection{Recursive types}
+
+  \begin{itemize}
+    \item syntax: \ihaskell{data <type> = <constructor> <field1> <field2> ... <type>}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Haskell]
+data Tree a = Empty | Node a (Tree a) (Tree a)
+\end{lstlisting}
+
+  \subsubsection{Type Synonyms}
+
+  \begin{itemize}
+    \item syntax: \ihaskell{type <name> = <type>}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Haskell]
+type Point = [(Float, Float)]
+\end{lstlisting}
+
+  \subsection{Variables}
+
+  \begin{itemize}
+    \item variables are immutable
+    \item recursive binding: \ihaskell{let}
+    \item declaration with function body: \ihaskell{where}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Haskell]
+let x = 5 in x + 1 ; => 6
+let x = 5
+  y = 2
+in x + y ; => 7
+f x = x + 1
+where x = 5 ; => 6
+\end{lstlisting}
+
+  \subsubsection{Equivalence}
+
+  \begin{itemize}
+    \item equivalence between objects, numbers, strings and characters: \ihaskell{==}
+  \end{itemize}
+
+  \subsubsection{Basic operations}
+
+  \begin{itemize}
+    \item prefix operators can be converted into infix notation via backticks \ihaskell{`<operator>`}
+    \item infix operators can be converted into prefix notation via parentheses \ihaskell{(<operator>)}
+    \item symbol \ihaskell{\$} is used to avoid parentheses by applying the function to the right % TODO: check how to use the dollar sign
+  \end{itemize}
+
+  \paragraph{Operations on numbers}
+
+  \begin{itemize}
+    \item arithmetic operations: \ihaskell{+}, \ihaskell{-}, \ihaskell{*}, \ihaskell{/}
+    \item exponentiation: \ihaskell{**}
+    \item exponentiation by e: \ihaskell{exp}
+    \item logarithm: \ihaskell{log}
+    \item quotient: \ihaskell{quot}
+    \item remainder: \ihaskell{rem}
+    \item largest and smallest of two numbers: \ihaskell{max}, \ihaskell{min}
+    \item add \(1\): \ihaskell{succ}
+    \item subtract \(1\): \ihaskell{pred}
+    \item greatest common divisor: \ihaskell{gcd}
+    \item least common multiple: \ihaskell{lcm}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Haskell]
+3 + 2 ; => 5
+3 - 2 ; => 1
+3 * 2 ; => 6
+3 / 2 ; => 1.5
+3 ** 2 ; => 9.0
+exp 2 ; => 7.38905609893065
+log 10 ; => 2.302585092994046
+quot 5 2 ; => 2
+rem 5 2 ; => 1
+max 1 2 ; => 2
+min 1 2 ; => 1
+succ 5 ; => 6
+pred 5 ; => 4
+gcd 12 18 ; => 6
+lcm 12 18 ; => 36
+\end{lstlisting}
+
+  \paragraph{Operations on strings}
+
+  \begin{itemize}
+    \item string length: \ihaskell{length}
+    \item string append: \ihaskell{++}
+    \item string to list: \ihaskell{words}
+    \item list to string: \ihaskell{unwords}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Haskell]
+length "Hello, world!" ; => 13
+"Hello, " ++ "world!" ; => "Hello, world!"
+words "Hello world!" ; => ["Hello", "world!"]
+unwords ["Hello", "world!"] ; => "Hello world!"
+\end{lstlisting}
+
+  \paragraph{Operations on bools}
+
+  \begin{itemize}
+    \item logic operations: \ihaskell{&&}, \ihaskell{||}, \ihaskell{not}, \ihaskell{xor}
+    \item implication: \ihaskell{implies}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Haskell]
+True && False ; => False
+True || False ; => True
+not True ; => False
+xor True False ; => True
+implies True False ; => False
+\end{lstlisting}
+
+  \subsubsection{Types conversion}
+
+  \missing
+
+  \subsection{Functions}
+
+  \begin{itemize}
+    \item lambda functions: \ihaskell{\\<name> <arg1> <arg2> ... -> <body>}
+    \item functions are defined as sequences of equations
+          \begin{itemize}
+            \item arguments are matched with the right parts of equations, top to bottom
+            \item if the match succeeds, the function body is called
+          \end{itemize}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Haskell]
+\x y -> x + y ; => \x y -> x + y
+
+length :: [a] -> Integer
+length [] = 0
+length (x:xs) = 1 + length xs
+\end{lstlisting}
+
+  \begin{lstlisting}[language=Haskell]
+1 == 1 ; => True
+"abc" == "abc" ; => True
+\end{lstlisting}
+
+  \subsection{Collections}
+
+  \subsubsection{Fields}
+
+  \begin{itemize}
+    \item fields can be accessed either by label or by position
+  \end{itemize}
+
+  \subsubsection{Lists}
+
+  \begin{itemize}
+    \item lists are composed of pairs
+    \item manual definition: \ihaskell{[1, 2, 3]}
+    \item empty list: \ihaskell{[]}
+  \end{itemize}
+
+  \paragraph{Operations on lists}
+
+  \begin{itemize}
+
+    \item list length: \ihaskell{length <list>}
+    \item get the reverse of a list: \ihaskell{reverse}
+    \item concatenate two lists: \ihaskell{<list1> ++ <list2>}
+    \item add an element: \ihaskell{<element> : <list>}
+    \item get the first element: \ihaskell{head <list>}
+    \item get the last element: \ihaskell{last <list>}
+    \item get the n-th element: \ihaskell{<list> !! <position>}
+    \item get the first n elements: \ihaskell{take <list> <n>}
+    \item delete the first \ihaskell{n} elements: \ihaskell{drop <n> <list>}
+    \item get all the elements after the first: \ihaskell{tail}
+    \item split a list in two: \ihaskell{splitAt <position> <list>}
+    \item apply a filter: \ihaskell{filter <predicate? <list>}
+    \item apply a function to each element: \ihaskell{map <function> <list>}
+    \item sum a list: \ihaskell{sum <list>}
+    \item product of a list: \ihaskell{product <list>}
+    \item check if a list is empty: \ihaskell{null <list>}
+    \item check if an element is in a list: \ihaskell{elem <element> <list>}
+    \item check if all elements of a list satisfy a predicate: \ihaskell{all <predicate> <list>}
+    \item check if at least one element of a list satisfies a predicate: \ihaskell{any <predicate> <list>}
+    \item zip two lists: \ihaskell{zip <list1> <list2>}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Haskell]
+length [1, 2, 3] ; => 3
+reverse [1, 2, 3] ; => [3, 2, 1]
+[1, 2, 3] ++ [4, 5, 6] ; => [1, 2, 3, 4, 5, 6]
+1 : [2, 3] ; => [1, 2, 3]
+head [1, 2, 3] ; => 1
+last [1, 2, 3] ; => 3
+[1, 2, 3] !! 1 ; => 2
+take 2 [1, 2, 3] ; => [1, 2]
+drop 2 [1, 2, 3] ; => [3]
+tail [1, 2, 3] ; => [2, 3]
+splitAt 1 [1, 2, 3] ; => ([1], [2, 3])
+filter even [1, 2, 3, 4] ; => [2, 4]
+map (+1) [1, 2, 3] ; => [2, 3, 4]
+sum [1, 2, 3] ; => 6
+product [1, 2, 3] ; => 6
+null [] ; => True
+elem 1 [1, 2, 3] ; => True
+all even [2, 4, 6] ; => True
+any even [1, 2, 3] ; => True
+zip [1, 2, 3] [4, 5, 6] ; => [(1, 4), (2, 5), (3, 6)]
+\end{lstlisting}
+
+  \paragraph{Range notation}
+
+  \begin{itemize}
+    \item finite list: \ihaskell{[<start>..<end>]}
+    \item finite list with step: \ihaskell{[<start>,<step>..<end>]}
+    \item infinite list: \ihaskell{[<start>..]}
+    \item infinite list with step: \ihaskell{[<start>,<step>..]}
+    \item infinite list with one element repeated: \ihaskell{[<element>,<element>..]}
+  \end{itemize}
+
+  To explicitly evaluate a finite list use the \ihaskell{init} function.
+
+  \begin{lstlisting}[language=Haskell]
+-- all the following instructions are lazily evaluated
+[1..10] ; => [1,2,3,4,5,6,7,8,9,10]
+[1,3..10] ; => [1,3,5,7,9]
+[1..] ; => [1,2,3,4,5,6,7,8,9,10,...]
+[1,3..] ; => [1,3,5,7,9,...]
+[1,1..] ; => [1,1,1,1,1,1,1,1,1,1,...]
+\end{lstlisting}
+
+  \paragraph{List Comprehension}
+
+  \begin{itemize}
+    \item list comprehension returns a list of elements created by evaluation of the generators
+    \item syntax: \ihaskell{[<expression> | <generator>, <generator>, ...]}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Haskell]
+[x | x <- [1..10], even x] ; => [2,4,6,8,10]
+[x * y | x <- [2,5,10], y <- [8,10,11]] ; => [16,20,22,40,50,55,80,100,110]
+\end{lstlisting}
+
+  \subsection{Control flow}
+
+  \subsubsection{Pattern matching}
+
+  \begin{itemize}
+    \item the matching process is done top to bottom, left to right
+    \item patterns may have boolean guards
+    \item character \ihaskell{_} matches everything \textit{(don't care)}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Haskell]
+sign x | x > 0 = 1
+| x < 0 = -1
+| otherwise = 0
+
+take 0 _ = []
+take _ [] = []
+take n (x:xs) = x : take (n - 1) xs
+\end{lstlisting}
+
+  \subsubsection{Case}
+
+  \begin{itemize}
+    \item syntax: \ihaskell{case <value> of <pattern> -> <then> ...}
+    \item the \ihaskell{_} pattern matches everything
+  \end{itemize}
+
+  \begin{lstlisting}[language=Haskell]
+case x of
+  0 -> "zero"
+  1 -> "one"
+  _ -> "other"
+\end{lstlisting}
+
+  \subsubsection{Conditionals}
+
+  \begin{itemize}
+    \item if: \ihaskell{if <predicate> then <then> else <else>}
+    \item when: \ihaskell{when <predicate> <then>}
+    \item unless: \ihaskell{unless <predicate> <else>}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Haskell]
+if True then 1 else 2 ; => 1
+when True 1 ; => 1
+unless False 1 ; => 1
+
+-- equivalent to
+if True then 1 else 2 ; => 1
+if True then 1 ; => 1
+if False then 1 ; => ()
+
+-- equivalent to
+if True then 1 else 2 ; => 1
+if False then 2 else 1 ; => 1
+\end{lstlisting}
+
+  \subsubsection{Loops}
+
+  \begin{itemize}
+    \item for in a range: \ihaskell{for <var> <- [<start>..<end>] <body>}
+    \item for over lists: \ihaskell{for <var> <- <list> <body>}
+    \item for is available for other collections
+  \end{itemize}
+
+  \begin{lstlisting}[language=Haskell]
+for i <- [1..10] do
+print i ; => 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+for i <- [1..10], i `mod` 2 == 0 do
+print i ; => 2, 4, 6, 8, 10
+\end{lstlisting}
+
+  \subsection{Monads}
+
+  \begin{itemize}
+    \item Monads are used to encapsulate side effects
+    \item the \ihaskell{do} notation is used to chain monadic actions
+  \end{itemize}
+
+  \begin{lstlisting}[language=Haskell]
+comb :: Maybe a -> (a -> Maybe b) -> Maybe b
+comb Nothing _ = Nothing
+comb (Just x) f = f x
+\end{lstlisting}
+
+  \subsection{Type classes}
+
+  \begin{itemize}
+    \item type classes are defined via \ihaskell{class}
+    \item type classes are instantiated via \ihaskell{instance}
+  \end{itemize}
+
+  \subsubsection{Polymorphism}
+
+  \todo check if the following makes sense (not completely sure)
+
+  \begin{itemize}
+    \item parametric polymorphism: \ihaskell{<name> :: <type> -> <type>}
+    \item ad-hoc polymorphism: \ihaskell{<name> :: <type class> => <type> -> <type>}
+    \item constrained polymorphism: \ihaskell{<name> :: <type class> a => a -> a}
+    \item type class constraints are resolved at compile time
+  \end{itemize}
+
+  \missing example
+
+\end{multicols*}
 
 \clearpage
 
-\section{Haskell}
+\begin{multicols*}{2}
 
+  \section{Erlang}
+
+  \subsection{Comments}
+
+  \begin{itemize}
+    \item single line comment: \ierlang{\%}
+    \item multi line comments are not supported
+  \end{itemize}
+
+  \begin{lstlisting}[language=Erlang]
+% single line comment
+%% sometimes the double percent is used
+\end{lstlisting}
+
+  \subsection{Data types}
+
+  \missing
+
+  \subsection{Functions}
+
+  \begin{itemize}
+    \item functions are defined as sequences of equations
+          \begin{itemize}
+            \item arguments are matched with the right parts of equations, top to bottom
+            \item if the match succeeds, the function body is called
+          \end{itemize}
+    \item functions have boolean guards \ierlang{when <predicate> -> <then>}
+          \begin{itemize}
+            \item guards are evaluated in constant time
+          \end{itemize}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Erlang]
+    factorial(0) -> 1;
+    factorial(N) when N > 0 -> N * factorial(N - 1).
+  \end{lstlisting}
+
+  \subsubsection{Apply}
+
+  \missing
+
+  \subsubsection{Function Guards}
+
+  \begin{itemize}
+    \item \ierlang{X} is a number: \ierlang{number(X)}
+    \item \ierlang{X} is an integer: \ierlang{integer(X)}
+    \item \ierlang{X} is a float: \ierlang{float(X)}
+    \item \ierlang{X} is an atom: \ierlang{atom(X)}
+    \item \ierlang{X} is a list: \ierlang{is_list(X)}
+    \item \ierlang{X} is a tuple: \ierlang{is_tuple(X)}
+    \item \ierlang{X} is a map: \ierlang{is_map(X)}
+    \item \ierlang{X} is greater than \ierlang{Y}: \ierlang{X > Y}
+    \item \ierlang{X} is less than \ierlang{Y}: \ierlang{X < Y}
+    \item \ierlang{X} is exactly equal to \ierlang{Y}: \ierlang{X =:= Y}
+    \item \ierlang{X} is equal to \ierlang{Y} when converted to the \texttt{int}: \ierlang{X == Y}
+    \item \ierlang{X} is not equal to \ierlang{Y}: \ierlang{X =/= Y}
+    \item \ierlang{X} is a list of length \ierlang{N}: \ierlang{length(X) =:= N}
+    \item \ierlang{X} is a tuple of length \ierlang{N}: \ierlang{size(X) =:= N}
+  \end{itemize}
+
+  \subsubsection{Function Calls}
+
+  \begin{itemize}
+    \item function and modules names must be atoms
+    \item function call \ierlang{<name>(<arg1>, <arg2>, ...)}
+    \item alternative \ierlang{<module>:<name>(<arg1>, <arg2>, ...)}
+    \item use \ierlang{-import} to avoid specifying the module name
+  \end{itemize}
+
+  \begin{lstlisting}[language=Erlang]
+my_module:my_function(1, 2, 3) ; => 6
+-import(my_module, [my_function/3]).
+my_function(1, 2, 3) ; => 6
+\end{lstlisting}
+
+  \subsection{Variables}
+
+  \begin{itemize}
+    \item variables are immutable and can be bound only once
+    \item variables start with an uppercase letter
+    \item there is no keyword for variable declaration
+  \end{itemize}
+
+  \begin{lstlisting}[language=Erlang]
+X = 5 ; => X = 5
+A_very_long_variable_name = 5 ; => A_very_long_variable_name = 5
+  \end{lstlisting}
+
+  \subsection{Atoms}
+
+  \begin{itemize}
+    \item any sequence of letters, digits, underscore, at sign, dollar sign and full stop
+    \item atoms are used to represent constants
+    \item syntax: \ierlang{<atom>} or \ierlang{'<atom>'}
+    \item if unquoted, atoms can contain only lowercase letters, digits and underscore
+  \end{itemize}
+
+  \begin{lstlisting}[language=Erlang]
+atom ; => atom
+'atom' ; => atom
+'ATOM' ; => 'ATOM'
+\end{lstlisting}
+
+  \subsection{Collections}
+
+  \subsubsection{Lists}
+
+  \begin{itemize}
+    \item lists are composed of pairs
+    \item lists are immutable
+    \item manual definition: \ierlang{[1, 2, 3]}
+    \item empty list: \ierlang{[]}
+  \end{itemize}
+
+  \missing example
+
+  \paragraph{Operations on lists}
+
+  \begin{itemize}
+    \item \missing
+  \end{itemize}
+
+  \subsubsection{Tuples}
+
+  \begin{itemize}
+    \item tuples are immutable
+    \item tuples can be nested
+    \item syntax: \ierlang{\{<element1>, <element2>, ...\}}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Erlang]
+{1, 2, 3} ; => {1, 2, 3}
+{1, {2, 3}} ; => {1, {2, 3}}
+\end{lstlisting}
+
+  \subsubsection{Records}
+
+  \begin{itemize}
+    \item records are tuples with named fields
+    \item records are defined via \ierlang{-record(<name>, {<field1>, <field2>, ...})}
+    \item records are accessed via \ierlang{#<name>.<field>}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Erlang]
+-record(point, {x, y}).
+#point.x ; => x
+\end{lstlisting}
+
+  \subsubsection{Maps}
+
+  \begin{itemize}
+    \item maps are defined via \ierlang{\#{<key> => <value>, <key> => <value>, ...}}
+    \item keys are accessed via \ierlang{<map>.<key>}
+    \item maps are updated:
+          \begin{itemize}
+            \item to add or overwrite a key-value pair: \ierlang{<map>#{<key> => <value>}}
+            \item to only update an existing key-value pair: \ierlang{<map>#{<key> := <value>}}
+          \end{itemize}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Erlang]
+Map = #{a => 1, b => 2} % => #{a => 1, b => 2}
+Map#{c => 3} % => #{a => 1, b => 2, c => 3}
+Map#{a := 2} % => #{a => 2, b => 2}
+Map#{d := 4} % => error
+\end{lstlisting}
+
+  \subsection{Control flow}
+
+  \subsubsection{Conditionals}
+
+  \paragraph{Pattern matching}
+
+  \begin{itemize}
+    \item the matching process is done top to bottom, left to right
+    \item patterns may have boolean guards
+    \item character \ierlang{_} matches everything \textit{(don't care)}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Erlang]
+sign(X) when X > 0 -> 1;
+sign(X) when X < 0 -> -1;
+sign(_) -> 0.
+  \end{lstlisting}
+
+  \paragraph{if}
+
+  \begin{itemize}
+    \item syntax: \ierlang{if <predicate> -> <then>; <predicate> -> <then>; ... end}
+    \item the \ierlang{true} pattern matches everything
+    \item function guards are necessary
+  \end{itemize}
+
+  \begin{lstlisting}[language=Erlang]
+if
+    integer(X) -> integer_to_list(X);
+    float(X) -> float_to_list(X);
+    true -> "error" % this is the default case
+end.
+  \end{lstlisting}
+
+  \paragraph{case}
+
+  \begin{itemize}
+    \item syntax: \ierlang{case <value> of <pattern> -> <then>; <pattern> -> <then>; ... end}
+    \item the \ierlang{true} pattern matches everything
+    \item function guards are not required
+  \end{itemize}
+
+  \begin{lstlisting}[language=Erlang]
+case X of
+    0 -> "zero";
+    1 -> "one";
+    true -> "other"
+end.
+  \end{lstlisting}
+
+  \subsubsection{Loops}
+
+  \missing
+
+\end{multicols*}
+
+\clearpage
 
 \end{document}
