@@ -7,14 +7,19 @@
     "cdar",
     "cddr",
     "displayln",
+    "elem",
     "expt",
     "lstlisting",
     "multifun",
     "partlist",
+    "pipefd",
+    "pred",
     "println",
     "quasiquote",
+    "quot",
     "struct",
     "structs",
-    "tetranacci"
+    "tetranacci",
+    "unwords"
   ]
 }
