@@ -11,6 +11,8 @@
 \usepackage{enumitem}
 \usepackage{xcolor}
 \usepackage{xspace}
+\usepackage{hyperref}
+\usepackage{ccicons}
 
 \usepackage[sfdefault,light,condensed]{roboto}
 \usepackage[T1]{fontenc}
@@ -24,12 +26,18 @@
 \titlespacing{\subsection}{0pt}{0.5em}{0.25em}
 \titlespacing{\subsubsection}{0pt}{0.5em}{0.25em}
 \titlespacing{\paragraph}{0pt}{0.5em}{0.25em}
+% remove paragraph indentation
+\setlength{\parindent}{0pt}
+% add numbering to paragraphs
+\setcounter{secnumdepth}{4}
 % changed bullet for lists
 \renewcommand\labelitemi{\small\bfseries\texttt{>}}
 \renewcommand\labelitemii{\small\bfseries\texttt{>}}
 % tighter lists
 \setlist[itemize]{noitemsep,after=\vspace{0.25em},before=\vspace{0.25em}}
 \setlist[enumerate]{noitemsep,after=\vspace{0.25em},before=\vspace{0.25em}}
+% remove colored boxes around links
+\hypersetup{colorlinks=true,linkcolor=black,urlcolor=black}
 % define colors
 \definecolor{background}{rgb}{0.95,0.95,0.95}
 \definecolor{keyword}{rgb}{0,0.3,0.7}
