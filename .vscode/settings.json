@@ -9,6 +9,7 @@
     "displayln",
     "elem",
     "expt",
+    "fmap",
     "lstlisting",
     "multifun",
     "partlist",
