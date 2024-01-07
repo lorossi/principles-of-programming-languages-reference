@@ -2,10 +2,7 @@
 
 \usepackage{settings}
 
-% TODO: when everything has been written, space correctly the content by breaking the columns via the \breakcolumn command
-% TODO: explain the use of . and , in Erlang and make sure that it was used correctly in the examples
-% TODO: re-order the sections
-% TODO: make sure that all the sections are consistent between languages
+% TODO: when everything has been written, space correctly the content by breaking the columns via the (custom)\breakcolumn command
 
 \begin{document}
 
@@ -29,33 +26,24 @@
 |#
 \end{lstlisting}
 
-  \subsection{Datum evaluation}
-
-  \begin{itemize}
-    \item \iracket{quote <datum>} or \iracket{'<datum>} leaves the datum as-is
-    \item \iracket{unquote <datum>} or \iracket{,<datum>} is the opposite of \iracket{quote}
-    \item \iracket{quasiquote <datum>} or \iracket{,@<datum>} allows to apply the unquote where needed
-  \end{itemize}
-
-  \begin{lstlisting}[language=Racket]
-'(1 2 3); => (1 2 3)
-(1 ,(+ 1 1) 3) ; => '(1 2 3)
-\end{lstlisting}
-
   \subsection{Data types}
 
   \begin{itemize}
-    \item boolean: \iracket{#t, #f}
-    \item integer: \iracket{9125}
-    \item binary: \iracket{#b10001110100101}
-    \item octal: \iracket{#o21645}
-    \item hexadecimal: \iracket{#x23a5}
-    \item real: \iracket{91.25}
-    \item rational: \iracket{91/25}
-    \item complex: \iracket{91+25i}
-    \item character: \lstinline[language=Racket]!#\A, #\$\lambda$, #\u30BB!
-    \item null element: \iracket{'(), null}
-    \item string: \iracket{"Hello, world!"}
+    \item typing is dynamic
+    \item types:
+          \begin{itemize}
+            \item boolean: \iracket{#t, #f}
+            \item integer: \iracket{9125}
+            \item binary: \iracket{#b10001110100101}
+            \item octal: \iracket{#o21645}
+            \item hexadecimal: \iracket{#x23a5}
+            \item real: \iracket{91.25}
+            \item rational: \iracket{91/25}
+            \item complex: \iracket{91+25i}
+            \item character: \lstinline[language=Racket]!#\A, #\$\lambda$, #\u30BB!
+            \item null element: \iracket{'(), null}
+            \item string: \iracket{"Hello, world!"}
+          \end{itemize}
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -80,6 +68,19 @@ null ; => '()
 (let* ((x 1) (y (add1 x))) (list x y)) ; // '(1 2)
 \end{lstlisting}
 
+  \subsubsection{Datum evaluation}
+
+  \begin{itemize}
+    \item \iracket{quote <datum>} or \iracket{'<datum>} leaves the datum as-is
+    \item \iracket{unquote <datum>} or \iracket{,<datum>} is the opposite of \iracket{quote}
+    \item \iracket{quasiquote <datum>} or \iracket{,@<datum>} allows to apply the unquote where needed
+  \end{itemize}
+
+  \begin{lstlisting}[language=Racket]
+'(1 2 3); => (1 2 3)
+(1 ,(+ 1 1) 3) ; => '(1 2 3)
+\end{lstlisting}
+
   \subsubsection{Equivalence}
 
   \begin{itemize}
@@ -101,6 +102,8 @@ null ; => '()
   \begin{itemize}
     \item all operations are in prefix notation \iracket{<operator> <operand> ...}
   \end{itemize}
+
+  \breakcolumn
 
   \paragraph{Operations on numbers}
 
@@ -169,7 +172,13 @@ null ; => '()
 
   \subsubsection{Types conversion}
 
-  \missing
+  \begin{itemize}
+    \item inexact and exact: \iracket{inexact->exact}, \iracket{exact->inexact}
+    \item integer and float: \iracket{integer->float}, \iracket{float->integer}
+    \item integer and rational: \iracket{integer->rational}, \iracket{rational->integer}
+    \item list and vector: \iracket{list->vector}, \iracket{vector->list}
+    \item vector and string: \iracket{vector->string}, \iracket{string->vector}
+  \end{itemize}
 
   \subsection{Predicates}
 
@@ -194,6 +203,8 @@ null ; => '()
 (negative? 1) ; => #f
 (zero? 1) ; => #f
 \end{lstlisting}
+
+  \breakcolumn
 
   \subsection{Functions}
 
@@ -243,6 +254,8 @@ null ; => '()
 (vector-set! v 0 1) ; => v = '#(1 2 3 4)
 \end{lstlisting}
 
+  \breakcolumn
+
   \subsection{Collections}
 
   \subsubsection{Structs}
@@ -287,6 +300,8 @@ null ; => '()
 (cdar '((1 . 2) . 3)) ; => 2
 (cddr '((1 . 2) . 3)) ; => 3
 \end{lstlisting}
+
+  \breakcolumn
 
   \subsubsection{Lists}
 
@@ -349,9 +364,6 @@ null ; => '()
   \begin{itemize}
     \item lists can be folded from the left with \iracket{foldl}
     \item lists can be folded from the right with \iracket{foldr}
-    \item the accumulator is the first argument of the function
-    \item the list is the second argument of the function
-    \item the function is applied to the accumulator and the first element of the list
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
@@ -392,6 +404,8 @@ null ; => '()
 (set-member? (set 1 2 3) 2) ; => #t
   \end{lstlisting}
 
+  \breakcolumn
+
   \subsubsection{Hash}
 
   \begin{itemize}
@@ -429,6 +443,8 @@ null ; => '()
 (unless #t 1) ; => #<void>
 (unless #f 1) ; => 1
   \end{lstlisting}
+
+  \breakcolumn
 
   \paragraph{cond - case}
 
@@ -468,6 +484,8 @@ null ; => '()
   (fizzbuzz? 15) ; => 'fizzbuzz
   (fizzbuzz? 37) ; => #f
   \end{lstlisting}
+
+  \breakcolumn
 
   \subsubsection{Loops}
 
@@ -594,8 +612,9 @@ null ; => '()
   \subsection{Data types}
 
   \begin{itemize}
-    \item Data type is inferred automatically by the compiler
-    \item Data type can be specified explicitly via type annotations \ihaskell{::}
+    \item data type is inferred automatically by the compiler
+    \item data type can be specified explicitly via type annotations \ihaskell{::}
+    \item types:
           \begin{itemize}
             \item boolean: \ihaskell{True, False}
             \item integer: \ihaskell{1, 2, 3}
@@ -668,8 +687,10 @@ where x = 5 ; => 6
   \begin{itemize}
     \item prefix operators can be converted into infix notation via backticks \ihaskell{`<operator>`}
     \item infix operators can be converted into prefix notation via parentheses \ihaskell{(<operator>)}
-    \item symbol \ihaskell{\$} is used to avoid parentheses by applying the function to the right % TODO: check how to use the dollar sign
+    \item symbol \ihaskell{\$} is used to avoid parentheses by applying the function to the right
   \end{itemize}
+
+  \breakcolumn
 
   \paragraph{Operations on numbers}
 
@@ -721,6 +742,8 @@ words "Hello world!" ; => ["Hello", "world!"]
 unwords ["Hello", "world!"] ; => "Hello world!"
 \end{lstlisting}
 
+  \breakcolumn
+
   \paragraph{Operations on bools}
 
   \begin{itemize}
@@ -738,7 +761,10 @@ implies True False ; => False
 
   \subsubsection{Types conversion}
 
-  \missing
+  \begin{itemize}
+    \item list to string: \ihaskell{show}
+    \item string to list: \ihaskell{read}
+  \end{itemize}
 
   \subsection{Functions}
 
@@ -757,9 +783,6 @@ implies True False ; => False
 length :: [a] -> Integer
 length [] = 0
 length (x:xs) = 1 + length xs
-\end{lstlisting}
-
-  \begin{lstlisting}[language=Haskell]
 1 == 1 ; => True
 "abc" == "abc" ; => True
 \end{lstlisting}
@@ -882,6 +905,8 @@ take _ [] = []
 take n (x:xs) = x : take (n - 1) xs
 \end{lstlisting}
 
+  \breakcolumn
+
   \subsubsection{Case}
 
   \begin{itemize}
@@ -934,6 +959,8 @@ for i <- [1..10], i `mod` 2 == 0 do
 print i ; => 2, 4, 6, 8, 10
 \end{lstlisting}
 
+  \breakcolumn
+
   \subsection{Monads}
 
   \begin{itemize}
@@ -947,6 +974,92 @@ comb Nothing _ = Nothing
 comb (Just x) f = f x
 \end{lstlisting}
 
+  \subsubsection{Foldable}
+
+  \begin{itemize}
+    \item used for folding (either \ihaskell{foldl} or \ihaskell{foldr})
+    \item given a container and a binary operation \ihaskell{f}, applies \ihaskell{f} to each element of the container
+    \item syntax: \ihaskell{foldr <function> <accumulator> <container>}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Haskell]
+foldr (+) 0 [1, 2, 3] ; => 6
+foldr (*) 1 [1, 2, 3] ; => 6
+\end{lstlisting}
+
+  \begin{lstlisting}[language=Haskell]
+data Tree a = Empty | Leaf a | Node (Tree a) a (Tree a)
+
+instance Foldable Tree where
+  foldr f z Empty = z
+  foldr f z (Leaf x) = f x z
+  foldr f z (Node l k r) = foldr f (f k (foldr f z r)) l
+\end{lstlisting}
+
+  \subsubsection{Functor}
+
+  \begin{itemize}
+    \item used for mapping (via \ihaskell{fmap})
+    \item signature of \ihaskell{fmap}: \ihaskell{fmap :: (a -> b) -> f a -> f b}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Haskell]
+instance Functor Tree where
+    fmap f Empty = Empty
+    fmap f (Leaf x) = Leaf (f x)
+    fmap f (Node l r) = Node (fmap f l) (fmap f r)
+\end{lstlisting}
+
+  \breakcolumn
+
+  \subsubsection{Applicative}
+
+  \begin{itemize}
+    \item used for applying a function in a context (via \ihaskell{<*>})
+    \item is applied to type constructors that are parametric with one parameter
+  \end{itemize}
+
+  \begin{lstlisting}[language=Haskell]
+instance Applicative Maybe where
+    pure = Just
+    (Just f) <*> something = fmap f something
+    Nothing <*> _ = Nothing
+\end{lstlisting}
+
+  \begin{itemize}
+    \item \ihaskell{pure} takes a value and returns an applicative (\ihaskell{f}) with that value
+    \item \ihaskell{<*>} takes an applicative (\ihaskell{f}) with a function and another applicative (\ihaskell{g}) and returns an applicative (\ihaskell{h}) with the result of applying the function to the value of \ihaskell{g}
+  \end{itemize}
+
+  \subsubsection{Monad}
+
+  \begin{itemize}
+    \item used for sequencing (via \ihaskell{>>=})
+    \item signature of:
+          \begin{itemize}
+            \item \ihaskell{>>=}: \ihaskell{(>>=) :: m a -> (a -> m b) -> m b}
+            \item \ihaskell{>>}: \ihaskell{(>>) :: m a -> m b -> m b}
+            \item \ihaskell{return}: \ihaskell{return :: a -> m a}
+          \end{itemize}
+    \item meaning of:
+          \begin{itemize}
+            \item \ihaskell{>>=}: \ihaskell{m a} is a monadic action that returns a value of type \ihaskell{a}
+            \item \ihaskell{f} is a function that takes a value of type \ihaskell{a} and returns a monadic action that returns a value of type \ihaskell{b}
+            \item \ihaskell{>>=} returns a monadic action that returns a value of type \ihaskell{b}
+          \end{itemize}
+    \item \ihaskell{do} notation is used to chain monadic actions, it is translated into \ihaskell{>>=} and \ihaskell{>>}
+    \item \ihaskell{do} notation is available for all monads
+  \end{itemize}
+
+  \begin{lstlisting}[language=Haskell]
+instance Monad Maybe where
+    return = Just
+    Nothing >>= _ = Nothing
+    (Just x) >>= f = f x
+\end{lstlisting}
+
+  \breakcolumn
+
   \subsection{Type classes}
 
   \begin{itemize}
@@ -956,16 +1069,21 @@ comb (Just x) f = f x
 
   \subsubsection{Polymorphism}
 
-  \todo check if the following makes sense (not completely sure)
-
   \begin{itemize}
+    \item type class constraints are resolved at compile time
     \item parametric polymorphism: \ihaskell{<name> :: <type> -> <type>}
     \item ad-hoc polymorphism: \ihaskell{<name> :: <type class> => <type> -> <type>}
-    \item constrained polymorphism: \ihaskell{<name> :: <type class> a => a -> a}
-    \item type class constraints are resolved at compile time
   \end{itemize}
 
-  \missing example
+  \begin{lstlisting}[language=Haskell]
+-- parametric polymorphism
+id :: a -> a
+id x = x
+
+-- ad-hoc polymorphism
+(+) :: Num a => a -> a -> a
+x + y = x + y
+  \end{lstlisting}
 
 \end{multicols*}
 
@@ -974,6 +1092,14 @@ comb (Just x) f = f x
 \begin{multicols*}{2}
 
   \section{Erlang}
+
+  \subsection{Syntax}
+
+  \begin{itemize}
+    \item period \ierlang{.} terminates expressions`'
+    \item semicolon \ierlang{;} separates expressions branches and clauses
+    \item comma \ierlang{,} separates alternate clauses
+  \end{itemize}
 
   \subsection{Comments}
 
@@ -989,7 +1115,33 @@ comb (Just x) f = f x
 
   \subsection{Data types}
 
-  \missing
+  \begin{itemize}
+    \item term: any Erlang data
+    \item integer: \ierlang{1, 2, 3}
+    \item float: \ierlang{1.0, 2.0, 3.0}
+    \item binary, hexadecimal and octal numbers: \ierlang{2#101, 16#FF, 8#377}
+    \item atoms: \ierlang{atom} \textit{(see \ref{sec:erlang-atoms})}
+    \item bit strings: \ierlang{<<"hello">>}
+    \item strings: \ierlang{"hello"}
+  \end{itemize}
+
+  \subsubsection{Atoms}
+  \label{sec:erlang-atoms}
+
+  \begin{itemize}
+    \item any sequence of letters, digits, underscore, at sign, dollar sign and full stop
+    \item atoms are used to represent constants
+    \item syntax: \ierlang{<atom>} or \ierlang{'<atom>'}
+    \item if unquoted, atoms can contain only lowercase letters, digits and underscore
+  \end{itemize}
+
+  \begin{lstlisting}[language=Erlang]
+atom ; => atom
+'atom' ; => atom
+'ATOM' ; => 'ATOM'
+\end{lstlisting}
+
+  \breakcolumn
 
   \subsection{Functions}
 
@@ -1012,7 +1164,17 @@ comb (Just x) f = f x
 
   \subsubsection{Apply}
 
-  \missing
+  \begin{itemize}
+    \item syntax: \ierlang{apply(<module>, <function>, <arguments>)}
+    \item any expression can be used as a function
+    \item the function is applied to the arguments
+    \item \ierlang{\$MODULE} is a macro that expands to the name of the current module
+  \end{itemize}
+
+  \begin{lstlisting}[language=Erlang]
+% assumption:factorial is defined in the current module
+apply($MODULE, factorial, [5]) ; => 120
+\end{lstlisting}
 
   \subsubsection{Function Guards}
 
@@ -1032,6 +1194,8 @@ comb (Just x) f = f x
     \item \ierlang{X} is a list of length \ierlang{N}: \ierlang{length(X) =:= N}
     \item \ierlang{X} is a tuple of length \ierlang{N}: \ierlang{size(X) =:= N}
   \end{itemize}
+
+  \breakcolumn
 
   \subsubsection{Function Calls}
 
@@ -1061,21 +1225,6 @@ X = 5 ; => X = 5
 A_very_long_variable_name = 5 ; => A_very_long_variable_name = 5
   \end{lstlisting}
 
-  \subsection{Atoms}
-
-  \begin{itemize}
-    \item any sequence of letters, digits, underscore, at sign, dollar sign and full stop
-    \item atoms are used to represent constants
-    \item syntax: \ierlang{<atom>} or \ierlang{'<atom>'}
-    \item if unquoted, atoms can contain only lowercase letters, digits and underscore
-  \end{itemize}
-
-  \begin{lstlisting}[language=Erlang]
-atom ; => atom
-'atom' ; => atom
-'ATOM' ; => 'ATOM'
-\end{lstlisting}
-
   \subsection{Collections}
 
   \subsubsection{Lists}
@@ -1087,13 +1236,48 @@ atom ; => atom
     \item empty list: \ierlang{[]}
   \end{itemize}
 
-  \missing example
+  \begin{lstlisting}[language=Erlang]
+[1, 2, 3] ; => [1, 2, 3]
+[1, [2, 3]] ; => [1, [2, 3]]
+\end{lstlisting}
+
+  \breakcolumn
 
   \paragraph{Operations on lists}
 
   \begin{itemize}
-    \item \missing
+    \item list length: \ierlang{length(<list>)}
+    \item add an element at the beginning: \ierlang{[<element> | <list>]}
+    \item add an element at the end: \ierlang{<list> ++ [<element>]}
+    \item get the first element: \ierlang{lists:first(<list>)}
+    \item get the last element: \ierlang{lists:last(<list>)}
+    \item get the n-th element: \ierlang{lists:nth(<position>, <list>)}
+    \item get the first n elements: \ierlang{lists:sublist(<list>, 0, <n>)}
+    \item append two lists: \ierlang{lists:append(<list1>, <list2>)}
+    \item concatenate two lists: \ierlang{<list1> ++ <list2>}
+    \item delete the first occurrence of an element: \ierlang{lists:delete(<element>, <list>)}
+    \item delete the last element of a list: \ierlang{lists:droplast(<list>)}
+    \item delete the first element of a list: \ierlang{lists:drop(<list>)}
+    \item apply a filter: \ierlang{lists:filter(<predicate>, <list>)}
+    \item flatten a list: \ierlang{lists:flatten(<list>)}
+
+    \item call a function on each element: \ierlang{lists:foreach(<function>, <list>)}
+    \item map a function on each element: \ierlang{lists:map(<function>, <list>)}
+    \item find the maximum element: \ierlang{lists:max(<list>)}
+    \item find the minimum element: \ierlang{lists:min(<list>)}
   \end{itemize}
+
+  \paragraph{Lists folding}
+
+  \begin{itemize}
+    \item fold a list from the left: \ierlang{lists:foldl(<function>, <accumulator>, <list>)}
+    \item fold a list from the right: \ierlang{lists:foldr(<function>, <accumulator>, <list>)}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Erlang]
+lists:foldl(fun(X, Acc) -> X + Acc end, 0, [1, 2, 3]) ; => 6
+lists:foldr(fun(X, Acc) -> X + Acc end, 0, [1, 2, 3]) ; => 6
+\end{lstlisting}
 
   \subsubsection{Tuples}
 
@@ -1107,6 +1291,8 @@ atom ; => atom
 {1, 2, 3} ; => {1, 2, 3}
 {1, {2, 3}} ; => {1, {2, 3}}
 \end{lstlisting}
+
+  \breakcolumn
 
   \subsubsection{Records}
 
@@ -1158,6 +1344,8 @@ sign(X) when X < 0 -> -1;
 sign(_) -> 0.
   \end{lstlisting}
 
+  \breakcolumn
+
   \paragraph{if}
 
   \begin{itemize}
@@ -1192,7 +1380,128 @@ end.
 
   \subsubsection{Loops}
 
-  \missing
+  \begin{itemize}
+    \item loops must be implemented via recursion
+  \end{itemize}
+
+  \paragraph{while}
+
+  \begin{itemize}
+    \item syntax: \ierlang{while(<predicate>) -> <then>; ...}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Erlang]
+while(X) ->
+    if
+        X > 0 -> io:format("~p~n", [X]),
+        while(X - 1);
+        true -> ok.
+    end.
+  \end{lstlisting}
+
+  \breakcolumn
+
+  \paragraph{for}
+
+  \begin{itemize}
+    \item syntax: \ierlang{for(<variable>) -> <then>; ...}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Erlang]
+for(X) ->
+    for(X, 0).
+
+for(X, N) when N < X ->
+    io:format("~p~n", [N]),
+    for(X, N + 1);
+for(_, _) ->
+    ok.
+  \end{lstlisting}
+
+  \subsection{Concurrent programming}
+
+  \begin{itemize}
+    \item processes are created via \ierlang{spawn(<module>, <function>, <arguments>)}
+    \item processes are identified via \ierlang{Pid}
+    \item messages are sent via \ierlang{Pid \! <message>}
+    \item messages are received via \ierlang{receive <pattern> -> <then>; ... end}
+  \end{itemize}
+
+  \subsection{Examples}
+
+  This section is not present for other languages, but I feel like there's no other way to explain important concepts (for the exam) in Erlang.
+
+  \subsubsection{Echo process}
+
+  \begin{lstlisting}[language=Erlang]
+-module(echo).
+-export([start/0, loop/0]).
+
+start() ->
+  Pid2 = spawn(echo, loop, []),
+  Pid2 ! {self(), hello},
+
+  receive
+    {Pid2, Msg} -> io:format("received ~p~n", [Msg])
+  end.
+
+Pid2 ! stop.
+
+loop() ->
+  receive
+    {From, Msg} ->
+      From ! {self(), Msg},
+    loop();
+    stop ->
+      true
+  end.
+\end{lstlisting}
+
+  \subsubsection{Client-server}
+
+  \begin{itemize}
+    \item requests have syntax \ierlang{\{request, <data>\}}
+    \item responses have syntax \ierlang{\{response, <data>\}}
+  \end{itemize}
+
+  \begin{lstlisting}[language=Erlang]
+%% this snippet contains the server code
+-module(my_server).
+-export([start/0, server/1]).
+server(Data) ->
+  receive
+    {From, {request, X}} ->
+      {R, Data1} = handle(X, Data),
+      % note: handle function is defined elsewhere
+      From ! {my_server, {response, R}},
+      server(Data1);
+    {From, stop} ->
+      From ! {my_server, stopped}
+  end.
+\end{lstlisting}
+
+  \begin{lstlisting}[language=Erlang]
+%% this snippet contains the client code
+-module(my_client).
+-export([start/0, client/1]).
+client(Server) ->
+  Server ! {self(), {request, 1}},
+  receive
+    {my_server, {response, R}} ->
+      io:format("received ~p~n", [R])
+  end.
+
+client(Server) ->
+  Server ! {self(), stop},
+  receive
+    {my_server, stopped} ->
+      ok
+  end.
+
+start() ->
+  Server = spawn(my_server, server, []),
+  spawn(my_client, client, [Server]).
+\end{lstlisting}
 
 \end{multicols*}
 
