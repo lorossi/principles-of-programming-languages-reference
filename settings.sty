@@ -1,19 +1,20 @@
 % !TeX root = principles-of-programming-languages-reference.tex
 
 % required packages
-\usepackage[compact]{titlesec}
-\usepackage[utf8]{inputenc}
-\usepackage{tabularray}
-\usepackage{listings}
-\usepackage{multicol}
-\usepackage{textcomp}
-\usepackage{geometry}
-\usepackage{enumitem}
-\usepackage{xcolor}
-\usepackage{xspace}
-\usepackage{hyperref}
-\usepackage{ccicons}
+\usepackage[compact]{titlesec} % for tighter titles
+\usepackage[utf8]{inputenc} % for utf8 encoding
+\usepackage{listings} % for code listings
+\usepackage{multicol} % for multiple columns layout
+\usepackage{textcomp} % for text symbols
+\usepackage{geometry} % for page geometry
+\usepackage{enumitem} % for numbered lists
+\usepackage{xcolor} % for colors
+\usepackage{xspace} % for spaces after commands
+\usepackage{hyperref} % for hyperlinks
+\usepackage{ccicons} % for creative commons icons
+\usepackage{datetime2} % for date formatting
 
+% font settings
 \usepackage[sfdefault,light,condensed]{roboto}
 \usepackage[T1]{fontenc}
 
@@ -64,11 +65,12 @@
 }
 % lstlisting default style
 \lstset{style=custom}
-% racket language, based on ttps://github.com/stuhlmueller/scheme-listings
+% lstlisting inline default style
+% racket language, based on https://github.com/stuhlmueller/scheme-listings
 \lstdefinelanguage{Racket}{
-  morekeywords={, *, +, -, /, =, add1, and, append, apply, begin, caaaar, caaadr, caaar, caadar, caaddr, caadr, caar, cadaar, cadadr, cadar, caddar, cadddr, caddr, cadr, call-with-current-continuation, call-with-input-file, call-with-output-file, call/cc, car, case, cdaaar, cdaadr, cdaar, cdadar, cdaddr, cdadr, cdar, cddaar, cddadr, cddar, cdddar, cddddr, cdddr, cddr, cdr, cond, cons, count, define, define-macro, define-stream, define-syntax, delay, display, displayln, do, drop, else, environment, eq?, equal?, eqv?, eval, even?, exp, export, expt, false?, filter, first, fold, foldl, foldr, for, for-each, force, gcd, hash, hash-has-key?, hash-ref, hash-remove, hash-set, if, implies, import, immutable?, in-hash, in-list, in-range, in-set, in-string, in-vector, lambda, last, lcm, length, let, let*, let*-values, let-syntax, let-values, letrec, letrec*, letrec-syntax, list, list->set, list->string, list-ref, list-tail, log, map, match, max, min, negative?, newline, not, odd?, or, positive?, print, printf, println, quasiquote, query, quote, quotient, raise, remainder, rest, reverse, save!, set, set!, set-add, set-member?, set-remove, stream-lambda, string->list, string-append, string-length, string-ref, struct, sub1, syntax, syntax-rules, take, true?, unless, unquote, unquote-splicing, vector-ref, vector-set!, when, with-handlers, xor, zero?,}
-  alsodigit=!?\$\%&*+-./:<=>?@^_~,
-  alsoletter=!?>+-*/=,
+  morekeywords={=, do, if, or, and, car, cdr, eq?, exp, for, gcd, lcm, let, log, map, max, min, not, set, xor, add1, caar, cadr, case, cdar, cddr, cond, cons, drop, else, eqv?, eval, expt, fold, hash, last, let*, list, null, odd?, rest, set!, sub1, take, when, apply, begin, caaar, caadr, cadar, caddr, cdaar, cdadr, cddar, cdddr, cons?, count, delay, even?, first, foldl, foldr, force, list?, match, pair?, print, query, quote, raise, save!, true?, zero?, append, caaaar, caaadr, caadar, caaddr, cadaar, cadadr, caddar, cadddr, cdaaar, cdaadr, cdadar, cdaddr, cddaar, cddadr, cdddar, cddddr, define, empty?, equal?, export, false?, filter, import, in-set, lambda, length, letrec, printf, struct, syntax, unless, call/cc, display, implies, in-hash, in-list, letrec*, newline, println, reverse, set-add, unquote, for-each, hash-ref, hash-set, in-range, list-ref, quotient, displayln, in-string, in-vector, list->set, list-tail, negative?, positive?, remainder, immutable?, let-syntax, let-values, quasiquote, set-remove, string-ref, vector-ref, environment, hash-remove, let*-values, set-member?, vector-set!, define-macro, list->string, list->vector, string->list, syntax-rules, vector->list, define-stream, define-syntax, hash-has-key?, letrec-syntax, stream-lambda, string-append, string-length, with-handlers, exact->inexact, float->integer, inexact->exact, integer->float, string->vector, vector->string, unquote-splicing, integer->rational, rational->integer, call-with-input-file, call-with-output-file, call-with-current-continuation,}
+  alsodigit=*!?\$\%&*+-./:<=>?@^_~,
+  alsoletter=!?>+-\$*/=,
   sensitive=true,
   morecomment=[l]{;},
   morecomment=[s]{\#|}{|\#},
@@ -77,7 +79,7 @@
 % command to switch column
 \newcommand{\breakcolumn}{\vspace*{\fill}\columnbreak}
 % command for inline code
-\newcommand{\icode}[2]{\lstinline[language=#1,mathescape=false]!#2!}
+\newcommand{\icode}[2]{\lstinline[language=#1]!#2!}
 \newcommand{\iracket}[1]{\icode{Racket}{#1}}
 \newcommand{\ihaskell}[1]{\icode{Haskell}{#1}}
 \newcommand{\ierlang}[1]{\icode{Erlang}{#1}}
