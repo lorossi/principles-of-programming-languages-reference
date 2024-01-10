@@ -20,10 +20,8 @@ def main(file_name: str):
         print(f"File {file_name} not found.")
         return
 
-    keywords = data.replace("\n", ",").split(",")
-    unique_keywords = set(k.strip() for k in keywords)
-    sorted_keywords = sorted(unique_keywords, key=len)
-    sorted_keywords = sorted(sorted_keywords, key=str.lower)
+    keywords = [k.strip() for k in data.replace("\n", ",").split(",") if k.strip()]
+    sorted_keywords = sorted(set(keywords), key=lambda k: (len(k), k.lower()))
     keywords_str = ", ".join(sorted_keywords) + ","
 
     out_file_name = f"sorted-{file_name}"
