@@ -40,7 +40,7 @@
             \item real: \iracket{91.25}
             \item rational: \iracket{91/25}
             \item complex: \iracket{91+25i}
-            \item character: \lstinline[language=Racket]!#\A, #\$\lambda$, #\u30BB!
+            \item character: \lstinline[language=Racket, mathescape=true]!#\A, #\$\lambda$, #\u30BB!
             \item null element: \iracket{'(), null}
             \item string: \iracket{"Hello, world!"}
           \end{itemize}
@@ -54,6 +54,8 @@
 null ; => '()
 \end{lstlisting}
 
+  \breakcolumn
+
   \subsection{Variables}
 
   \begin{itemize}
@@ -65,7 +67,7 @@ null ; => '()
 
   \begin{lstlisting}[language=Racket]
 (let ((x 5) (y 2)) (list x y)) ; => '(5 2)
-(let* ((x 1) (y (add1 x))) (list x y)) ; // '(1 2)
+(let* ((x 1) (y (add x))) (list x y)) ; // '(1 2)
 \end{lstlisting}
 
   \subsubsection{Datum evaluation}
@@ -215,8 +217,11 @@ null ; => '()
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
-(lambda (x) (+ x 1)) ;
-(define (add1 x) (+ x 1)) ;
+; anonymous function
+((lambda (x) (+ x 3)) 5); => 8
+; named function
+(define (add3 x) (+ x 3))
+(add3 5) ; => 8
 \end{lstlisting}
 
   \subsubsection{Higher order functions}
@@ -288,6 +293,7 @@ null ; => '()
     \item getter of first element: \iracket{car}
     \item getter of second element: \iracket{cdr}
     \item car and cdr can be composed: \iracket{cadddr}, \iracket{caaar}, \ldots
+    \item check if a variable is a pair: \iracket{pair?}
     \item pairs are immutable
   \end{itemize}
 
@@ -295,6 +301,8 @@ null ; => '()
 (cons 1 2) ; => '(1 . 2)
 (car '(1 . 2)) ; => 1
 (cdr '(1 . 2)) ; => 2
+(pair? '(1 . 2)) ; => #t
+(pair? 1) ; => #f
 (caar '((1 . 2) . 3)) ; => 1
 (cadr '((1 . 2) . 3)) ; => 2
 (cdar '((1 . 2) . 3)) ; => 2
@@ -327,6 +335,8 @@ null ; => '()
 
   \begin{itemize}
     \item list length: \iracket{length}
+    \item check if a variable is a list: \iracket{list?}
+    \item check if a list is empty: \iracket{empty?}
     \item add an element at the beginning: \iracket{cons}
     \item add an element at the end: \iracket{append}
     \item get the elements after the first: \iracket{rest <list>}
@@ -342,8 +352,12 @@ null ; => '()
     \item get the reverse of a list: \iracket{reverse <list>}
   \end{itemize}
 
+  \breakcolumn
+
   \begin{lstlisting}[language=Racket]
 (length '(1 2 3)) ; => 3
+(list? '(1 2 3)) ; => #t
+(empty? '(1 2 3)) ; => #f
 (cons 1 '(2 3)) ; => '(1 2 3)
 (append '(1 2) '(3 4)) ; => '(1 2 3 4)
 (first '(1 2 3)) ; => 1
@@ -384,6 +398,8 @@ null ; => '()
 (vector-ref '#(1 2 3) 0) ; => 1
   \end{lstlisting}
 
+  \breakcolumn
+
   \subsubsection{Sets}
 
   \begin{itemize}
@@ -404,8 +420,6 @@ null ; => '()
 (set-member? (set 1 2 3) 2) ; => #t
   \end{lstlisting}
 
-  \breakcolumn
-
   \subsubsection{Hash}
 
   \begin{itemize}
@@ -417,12 +431,14 @@ null ; => '()
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
-(hash 1 2 3 4) ; => '#hash((1 . 2) (3 . 4))
-(hash-set (hash 1 2 3 4) 5 6) ; => '#hash((1 . 2) (3 . 4) (5 . 6))
-(hash-remove (hash 1 2 3 4) 3) ; => '#hash((1 . 2) (4 . 4))
-(hash-ref (hash 1 2 3 4) 1) ; => 2
-(hash-has-key? (hash 1 2 3 4) 1) ; => #t
+(define (h) (hash 'a 1 'b 2))
+(hash-set (h) 'c 3) ; => '#hash((a . 1) (b . 2) (c . 3))
+(hash-remove (h) 'b) ; => '#hash((a . 1))
+(hash-ref (h) 'a) ; => 1
+(hash-has-key? (h) 'a) ; => #t
   \end{lstlisting}
+
+  \breakcolumn
 
   \subsection{Control flow}
 
@@ -443,8 +459,6 @@ null ; => '()
 (unless #t 1) ; => #<void>
 (unless #f 1) ; => 1
   \end{lstlisting}
-
-  \breakcolumn
 
   \paragraph{cond - case}
 
@@ -497,7 +511,7 @@ null ; => '()
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
-;; named let
+; named let
 (let label ((x 0)) ; initialize x as 0
 (when (< x 10) ; iterate while x < 10
   (display x) ; print x
@@ -558,7 +572,7 @@ null ; => '()
       (let loop ()          ; expansion of P
         (when condition
           ((begin body ...
-                  (loop))))))))
+            (loop))))))))
   \end{lstlisting}
 
   \subsection{Continuations}
@@ -581,8 +595,43 @@ null ; => '()
   \end{itemize}
 
   \begin{lstlisting}[language=Racket]
-(with-handlers ([exn:fail? (lambda (e) (printf "error: ~a\n" e))])
-  (raise (exn:fail "error message"))) ; => error: error message
+(with-handlers
+  ([exn:fail?
+    (lambda (e) (printf "error: ~a\n" e))])
+  (raise (exn:fail "error message")))
+; => error: error message
+  \end{lstlisting}
+
+  \breakcolumn
+
+  \subsection{Examples}
+
+  \subsubsection{Call with current continuation}
+
+  \begin{itemize}
+    \item This example shows how to use continuations to implement a break statement via garbage collection strategy
+    \item Other strategies are also possible, such as using a stack
+  \end{itemize}
+
+  \begin{lstlisting}[language=Racket]
+; for with break definition
+(define-syntax For
+  (syntax-rules (from to break : do)
+    ((_ var from min to max break : br-sym do body ...)
+    (let * ((min1 min)
+      (max1 max)
+      (inc (if (< min1 max1) + -)))
+    (call/cc (lambda (br-sym)
+      (let loop ((var min1))
+        body ...
+        (unless (= var max1)
+          (loop (inc var 1))))))))))
+
+; code usage
+(For i from 1 to 10 break : get-out
+  do (displayln i)
+    (when (= i 5)
+      (get-out)))
   \end{lstlisting}
 
 \end{multicols*}
@@ -592,6 +641,17 @@ null ; => '()
 \section{Haskell}
 
 \begin{multicols*}{2}
+
+  \subsection{About Nomenclature}
+
+  To avoid further confusion, here is a comparison between Haskell and generic OOP \textit{(object oriented programming)} language nomenclature:
+
+  \begin{itemize}
+    \item an OOP \texttt{class} is a Haskell \texttt{interface}
+    \item an OOP \texttt{type} is a Haskell \texttt{class}
+    \item an OOP \texttt{value} is a Haskell \texttt{object}
+    \item an OOP \texttt{method} is a Haskell \texttt{method}
+  \end{itemize}
 
   \subsection{Comments}
 
@@ -603,10 +663,11 @@ null ; => '()
 
   \begin{lstlisting}[language=Haskell]
 -- single line comment
-{- multi-line comment
+{-
+  multi-line comment
   can span
   multiple lines
-  end of comment -}
+-}
 \end{lstlisting}
 
   \subsection{Data types}
@@ -668,12 +729,11 @@ type Point = [(Float, Float)]
   \end{itemize}
 
   \begin{lstlisting}[language=Haskell]
-let x = 5 in x + 1 ; => 6
-let x = 5
-  y = 2
-in x + y ; => 7
+let x = 5 in x + 1 -- => 6
+let x = 5 y = 2
+in x + y -- => 7
 f x = x + 1
-where x = 5 ; => 6
+where x = 5 -- => 6
 \end{lstlisting}
 
   \subsubsection{Equivalence}
@@ -687,7 +747,8 @@ where x = 5 ; => 6
   \begin{itemize}
     \item prefix operators can be converted into infix notation via backticks \ihaskell{`<operator>`}
     \item infix operators can be converted into prefix notation via parentheses \ihaskell{(<operator>)}
-    \item symbol \ihaskell{\$} is used to avoid parentheses by applying the function to the right
+    \item symbol \ihaskell{\$} is used to avoid parentheses by applying the function to the right first
+    \item symbol \ihaskell{.} is used to compose functions
   \end{itemize}
 
   \breakcolumn
@@ -709,21 +770,21 @@ where x = 5 ; => 6
   \end{itemize}
 
   \begin{lstlisting}[language=Haskell]
-3 + 2 ; => 5
-3 - 2 ; => 1
-3 * 2 ; => 6
-3 / 2 ; => 1.5
-3 ** 2 ; => 9.0
-exp 2 ; => 7.38905609893065
-log 10 ; => 2.302585092994046
-quot 5 2 ; => 2
-rem 5 2 ; => 1
-max 1 2 ; => 2
-min 1 2 ; => 1
-succ 5 ; => 6
-pred 5 ; => 4
-gcd 12 18 ; => 6
-lcm 12 18 ; => 36
+3 + 2 -- => 5
+3 - 2 -- => 1
+3 * 2 -- => 6
+3 / 2 -- => 1.5
+3 ** 2 -- => 9.0
+exp 2 -- => 7.38905609893065
+log 10 -- => 2.302585092994046
+quot 5 2 -- => 2
+rem 5 2 -- => 1
+max 1 2 -- => 2
+min 1 2 -- => 1
+succ 5 -- => 6
+pred 5 -- => 4
+gcd 12 18 -- => 6
+lcm 12 18 -- => 36
 \end{lstlisting}
 
   \paragraph{Operations on strings}
@@ -736,10 +797,10 @@ lcm 12 18 ; => 36
   \end{itemize}
 
   \begin{lstlisting}[language=Haskell]
-length "Hello, world!" ; => 13
-"Hello, " ++ "world!" ; => "Hello, world!"
-words "Hello world!" ; => ["Hello", "world!"]
-unwords ["Hello", "world!"] ; => "Hello world!"
+length "Hello, world!" -- => 13
+"Hello, " ++ "world!" -- => "Hello, world!"
+words "Hello world!" -- => ["Hello", "world!"]
+unwords ["Hello", "world!"] -- => "Hello world!"
 \end{lstlisting}
 
   \breakcolumn
@@ -752,11 +813,11 @@ unwords ["Hello", "world!"] ; => "Hello world!"
   \end{itemize}
 
   \begin{lstlisting}[language=Haskell]
-True && False ; => False
-True || False ; => True
-not True ; => False
-xor True False ; => True
-implies True False ; => False
+True && False -- => False
+True || False -- => True
+not True -- => False
+xor True False -- => True
+implies True False -- => False
 \end{lstlisting}
 
   \subsubsection{Types conversion}
@@ -778,13 +839,12 @@ implies True False ; => False
   \end{itemize}
 
   \begin{lstlisting}[language=Haskell]
-\x y -> x + y ; => \x y -> x + y
-
-length :: [a] -> Integer
+\x y -> x + y -- => \x y -> x + y
+length :: [a] -> Integer -- type annotation
 length [] = 0
 length (x:xs) = 1 + length xs
-1 == 1 ; => True
-"abc" == "abc" ; => True
+1 == 1 -- => True
+"abc" == "abc" -- => True
 \end{lstlisting}
 
   \subsection{Collections}
@@ -830,26 +890,26 @@ length (x:xs) = 1 + length xs
   \end{itemize}
 
   \begin{lstlisting}[language=Haskell]
-length [1, 2, 3] ; => 3
-reverse [1, 2, 3] ; => [3, 2, 1]
-[1, 2, 3] ++ [4, 5, 6] ; => [1, 2, 3, 4, 5, 6]
-1 : [2, 3] ; => [1, 2, 3]
-head [1, 2, 3] ; => 1
-last [1, 2, 3] ; => 3
-[1, 2, 3] !! 1 ; => 2
-take 2 [1, 2, 3] ; => [1, 2]
-drop 2 [1, 2, 3] ; => [3]
-tail [1, 2, 3] ; => [2, 3]
-splitAt 1 [1, 2, 3] ; => ([1], [2, 3])
-filter even [1, 2, 3, 4] ; => [2, 4]
-map (+1) [1, 2, 3] ; => [2, 3, 4]
-sum [1, 2, 3] ; => 6
-product [1, 2, 3] ; => 6
-null [] ; => True
-elem 1 [1, 2, 3] ; => True
-all even [2, 4, 6] ; => True
-any even [1, 2, 3] ; => True
-zip [1, 2, 3] [4, 5, 6] ; => [(1, 4), (2, 5), (3, 6)]
+length [1, 2, 3] -- => 3
+reverse [1, 2, 3] -- => [3, 2, 1]
+[1, 2, 3] ++ [4, 5, 6] -- => [1, 2, 3, 4, 5, 6]
+1 : [2, 3] -- => [1, 2, 3]
+head [1, 2, 3] -- => 1
+last [1, 2, 3] -- => 3
+[1, 2, 3] !! 1 -- => 2
+take 2 [1, 2, 3] -- => [1, 2]
+drop 2 [1, 2, 3] -- => [3]
+tail [1, 2, 3] -- => [2, 3]
+splitAt 1 [1, 2, 3] -- => ([1], [2, 3])
+filter even [1, 2, 3, 4] -- => [2, 4]
+map (+1) [1, 2, 3] -- => [2, 3, 4]
+sum [1, 2, 3] -- => 6
+product [1, 2, 3] -- => 6
+null [] -- => True
+elem 1 [1, 2, 3] -- => True
+all even [2, 4, 6] -- => True
+any even [1, 2, 3] -- => True
+zip [1, 2, 3] [4, 5, 6] -- => [(1, 4), (2, 5), (3, 6)]
 \end{lstlisting}
 
   \paragraph{Range notation}
@@ -866,11 +926,11 @@ zip [1, 2, 3] [4, 5, 6] ; => [(1, 4), (2, 5), (3, 6)]
 
   \begin{lstlisting}[language=Haskell]
 -- all the following instructions are lazily evaluated
-[1..10] ; => [1,2,3,4,5,6,7,8,9,10]
-[1,3..10] ; => [1,3,5,7,9]
-[1..] ; => [1,2,3,4,5,6,7,8,9,10,...]
-[1,3..] ; => [1,3,5,7,9,...]
-[1,1..] ; => [1,1,1,1,1,1,1,1,1,1,...]
+[1..10] -- => [1,2,3,4,5,6,7,8,9,10]
+[1,3..10] -- => [1,3,5,7,9]
+[1..] -- => [1,2,3,4,5,6,7,8,9,10,...]
+[1,3..] -- => [1,3,5,7,9,...]
+[1,1..] -- => [1,1,1,1,1,1,1,1,1,1,...]
 \end{lstlisting}
 
   \paragraph{List Comprehension}
@@ -881,8 +941,8 @@ zip [1, 2, 3] [4, 5, 6] ; => [(1, 4), (2, 5), (3, 6)]
   \end{itemize}
 
   \begin{lstlisting}[language=Haskell]
-[x | x <- [1..10], even x] ; => [2,4,6,8,10]
-[x * y | x <- [2,5,10], y <- [8,10,11]] ; => [16,20,22,40,50,55,80,100,110]
+[x | x <- [1..10], even x] -- => [2,4,6,8,10]
+[x * y | x <- [2,5], y <- [8,10]] -- => [16,20,40,50]
 \end{lstlisting}
 
   \subsection{Control flow}
@@ -897,8 +957,8 @@ zip [1, 2, 3] [4, 5, 6] ; => [(1, 4), (2, 5), (3, 6)]
 
   \begin{lstlisting}[language=Haskell]
 sign x | x > 0 = 1
-| x < 0 = -1
-| otherwise = 0
+       | x < 0 = -1
+       | otherwise = 0
 
 take 0 _ = []
 take _ [] = []
@@ -930,18 +990,18 @@ case x of
   \end{itemize}
 
   \begin{lstlisting}[language=Haskell]
-if True then 1 else 2 ; => 1
-when True 1 ; => 1
-unless False 1 ; => 1
+if True then 1 else 2 -- => 1
+when True 1 -- => 1
+unless False 1 -- => 1
 
 -- equivalent to
-if True then 1 else 2 ; => 1
-if True then 1 ; => 1
-if False then 1 ; => ()
+if True then 1 else 2 -- => 1
+if True then 1 -- => 1
+if False then 1 -- => ()
 
 -- equivalent to
-if True then 1 else 2 ; => 1
-if False then 2 else 1 ; => 1
+if True then 1 else 2 -- => 1
+if False then 2 else 1 -- => 1
 \end{lstlisting}
 
   \subsubsection{Loops}
@@ -954,9 +1014,9 @@ if False then 2 else 1 ; => 1
 
   \begin{lstlisting}[language=Haskell]
 for i <- [1..10] do
-print i ; => 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+print i -- => 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 for i <- [1..10], i `mod` 2 == 0 do
-print i ; => 2, 4, 6, 8, 10
+print i -- => 2, 4, 6, 8, 10
 \end{lstlisting}
 
   \breakcolumn
@@ -983,8 +1043,8 @@ comb (Just x) f = f x
   \end{itemize}
 
   \begin{lstlisting}[language=Haskell]
-foldr (+) 0 [1, 2, 3] ; => 6
-foldr (*) 1 [1, 2, 3] ; => 6
+foldr (+) 0 [1, 2, 3] -- => 6
+foldr (*) 1 [1, 2, 3] -- => 6
 \end{lstlisting}
 
   \begin{lstlisting}[language=Haskell]
@@ -1021,7 +1081,7 @@ instance Functor Tree where
 
   \begin{lstlisting}[language=Haskell]
 instance Applicative Maybe where
-    pure = Just
+    pure x = Just x
     (Just f) <*> something = fmap f something
     Nothing <*> _ = Nothing
 \end{lstlisting}
@@ -1085,6 +1145,50 @@ id x = x
 x + y = x + y
   \end{lstlisting}
 
+  \breakcolumn
+
+  \subsection{Examples}
+
+  \subsubsection{Tree}
+
+  \begin{lstlisting}[language=Haskell]
+-- define a tree
+data Tree a = Empty | Node a (Tree a) (Tree a) deriving (Show, Eq)
+
+-- make foldable, functor, applicative
+instance Foldable Tree where
+  foldr f z Empty = z
+  foldr f z (Node x l r) = foldr f (f x (foldr f z r)) l
+
+instance Functor Tree where
+  fmap f Empty = Empty
+  fmap f (Node x l r) = Node (f x) (fmap f l) (fmap f r)
+
+instance Applicative Tree where
+  pure x = Node x Empty Empty
+  Empty <*> _ = Empty
+  _ <*> Empty = Empty
+  (Node f fl fr) <*> (Node x l r) = Node (f x) (fl <*> l) (fr <*> r)
+
+-- a monad needs foldable, functor, and applicative to be defined
+instance Monad Tree where
+  return x = Node x Empty Empty
+  fail _ = Empty
+  Empty >>= _ = Empty
+  (Node x l r) >>= f = Node x (l >>= f) (r >>= f)
+
+-- make tree instance of equality
+instance Eq a => Eq (Tree a) where
+  Empty == Empty = True
+  (Node x l r) == (Node y l' r') = x == y && l == l' && r == r'
+  _ == _ = False
+
+-- make tree instance of show
+instance Show a => Show (Tree a) where
+  show Empty = "Empty"
+  show (Node x l r) = "Node " ++ show x ++ " (" ++ show l ++ ") (" ++ show r ++ ")"
+\end{lstlisting}
+
 \end{multicols*}
 
 \clearpage
@@ -1096,7 +1200,7 @@ x + y = x + y
   \subsection{Syntax}
 
   \begin{itemize}
-    \item period \ierlang{.} terminates expressions`'
+    \item period \ierlang{.} terminates expressions
     \item semicolon \ierlang{;} separates expressions branches and clauses
     \item comma \ierlang{,} separates alternate clauses
   \end{itemize}
@@ -1111,6 +1215,7 @@ x + y = x + y
   \begin{lstlisting}[language=Erlang]
 % single line comment
 %% sometimes the double percent is used
+%% no multi line comment support
 \end{lstlisting}
 
   \subsection{Data types}
@@ -1136,9 +1241,9 @@ x + y = x + y
   \end{itemize}
 
   \begin{lstlisting}[language=Erlang]
-atom ; => atom
-'atom' ; => atom
-'ATOM' ; => 'ATOM'
+atom % => atom
+'atom' % => atom
+'ATOM' % => 'ATOM'
 \end{lstlisting}
 
   \breakcolumn
@@ -1173,7 +1278,7 @@ atom ; => atom
 
   \begin{lstlisting}[language=Erlang]
 % assumption:factorial is defined in the current module
-apply($MODULE, factorial, [5]) ; => 120
+apply($MODULE, factorial, [5]) % => 120
 \end{lstlisting}
 
   \subsubsection{Function Guards}
@@ -1207,9 +1312,9 @@ apply($MODULE, factorial, [5]) ; => 120
   \end{itemize}
 
   \begin{lstlisting}[language=Erlang]
-my_module:my_function(1, 2, 3) ; => 6
+my_module:my_function(1, 2, 3) % => 6
 -import(my_module, [my_function/3]).
-my_function(1, 2, 3) ; => 6
+my_function(1, 2, 3) % => 6
 \end{lstlisting}
 
   \subsection{Variables}
@@ -1221,8 +1326,8 @@ my_function(1, 2, 3) ; => 6
   \end{itemize}
 
   \begin{lstlisting}[language=Erlang]
-X = 5 ; => X = 5
-A_very_long_variable_name = 5 ; => A_very_long_variable_name = 5
+X = 5 % => X = 5
+Long_variable_name = 5 % => Long_variable_name = 5
   \end{lstlisting}
 
   \subsection{Collections}
@@ -1237,8 +1342,8 @@ A_very_long_variable_name = 5 ; => A_very_long_variable_name = 5
   \end{itemize}
 
   \begin{lstlisting}[language=Erlang]
-[1, 2, 3] ; => [1, 2, 3]
-[1, [2, 3]] ; => [1, [2, 3]]
+[1, 2, 3] % => [1, 2, 3]
+[1, [2, 3]] % => [1, [2, 3]]
 \end{lstlisting}
 
   \breakcolumn
@@ -1255,6 +1360,7 @@ A_very_long_variable_name = 5 ; => A_very_long_variable_name = 5
     \item get the first n elements: \ierlang{lists:sublist(<list>, 0, <n>)}
     \item append two lists: \ierlang{lists:append(<list1>, <list2>)}
     \item concatenate two lists: \ierlang{<list1> ++ <list2>}
+
     \item delete the first occurrence of an element: \ierlang{lists:delete(<element>, <list>)}
     \item delete the last element of a list: \ierlang{lists:droplast(<list>)}
     \item delete the first element of a list: \ierlang{lists:drop(<list>)}
@@ -1275,8 +1381,8 @@ A_very_long_variable_name = 5 ; => A_very_long_variable_name = 5
   \end{itemize}
 
   \begin{lstlisting}[language=Erlang]
-lists:foldl(fun(X, Acc) -> X + Acc end, 0, [1, 2, 3]) ; => 6
-lists:foldr(fun(X, Acc) -> X + Acc end, 0, [1, 2, 3]) ; => 6
+lists:foldl(fun(X, Acc) -> X + Acc end, 0, [1, 2, 3]) % => 6
+lists:foldr(fun(X, Acc) -> X + Acc end, 0, [1, 2, 3]) % => 6
 \end{lstlisting}
 
   \subsubsection{Tuples}
@@ -1288,8 +1394,8 @@ lists:foldr(fun(X, Acc) -> X + Acc end, 0, [1, 2, 3]) ; => 6
   \end{itemize}
 
   \begin{lstlisting}[language=Erlang]
-{1, 2, 3} ; => {1, 2, 3}
-{1, {2, 3}} ; => {1, {2, 3}}
+{1, 2, 3} % => {1, 2, 3}
+{1, {2, 3}} % => {1, {2, 3}}
 \end{lstlisting}
 
   \breakcolumn
@@ -1304,7 +1410,7 @@ lists:foldr(fun(X, Acc) -> X + Acc end, 0, [1, 2, 3]) ; => 6
 
   \begin{lstlisting}[language=Erlang]
 -record(point, {x, y}).
-#point.x ; => x
+#point.x % => x
 \end{lstlisting}
 
   \subsubsection{Maps}
@@ -1392,11 +1498,13 @@ end.
 
   \begin{lstlisting}[language=Erlang]
 while(X) ->
-    if
-        X > 0 -> io:format("~p~n", [X]),
-        while(X - 1);
-        true -> ok.
-    end.
+  if
+    X > 0 ->
+      io:format("~p~n", [X]),
+      while(X - 1);
+    true -> % this is the default case
+      ok.
+  end.
   \end{lstlisting}
 
   \breakcolumn
@@ -1413,7 +1521,8 @@ for(X) ->
 
 for(X, N) when N < X ->
     io:format("~p~n", [N]),
-    for(X, N + 1);
+    for(X, N + 1).
+
 for(_, _) ->
     ok.
   \end{lstlisting}
@@ -1427,9 +1536,9 @@ for(_, _) ->
     \item messages are received via \ierlang{receive <pattern> -> <then>; ... end}
   \end{itemize}
 
-  \subsection{Examples}
+  \breakcolumn
 
-  This section is not present for other languages, but I feel like there's no other way to explain important concepts (for the exam) in Erlang.
+  \subsection{Examples}
 
   \subsubsection{Echo process}
 
@@ -1457,17 +1566,18 @@ loop() ->
   end.
 \end{lstlisting}
 
+  \breakcolumn
+
   \subsubsection{Client-server}
 
   \begin{itemize}
     \item requests have syntax \ierlang{\{request, <data>\}}
     \item responses have syntax \ierlang{\{response, <data>\}}
+    \item note: both server and client run on the same machine; there's no actual way to communicate between different machines
   \end{itemize}
 
   \begin{lstlisting}[language=Erlang]
-%% this snippet contains the server code
--module(my_server).
--export([start/0, server/1]).
+%% server code
 server(Data) ->
   receive
     {From, {request, X}} ->
@@ -1478,12 +1588,8 @@ server(Data) ->
     {From, stop} ->
       From ! {my_server, stopped}
   end.
-\end{lstlisting}
 
-  \begin{lstlisting}[language=Erlang]
-%% this snippet contains the client code
--module(my_client).
--export([start/0, client/1]).
+%% client code
 client(Server) ->
   Server ! {self(), {request, 1}},
   receive
@@ -1507,28 +1613,31 @@ start() ->
 
 \clearpage
 
-\begin{multicols*}{2}
+\section{Latest version, Credits and License}
 
-  \section{Latest version, Credits and License}
+\subsection{Latest version and Contributions}
 
-  \subsection{Latest version}
+This document has been compiled on \today;
+the latest version is available at \url{https://github.com/lorossi/principles-of-programming-languages-reference}.
 
-  The latest version of this document is available at \url{https://github.com/lorossi/principles-of-programming-languages-reference}.
-  This document has been compiled on \today.
+If you see any error, want to contribute or have any suggestion, feel free to open an issue or a pull request there!
+I tried very hard to keep consistency between the three languages, but I'm sure there are some errors.
 
-  If you see any error, want to contribute or have any suggestion, feel free to open an issue or a pull request there!
+\bigskip
 
-  \subsection{Credits}
+\subsection{Credits}
 
-  Some of the examples of the code are taken from the slides provided by the professor and his lesson of \textit{Principles of Programming Languages} by Politecnico di Milano, Prof. Matteo Pradella.
+Some of the examples of the code are taken from the slides and the lessons of \textit{Principles of Programming Languages} course by Prof. Matteo Pradella, Politecnico di Milano, A.Y. 2023/2024.
 
-  \subsection{License}
+The font used in this document is \textit{Roboto Light Condensed}, available at \url{https://fonts.google.com/specimen/Roboto}.
 
-  The content of this document is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. To view a copy of this license, visit \url{https://creativecommons.org/licenses/by-sa/4.0/}
-  \ccbysa
+\bigskip
 
-  All the source code in this document and the snippets included in the repository are licensed under the MIT License. To view a copy of this license, visit \url{https://opensource.org/licenses/MIT}.
+\subsection{License}
 
-\end{multicols*}
+The content of this document is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. To view a copy of this license, visit \url{https://creativecommons.org/licenses/by-sa/4.0/}
+\ccbysa
+
+All the source code in this document and the snippets included in the repository are licensed under the MIT License. To view a copy of this license, visit \url{https://opensource.org/licenses/MIT}.
 
 \end{document}
