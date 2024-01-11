@@ -3,9 +3,7 @@ Script used to sort keywords for the latex definition of \
 various languages in lstlisting (see settings.sty).
 
 All the keywords are TEMPORARILY stored in a file called "keywords"; \
-another file can be specified as argument.
-After sorting, the keywords are stored in a file called "sorted-keywords" \
-(or "sorted-<file_name>" if another file is specified as argument).
+another file can be specified as argument; the file gets overwritten.
 """
 
 import sys
@@ -21,11 +19,10 @@ def main(file_name: str):
         return
 
     keywords = [k.strip() for k in data.replace("\n", ",").split(",") if k.strip()]
-    sorted_keywords = sorted(set(keywords), key=lambda k: (len(k), k.lower()))
-    keywords_str = ", ".join(sorted_keywords) + ","
+    sorted_keywords = sorted(set(keywords), key=lambda k: k.lower().replace("\\", ""))
+    keywords_str = ", ".join(sorted_keywords)
 
-    out_file_name = f"sorted-{file_name}"
-    with open(out_file_name, "w") as f:
+    with open(file_name, "w") as f:
         f.write(keywords_str)
 
 
