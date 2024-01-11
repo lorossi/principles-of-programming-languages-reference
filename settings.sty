@@ -67,22 +67,36 @@
 \lstset{style=custom}
 % lstlisting inline default style
 % racket language, based on https://github.com/stuhlmueller/scheme-listings
-\lstdefinelanguage{Racket}{
-  morekeywords={=, do, if, or, and, car, cdr, eq?, exp, for, gcd, lcm, let, log, map, max, min, not, set, xor, add1, caar, cadr, case, cdar, cddr, cond, cons, drop, else, eqv?, eval, expt, fold, hash, last, let*, list, null, odd?, rest, set!, sub1, take, when, apply, begin, caaar, caadr, cadar, caddr, cdaar, cdadr, cddar, cdddr, cons?, count, delay, even?, first, foldl, foldr, force, list?, match, pair?, print, query, quote, raise, save!, true?, zero?, append, caaaar, caaadr, caadar, caaddr, cadaar, cadadr, caddar, cadddr, cdaaar, cdaadr, cdadar, cdaddr, cddaar, cddadr, cdddar, cddddr, define, empty?, equal?, export, false?, filter, import, in-set, lambda, length, letrec, printf, struct, syntax, unless, call/cc, display, implies, in-hash, in-list, letrec*, newline, println, reverse, set-add, unquote, for-each, hash-ref, hash-set, in-range, list-ref, quotient, displayln, in-string, in-vector, list->set, list-tail, negative?, positive?, remainder, immutable?, let-syntax, let-values, quasiquote, set-remove, string-ref, vector-ref, environment, hash-remove, let*-values, set-member?, vector-set!, define-macro, list->string, list->vector, string->list, syntax-rules, vector->list, define-stream, define-syntax, hash-has-key?, letrec-syntax, stream-lambda, string-append, string-length, with-handlers, exact->inexact, float->integer, inexact->exact, integer->float, string->vector, vector->string, unquote-splicing, integer->rational, rational->integer, call-with-input-file, call-with-output-file, call-with-current-continuation,}
-  alsodigit=*!?\$\%&*+-./:<=>?@^_~,
-  alsoletter=!?>+-\$*/=,
+\lstdefinelanguage{CustomRacket}{
+  alsoletter={!, ', *, +, -, /, :, =, >, ?},
+  morekeywords={=, add1, and, append, apply, begin, build-list, caaaar, caaadr, caaar, caadar, caaddr, caadr, caar, cadaar, cadadr, cadar, caddar, cadddr, caddr, cadr, call-with-current-continuation, call-with-input-file, call-with-output-file, call/cc, car, case, cdaaar, cdaadr, cdaar, cdadar, cdaddr, cdadr, cdar, cddaar, cddadr, cddar, cdddar, cddddr, cdddr, cddr, cdr, cond, cons, cons?, count, define, define-macro, define-stream, define-syntax, delay, display, displayln, do, drop, else, empty?, environment, eq?, equal?, eqv?, eval, even?, exact->inexact, exp, export, expt, false?, filter, first, float->integer, fold, foldl, foldr, for, for-each, force, gcd, hash, hash-has-key?, hash-ref, hash-remove, hash-set, if, immutable?, implies, import, in-hash, in-list, in-range, in-set, in-string, in-vector, inexact->exact, integer->float, integer->rational, lambda, last, lcm, length, let, let*, let*-values, let-syntax, let-values, letrec, letrec*, letrec-syntax, list, list->set, list->string, list->vector, list-ref, list-tail, list?, log, make-list, map, match, max, min, negative?, newline, not, null, odd?, or, pair?, positive?, print, printf, println, quasiquote, query, quote, quotient, raise, rational->integer, remainder, rest, reverse, save!, set, set!, set-add, set-member?, set-remove, stream-lambda, string->list, string->vector, string-append, string-length, string-ref, struct, sub1, syntax, syntax-rules, take, true?, unless, unquote, unquote-splicing, vector->list, vector->string, vector-ref, vector-set!, when, with-handlers, xor, zero?}
   sensitive=true,
   morecomment=[l]{;},
   morecomment=[s]{\#|}{|\#},
   morestring=[b]",
 }
+\lstdefinelanguage{CustomHaskell}{
+  language=Haskell,
+  alsoletter={!, \$, &, *, +, -, ., :, <, =, >, [, ], |},
+  morekeywords={!!, \$, &&, ++, ->, ., :, ::, <*>, <-, >>=, [], Applicative, fmap, for, implies, not, xor, ||}
+}
+\lstdefinelanguage{CustomErlang}{
+  language=Erlang,
+  alsoletter={!, \$, +, -, /, :, =, >},
+  morekeywords={!\$MODULE, ++, ->, -import, :=, =/=, =:=, ==, =>, for, is_atom, is_float, is_integer, is_list, is_map, is_number, is_tuple, lists:append, lists:delete, lists:drop, lists:droplast, lists:filter, lists:first, lists:flatten, lists:foldl, lists:foldr, lists:foreach, lists:last, lists:map, lists:max, lists:min, lists:nth, lists:sublist}
+}
 % command to switch column
 \newcommand{\breakcolumn}{\vspace*{\fill}\columnbreak}
 % command for inline code
 \newcommand{\icode}[2]{\lstinline[language=#1]!#2!}
-\newcommand{\iracket}[1]{\icode{Racket}{#1}}
-\newcommand{\ihaskell}[1]{\icode{Haskell}{#1}}
-\newcommand{\ierlang}[1]{\icode{Erlang}{#1}}
+\newcommand{\iracket}[1]{\icode{CustomRacket}{#1}}
+\newcommand{\ihaskell}[1]{\icode{CustomHaskell}{#1}}
+\newcommand{\ierlang}[1]{\icode{CustomErlang}{#1}}
+% command for code block
+\lstnewenvironment{code}[1]{\lstset{language=#1}}{}
+\lstnewenvironment{racket}{\lstset{language=CustomRacket}}{}
+\lstnewenvironment{haskell}{\lstset{language=CustomHaskell}}{}
+\lstnewenvironment{erlang}{\lstset{language=CustomErlang}}{}
 % placeholder for missing content: MISSING in bold red
 \newcommand{\missing}{\textcolor{red}{\large\xspace\textbf{MISSING}}\xspace}
 % placeholder for TODO: TODO in bold orange
