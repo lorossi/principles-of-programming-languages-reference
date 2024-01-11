@@ -16,15 +16,15 @@
     \item multi-line comments can be nested
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
-; single line comment
-#|
-  multi-line-comment
-	can span
-	multiple lines
-  end of comment
-|#
-\end{lstlisting}
+  \begin{racket}
+    ; single line comment
+    #|
+    multi-line-comment
+    can span
+    multiple lines
+    end of comment
+    |#
+  \end{racket}
 
   \subsection{Data types}
 
@@ -32,7 +32,7 @@
     \item typing is dynamic
     \item types:
           \begin{itemize}
-            \item boolean: \iracket{#t, #f}
+            \item boolean: \iracket{#\\t, #\\f}
             \item integer: \iracket{9125}
             \item binary: \iracket{#b10001110100101}
             \item octal: \iracket{#o21645}
@@ -40,19 +40,19 @@
             \item real: \iracket{91.25}
             \item rational: \iracket{91/25}
             \item complex: \iracket{91+25i}
-            \item character: \lstinline[language=Racket, mathescape=true]!#\A, #\$\lambda$, #\u30BB!
+            \item character: \lstinline[language=CustomRacket, mathescape=true]!#\A, #\$\lambda$, #\u30BB!
             \item null element: \iracket{'(), null}
             \item string: \iracket{"Hello, world!"}
           \end{itemize}
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
+  \begin{racket}
 (define x 5) ; => x = 5
 (define y "Hello, world!") ; => y = "Hello, world!"
-(define z #t) ; => z = #t
+(define z #\t) ; => z = #\t
 (define w #\A) ; => w = #\A
 null ; => '()
-\end{lstlisting}
+\end{racket}
 
   \breakcolumn
 
@@ -65,10 +65,10 @@ null ; => '()
     \item recursive binding: \iracket{letrec}
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
-(let ((x 5) (y 2)) (list x y)) ; => '(5 2)
-(let* ((x 1) (y (add x))) (list x y)) ; // '(1 2)
-\end{lstlisting}
+  \begin{racket}
+(let ((x 5) (y 2)) (printf "~a ~a~n" x y)) ; => 5 2
+(let* ((x 1) (y (add1 x))) (printf "~a ~a~n" x y)) ; => 1 2
+\end{racket}
 
   \subsubsection{Datum evaluation}
 
@@ -78,10 +78,10 @@ null ; => '()
     \item \iracket{quasiquote <datum>} or \iracket{,@<datum>} allows to apply the unquote where needed
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
+  \begin{racket}
 '(1 2 3); => (1 2 3)
 (1 ,(+ 1 1) 3) ; => '(1 2 3)
-\end{lstlisting}
+  \end{racket}
 
   \subsubsection{Equivalence}
 
@@ -92,12 +92,12 @@ null ; => '()
     \item objects equivalence: \iracket{equal?}
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
-(= 1 1) ; => #t
-(eq? 1 0) ; => #f
-(eqv? 'yes 'yes) ; => #t
-(equal? 'yes 'no) ; => #f
-\end{lstlisting}
+  \begin{racket}
+(= 1 1) ; => #\t
+(eq? 1 0) ; => #\f
+(eqv? 'yes 'yes) ; => #\t
+(equal? 'yes 'no) ; => #\f
+\end{racket}
 
   \subsubsection{Basic operations}
 
@@ -123,7 +123,7 @@ null ; => '()
     \item least common multiple: \iracket{lcm}
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
+  \begin{racket}
 (+ 1 2 3) ; => 6
 (- 1 2 3) ; => -4
 (expt 2 3) ; => 8
@@ -137,7 +137,7 @@ null ; => '()
 (sub1 5) ; => 4
 (gcd 12 18) ; => 6
 (lcm 12 18) ; => 36
-\end{lstlisting}
+\end{racket}
 
   \paragraph{Operations on strings}
 
@@ -149,13 +149,13 @@ null ; => '()
     \item get n-th character: \iracket{string-ref}
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
+  \begin{racket}
 (string-length "Hello, world!") ; => 13
 (string-append "Hello, " "world!") ; => "Hello, world!"
 (string->list "Hello") ; => '(#\H #\e #\l #\l #\o)
 (list->string '(#\H #\e #\l #\l #\o)) ; => "Hello"
 (string-ref "Hello" 0) ; => #\H
-\end{lstlisting}
+\end{racket}
 
   \paragraph{Operations on bools}
 
@@ -164,13 +164,13 @@ null ; => '()
     \item implication: \iracket{implies}
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
-(and #t #f) ; => #f
-(or #t #f) ; => #t
-(not #t) ; => #f
-(xor #t #f) ; => #t
-(implies #t #f) ; => #f
-\end{lstlisting}
+  \begin{racket}
+(and #\t #\f) ; => #\f
+(or #\t #\f) ; => #\t
+(not #\t) ; => #\f
+(xor #\t #\f) ; => #\t
+(implies #\t #\f) ; => #\f
+\end{racket}
 
   \subsubsection{Types conversion}
 
@@ -196,15 +196,15 @@ null ; => '()
     \item check if an object is immutable \iracket{immutable?}
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
-(even? 2) ; => #t
-(odd? 2) ; => #f
-(true? #t) ; => #t
-(false? #t) ; => #f
-(positive? 1) ; => #t
-(negative? 1) ; => #f
-(zero? 1) ; => #f
-\end{lstlisting}
+  \begin{racket}
+(even? 2) ; => #\t
+(odd? 2) ; => #\f
+(true? #\t) ; => #\t
+(false? #\t) ; => #\f
+(positive? 1) ; => #\t
+(negative? 1) ; => #\f
+(zero? 1) ; => #\f
+\end{racket}
 
   \breakcolumn
 
@@ -216,13 +216,13 @@ null ; => '()
     \item old way: \iracket{define <name> (lambda (<arg1> <arg2> ...) <body>)}
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
+  \begin{racket}
 ; anonymous function
 ((lambda (x) (+ x 3)) 5); => 8
 ; named function
 (define (add3 x) (+ x 3))
 (add3 5) ; => 8
-\end{lstlisting}
+\end{racket}
 
   \subsubsection{Higher order functions}
 
@@ -236,13 +236,13 @@ null ; => '()
     \item \iracket{foldr} has space complexity \(O(n)\)
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
+  \begin{racket}
 (map add1 '(1 2 3)) ; => '(2 3 4)
 (filter even? '(1 2 3 4)) ; => '(2 4)
 (apply append '((1 2) (3 4))) ; => '(1 2 3 4)
 (foldl + 0 '(1 2 3)) ; => 6
 (foldr + 0 '(1 2 3)) ; => 6
-\end{lstlisting}
+\end{racket}
 
   \subsection{Mutation}
 
@@ -252,12 +252,12 @@ null ; => '()
     \item \iracket{vector-set\!} is used to mutate vectors
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
+  \begin{racket}
 (define x 5) ; => x = 5
 (set! x 6) ; => x = 6
 (define v (vector 2 2 3 4)) ; => v = '#(2 2 3 4)
 (vector-set! v 0 1) ; => v = '#(1 2 3 4)
-\end{lstlisting}
+\end{racket}
 
   \breakcolumn
 
@@ -275,16 +275,16 @@ null ; => '()
     \item use \iracket{#:mutable} keyword on struct or field to make it mutable
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
+  \begin{racket}
 (struct point (x y)) ; => point
 (define p (point 1 2)) ; => p = (point 1 2)
 (point-x p) ; => 1
-(point? p) ; => #t
+(point? p) ; => #\t
 
 (struct mut-point (x y #:mutable)) ; => point
 (define mp (mut-point 1 2)) ; => mp = (mut-point 1 2)
 (set-mut-point-x! mp 5) ; => mp = (mut-point 5 2)
-\end{lstlisting}
+\end{racket}
 
   \subsubsection{Pairs}
 
@@ -297,17 +297,17 @@ null ; => '()
     \item pairs are immutable
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
+  \begin{racket}
 (cons 1 2) ; => '(1 . 2)
 (car '(1 . 2)) ; => 1
 (cdr '(1 . 2)) ; => 2
-(pair? '(1 . 2)) ; => #t
-(pair? 1) ; => #f
+(pair? '(1 . 2)) ; => #\t
+(pair? 1) ; => #\f
 (caar '((1 . 2) . 3)) ; => 1
 (cadr '((1 . 2) . 3)) ; => 2
 (cdar '((1 . 2) . 3)) ; => 2
 (cddr '((1 . 2) . 3)) ; => 3
-\end{lstlisting}
+\end{racket}
 
   \breakcolumn
 
@@ -326,10 +326,12 @@ null ; => '()
           \end{itemize}
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
+  \begin{racket}
 '(1 2 3) ; => '(1 2 3)
 '(1 . (2 . (3 . ()))) ; => '(1 2 3)
-\end{lstlisting}
+(build-list 3 (lambda (x) (* x 2))) ; => '(0 2 4)
+(make-list 3 7) ; => '(7 7 7)
+\end{racket}
 
   \paragraph{Operations on lists}
 
@@ -354,10 +356,10 @@ null ; => '()
 
   \breakcolumn
 
-  \begin{lstlisting}[language=Racket]
+  \begin{racket}
 (length '(1 2 3)) ; => 3
-(list? '(1 2 3)) ; => #t
-(empty? '(1 2 3)) ; => #f
+(list? '(1 2 3)) ; => #\t
+(empty? '(1 2 3)) ; => #\f
 (cons 1 '(2 3)) ; => '(1 2 3)
 (append '(1 2) '(3 4)) ; => '(1 2 3 4)
 (first '(1 2 3)) ; => 1
@@ -371,7 +373,7 @@ null ; => '()
 (map add1 '(1 2 3)) ; => '(2 3 4)
 (reverse '(1 2 3)) ; => '(3 2 1)
 (rest '(1 2 3)) ; => '(2 3)
-\end{lstlisting}
+\end{racket}
 
   \paragraph{Lists folding}
 
@@ -380,10 +382,10 @@ null ; => '()
     \item lists can be folded from the right with \iracket{foldr}
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
+  \begin{racket}
 (foldl + 0 '(1 2 3 4)) ; => 10
 (foldr * 1 '(1 2 3 4)) ; => 24
-  \end{lstlisting}
+  \end{racket}
 
   \subsubsection{Vectors}
 
@@ -393,10 +395,10 @@ null ; => '()
     \item vector are immutable, fixed size and zero-indexed
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
+  \begin{racket}
 #(1 2 3) ; => '#(1 2 3)
 (vector-ref '#(1 2 3) 0) ; => 1
-  \end{lstlisting}
+  \end{racket}
 
   \breakcolumn
 
@@ -412,13 +414,13 @@ null ; => '()
     \item methods return a new set instead of changing the original one
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
+  \begin{racket}
 (set 1 2 3) ; => '#(1 2 3)
 (list->set '(1 2 3)) ; => '#(1 2 3)
 (set-add (set 1 2 3) 4) ; => '#(1 2 3 4)
 (set-remove (set 1 2 3) 2) ; => '#(1 3)
-(set-member? (set 1 2 3) 2) ; => #t
-  \end{lstlisting}
+(set-member? (set 1 2 3) 2) ; => #\t
+  \end{racket}
 
   \subsubsection{Hash}
 
@@ -430,13 +432,13 @@ null ; => '()
     \item test if a key is in the hash: \iracket{hash-has-key?}
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
+  \begin{racket}
 (define (h) (hash 'a 1 'b 2))
 (hash-set (h) 'c 3) ; => '#hash((a . 1) (b . 2) (c . 3))
 (hash-remove (h) 'b) ; => '#hash((a . 1))
 (hash-ref (h) 'a) ; => 1
-(hash-has-key? (h) 'a) ; => #t
-  \end{lstlisting}
+(hash-has-key? (h) 'a) ; => #\t
+  \end{racket}
 
   \breakcolumn
 
@@ -452,13 +454,13 @@ null ; => '()
     \item unless: \iracket{unless <predicate> <else>}
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
-(if #t 1 2) ; => 1
-(when #t 1) ; => 1
-(when #f 1) ; => #<void>
-(unless #t 1) ; => #<void>
-(unless #f 1) ; => 1
-  \end{lstlisting}
+  \begin{racket}
+(if #\t 1 2) ; => 1
+(when #\t 1) ; => 1
+(when #\f 1) ; => #<void>
+(unless #\t 1) ; => #<void>
+(unless #\f 1) ; => 1
+  \end{racket}
 
   \paragraph{cond - case}
 
@@ -470,16 +472,16 @@ null ; => '()
     \item in case, the value is evaluated against each clause whose quote is \iracket{eqv?}
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
+  \begin{racket}
 (case (+ 7 5)
   [(1 2 3) 'small]
   [(10 11 12) 'big]
   [else 'neither]) ; => 'big
 (let ((x 0))
   (cond ((positive? x) 'positive)
-    ((negative? x) 'negative)
-    (else 'zero))) ; => 'zero
-  \end{lstlisting}
+  ((negative? x) 'negative)
+  (else 'zero))) ; => 'zero
+  \end{racket}
 
   \paragraph{pattern matching}
 
@@ -487,17 +489,17 @@ null ; => '()
     \item match: \iracket{match <value> [<pattern> <then>] ... [_ <else-then>]}
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
-    (define (fizzbuzz? n)
-    (match (list (remainder n 3) (remainder n 5))
-      [(list 0 0) 'fizzbuzz]
-      [(list 0 _) 'fizz]
-      [(list _ 0) 'buzz]
-      [_          #f]))
+  \begin{racket}
+(define (fizzbuzz? n)
+  (match (list (remainder n 3) (remainder n 5))
+    [(list 0 0) 'fizzbuzz]
+    [(list 0 _) 'fizz]
+    [(list _ 0) 'buzz]
+    [_          #\f]))
 
-  (fizzbuzz? 15) ; => 'fizzbuzz
-  (fizzbuzz? 37) ; => #f
-  \end{lstlisting}
+(fizzbuzz? 15) ; => 'fizzbuzz
+(fizzbuzz? 37) ; => #\f
+  \end{racket}
 
   \breakcolumn
 
@@ -510,20 +512,14 @@ null ; => '()
     \item also available as named let
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
-; named let
-(let label ((x 0)) ; initialize x as 0
-(when (< x 10) ; iterate while x < 10
-  (display x) ; print x
-  (newline)
-  (label (+ x 1)))) ; increment x, go back to label
+  \begin{racket}
+(when #\t (printf "Hello, world!\n")) ; => Hello, world!
 
-(define (loop i)
-  (when (< i 10)
-    (printf "i=~a\n" i)
-    (loop (add1 i))))
-(loop 5) ; => i=5, i=6, i=7, i=8, i=9
-  \end{lstlisting}
+(let label ((x 0))      ; initialize x as 0
+  (when (< x 10)        ; iterate while x < 10
+    (printf "x=~a\n" x) ; print x
+    (label (+ x 1))))   ; increment x, go back to label
+  \end{racket}
 
   \paragraph{for}
 
@@ -533,7 +529,7 @@ null ; => '()
     \item for is available for other collections
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
+  \begin{racket}
 (for ([i 10])
   (printf "i=~a\n" i)) ; => i=0, i=1, ...
 (for ([i (in-range 5 10)])
@@ -553,7 +549,9 @@ null ; => '()
 
 (for ([(k v) (in-hash (hash 'a 1 'b 2 'c 3))])
   (printf "key:~a value:~a\n" k v))
-  \end{lstlisting}
+  \end{racket}
+
+  \breakcolumn
 
   \subsection{Macros and syntax rules}
 
@@ -565,7 +563,7 @@ null ; => '()
     \item the \iracket{_} operator is used to match any syntax object
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
+  \begin{racket}
 (define-syntax while
   (syntax-rules ()          ; no reserved keywords
     ((_ condition body ...) ; pattern P
@@ -573,7 +571,7 @@ null ; => '()
         (when condition
           ((begin body ...
             (loop))))))))
-  \end{lstlisting}
+  \end{racket}
 
   \subsection{Continuations}
 
@@ -594,17 +592,27 @@ null ; => '()
     \item catch an exception: \iracket{with-handlers}
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
+  \begin{racket}
 (with-handlers
   ([exn:fail?
     (lambda (e) (printf "error: ~a\n" e))])
   (raise (exn:fail "error message")))
 ; => error: error message
-  \end{lstlisting}
+  \end{racket}
 
   \breakcolumn
 
   \subsection{Examples}
+
+  \subsubsection{For via named let}
+
+  \begin{racket}
+(define (loop i j)
+  (when (< i j)
+    (printf "i=~a\n" i)
+    (loop (add1 i) j)))
+(loop 5 10) ; => i=5, i=6, i=7, i=8, i=9
+  \end{racket}
 
   \subsubsection{Call with current continuation}
 
@@ -613,7 +621,7 @@ null ; => '()
     \item Other strategies are also possible, such as using a stack
   \end{itemize}
 
-  \begin{lstlisting}[language=Racket]
+  \begin{racket}
 ; for with break definition
 (define-syntax For
   (syntax-rules (from to break : do)
@@ -632,7 +640,7 @@ null ; => '()
   do (displayln i)
     (when (= i 5)
       (get-out)))
-  \end{lstlisting}
+  \end{racket}
 
 \end{multicols*}
 
@@ -661,14 +669,14 @@ null ; => '()
 
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 -- single line comment
 {-
   multi-line comment
   can span
   multiple lines
 -}
-\end{lstlisting}
+\end{haskell}
 
   \subsection{Data types}
 
@@ -677,7 +685,7 @@ null ; => '()
     \item data type can be specified explicitly via type annotations \ihaskell{::}
     \item types:
           \begin{itemize}
-            \item boolean: \ihaskell{True, False}
+            \item boolean: \ihaskell{True}, \ihaskell{False}
             \item integer: \ihaskell{1, 2, 3}
             \item float, double: \ihaskell{1.0, 2.0, 3.0}
             \item complex: \ihaskell{1 :+ 2, 2 :+ 3, 3 :+ 4}
@@ -695,10 +703,10 @@ null ; => '()
     \item product type: \ihaskell{data <type> = <constructor> <field1> <field2> ...}
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 data Bool = True | False -- sum type
 data Point = Point Float Float -- product type
-\end{lstlisting}
+\end{haskell}
 
   \subsubsection{Recursive types}
 
@@ -706,9 +714,9 @@ data Point = Point Float Float -- product type
     \item syntax: \ihaskell{data <type> = <constructor> <field1> <field2> ... <type>}
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 data Tree a = Empty | Node a (Tree a) (Tree a)
-\end{lstlisting}
+\end{haskell}
 
   \subsubsection{Type Synonyms}
 
@@ -716,9 +724,9 @@ data Tree a = Empty | Node a (Tree a) (Tree a)
     \item syntax: \ihaskell{type <name> = <type>}
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 type Point = [(Float, Float)]
-\end{lstlisting}
+\end{haskell}
 
   \subsection{Variables}
 
@@ -728,13 +736,13 @@ type Point = [(Float, Float)]
     \item declaration with function body: \ihaskell{where}
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 let x = 5 in x + 1 -- => 6
 let x = 5 y = 2
 in x + y -- => 7
 f x = x + 1
 where x = 5 -- => 6
-\end{lstlisting}
+\end{haskell}
 
   \subsubsection{Equivalence}
 
@@ -769,7 +777,7 @@ where x = 5 -- => 6
     \item least common multiple: \ihaskell{lcm}
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 3 + 2 -- => 5
 3 - 2 -- => 1
 3 * 2 -- => 6
@@ -785,7 +793,7 @@ succ 5 -- => 6
 pred 5 -- => 4
 gcd 12 18 -- => 6
 lcm 12 18 -- => 36
-\end{lstlisting}
+\end{haskell}
 
   \paragraph{Operations on strings}
 
@@ -796,12 +804,12 @@ lcm 12 18 -- => 36
     \item list to string: \ihaskell{unwords}
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 length "Hello, world!" -- => 13
 "Hello, " ++ "world!" -- => "Hello, world!"
 words "Hello world!" -- => ["Hello", "world!"]
 unwords ["Hello", "world!"] -- => "Hello world!"
-\end{lstlisting}
+\end{haskell}
 
   \breakcolumn
 
@@ -812,20 +820,13 @@ unwords ["Hello", "world!"] -- => "Hello world!"
     \item implication: \ihaskell{implies}
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 True && False -- => False
 True || False -- => True
 not True -- => False
 xor True False -- => True
 implies True False -- => False
-\end{lstlisting}
-
-  \subsubsection{Types conversion}
-
-  \begin{itemize}
-    \item list to string: \ihaskell{show}
-    \item string to list: \ihaskell{read}
-  \end{itemize}
+\end{haskell}
 
   \subsection{Functions}
 
@@ -838,14 +839,14 @@ implies True False -- => False
           \end{itemize}
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 \x y -> x + y -- => \x y -> x + y
 length :: [a] -> Integer -- type annotation
 length [] = 0
 length (x:xs) = 1 + length xs
 1 == 1 -- => True
 "abc" == "abc" -- => True
-\end{lstlisting}
+\end{haskell}
 
   \subsection{Collections}
 
@@ -866,19 +867,18 @@ length (x:xs) = 1 + length xs
   \paragraph{Operations on lists}
 
   \begin{itemize}
-
     \item list length: \ihaskell{length <list>}
     \item get the reverse of a list: \ihaskell{reverse}
     \item concatenate two lists: \ihaskell{<list1> ++ <list2>}
     \item add an element: \ihaskell{<element> : <list>}
     \item get the first element: \ihaskell{head <list>}
     \item get the last element: \ihaskell{last <list>}
-    \item get the n-th element: \ihaskell{<list> !! <position>}
+    \item get the n-th element: \ihaskell{<list> \!\! <n>}
     \item get the first n elements: \ihaskell{take <list> <n>}
     \item delete the first \ihaskell{n} elements: \ihaskell{drop <n> <list>}
     \item get all the elements after the first: \ihaskell{tail}
     \item split a list in two: \ihaskell{splitAt <position> <list>}
-    \item apply a filter: \ihaskell{filter <predicate? <list>}
+    \item apply a filter: \ihaskell{filter <predicate> <list>}
     \item apply a function to each element: \ihaskell{map <function> <list>}
     \item sum a list: \ihaskell{sum <list>}
     \item product of a list: \ihaskell{product <list>}
@@ -889,7 +889,7 @@ length (x:xs) = 1 + length xs
     \item zip two lists: \ihaskell{zip <list1> <list2>}
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 length [1, 2, 3] -- => 3
 reverse [1, 2, 3] -- => [3, 2, 1]
 [1, 2, 3] ++ [4, 5, 6] -- => [1, 2, 3, 4, 5, 6]
@@ -910,7 +910,7 @@ elem 1 [1, 2, 3] -- => True
 all even [2, 4, 6] -- => True
 any even [1, 2, 3] -- => True
 zip [1, 2, 3] [4, 5, 6] -- => [(1, 4), (2, 5), (3, 6)]
-\end{lstlisting}
+\end{haskell}
 
   \paragraph{Range notation}
 
@@ -924,14 +924,14 @@ zip [1, 2, 3] [4, 5, 6] -- => [(1, 4), (2, 5), (3, 6)]
 
   To explicitly evaluate a finite list use the \ihaskell{init} function.
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 -- all the following instructions are lazily evaluated
 [1..10] -- => [1,2,3,4,5,6,7,8,9,10]
 [1,3..10] -- => [1,3,5,7,9]
 [1..] -- => [1,2,3,4,5,6,7,8,9,10,...]
 [1,3..] -- => [1,3,5,7,9,...]
 [1,1..] -- => [1,1,1,1,1,1,1,1,1,1,...]
-\end{lstlisting}
+\end{haskell}
 
   \paragraph{List Comprehension}
 
@@ -940,10 +940,10 @@ zip [1, 2, 3] [4, 5, 6] -- => [(1, 4), (2, 5), (3, 6)]
     \item syntax: \ihaskell{[<expression> | <generator>, <generator>, ...]}
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 [x | x <- [1..10], even x] -- => [2,4,6,8,10]
 [x * y | x <- [2,5], y <- [8,10]] -- => [16,20,40,50]
-\end{lstlisting}
+\end{haskell}
 
   \subsection{Control flow}
 
@@ -955,7 +955,7 @@ zip [1, 2, 3] [4, 5, 6] -- => [(1, 4), (2, 5), (3, 6)]
     \item character \ihaskell{_} matches everything \textit{(don't care)}
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 sign x | x > 0 = 1
        | x < 0 = -1
        | otherwise = 0
@@ -963,7 +963,7 @@ sign x | x > 0 = 1
 take 0 _ = []
 take _ [] = []
 take n (x:xs) = x : take (n - 1) xs
-\end{lstlisting}
+\end{haskell}
 
   \breakcolumn
 
@@ -974,12 +974,12 @@ take n (x:xs) = x : take (n - 1) xs
     \item the \ihaskell{_} pattern matches everything
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 case x of
   0 -> "zero"
   1 -> "one"
   _ -> "other"
-\end{lstlisting}
+\end{haskell}
 
   \subsubsection{Conditionals}
 
@@ -989,10 +989,10 @@ case x of
     \item unless: \ihaskell{unless <predicate> <else>}
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 if True then 1 else 2 -- => 1
-when True 1 -- => 1
-unless False 1 -- => 1
+  when True 1 -- => 1
+  unless False 1 -- => 1
 
 -- equivalent to
 if True then 1 else 2 -- => 1
@@ -1002,7 +1002,7 @@ if False then 1 -- => ()
 -- equivalent to
 if True then 1 else 2 -- => 1
 if False then 2 else 1 -- => 1
-\end{lstlisting}
+\end{haskell}
 
   \subsubsection{Loops}
 
@@ -1012,12 +1012,14 @@ if False then 2 else 1 -- => 1
     \item for is available for other collections
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
+-- for in a range
 for i <- [1..10] do
-print i -- => 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+  print i -- => 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+-- for in a range with condition
 for i <- [1..10], i `mod` 2 == 0 do
-print i -- => 2, 4, 6, 8, 10
-\end{lstlisting}
+  print i -- => 2, 4, 6, 8, 10
+\end{haskell}
 
   \breakcolumn
 
@@ -1028,11 +1030,11 @@ print i -- => 2, 4, 6, 8, 10
     \item the \ihaskell{do} notation is used to chain monadic actions
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 comb :: Maybe a -> (a -> Maybe b) -> Maybe b
 comb Nothing _ = Nothing
 comb (Just x) f = f x
-\end{lstlisting}
+\end{haskell}
 
   \subsubsection{Foldable}
 
@@ -1042,19 +1044,14 @@ comb (Just x) f = f x
     \item syntax: \ihaskell{foldr <function> <accumulator> <container>}
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
-foldr (+) 0 [1, 2, 3] -- => 6
-foldr (*) 1 [1, 2, 3] -- => 6
-\end{lstlisting}
-
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 data Tree a = Empty | Leaf a | Node (Tree a) a (Tree a)
 
 instance Foldable Tree where
   foldr f z Empty = z
   foldr f z (Leaf x) = f x z
   foldr f z (Node l k r) = foldr f (f k (foldr f z r)) l
-\end{lstlisting}
+\end{haskell}
 
   \subsubsection{Functor}
 
@@ -1063,12 +1060,12 @@ instance Foldable Tree where
     \item signature of \ihaskell{fmap}: \ihaskell{fmap :: (a -> b) -> f a -> f b}
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 instance Functor Tree where
-    fmap f Empty = Empty
-    fmap f (Leaf x) = Leaf (f x)
-    fmap f (Node l r) = Node (fmap f l) (fmap f r)
-\end{lstlisting}
+  fmap f Empty = Empty
+  fmap f (Leaf x) = Leaf (f x)
+  fmap f (Node l r) = Node (fmap f l) (fmap f r)
+\end{haskell}
 
   \breakcolumn
 
@@ -1079,12 +1076,12 @@ instance Functor Tree where
     \item is applied to type constructors that are parametric with one parameter
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 instance Applicative Maybe where
-    pure x = Just x
-    (Just f) <*> something = fmap f something
-    Nothing <*> _ = Nothing
-\end{lstlisting}
+  pure x = Just x
+  (Just f) <*> something = fmap f something
+  Nothing <*> _ = Nothing
+\end{haskell}
 
   \begin{itemize}
     \item \ihaskell{pure} takes a value and returns an applicative (\ihaskell{f}) with that value
@@ -1111,12 +1108,12 @@ instance Applicative Maybe where
     \item \ihaskell{do} notation is available for all monads
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 instance Monad Maybe where
-    return = Just
-    Nothing >>= _ = Nothing
-    (Just x) >>= f = f x
-\end{lstlisting}
+  return = Just
+  Nothing >>= _ = Nothing
+  (Just x) >>= f = f x
+\end{haskell}
 
   \breakcolumn
 
@@ -1135,7 +1132,7 @@ instance Monad Maybe where
     \item ad-hoc polymorphism: \ihaskell{<name> :: <type class> => <type> -> <type>}
   \end{itemize}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 -- parametric polymorphism
 id :: a -> a
 id x = x
@@ -1143,7 +1140,7 @@ id x = x
 -- ad-hoc polymorphism
 (+) :: Num a => a -> a -> a
 x + y = x + y
-  \end{lstlisting}
+\end{haskell}
 
   \breakcolumn
 
@@ -1151,7 +1148,7 @@ x + y = x + y
 
   \subsubsection{Tree}
 
-  \begin{lstlisting}[language=Haskell]
+  \begin{haskell}
 -- define a tree
 data Tree a = Empty | Node a (Tree a) (Tree a) deriving (Show, Eq)
 
@@ -1178,16 +1175,33 @@ instance Monad Tree where
   (Node x l r) >>= f = Node x (l >>= f) (r >>= f)
 
 -- make tree instance of equality
-instance Eq a => Eq (Tree a) where
+  instance Eq a => Eq (Tree a) where
   Empty == Empty = True
   (Node x l r) == (Node y l' r') = x == y && l == l' && r == r'
   _ == _ = False
 
 -- make tree instance of show
-instance Show a => Show (Tree a) where
+  instance Show a => Show (Tree a) where
   show Empty = "Empty"
   show (Node x l r) = "Node " ++ show x ++ " (" ++ show l ++ ") (" ++ show r ++ ")"
-\end{lstlisting}
+\end{haskell}
+
+  \breakcolumn
+
+  \begin{haskell}
+-- example usage of the tree monad
+-- tree with 1 as root and 2 as left child
+-- and 3 as right child
+tree = Node 1 (Node 2 Empty Empty) (Node 3 Empty Empty)
+
+-- tree with 1 as root and 2 as left child
+-- and 3 as right child
+tree' = do
+  x <- return 1
+  l <- return (Node 2 Empty Empty)
+  r <- return (Node 3 Empty Empty)
+  return (Node x l r)
+  \end{haskell}
 
 \end{multicols*}
 
@@ -1212,11 +1226,11 @@ instance Show a => Show (Tree a) where
     \item multi line comments are not supported
   \end{itemize}
 
-  \begin{lstlisting}[language=Erlang]
+  \begin{erlang}
 % single line comment
 %% sometimes the double percent is used
 %% no multi line comment support
-\end{lstlisting}
+\end{erlang}
 
   \subsection{Data types}
 
@@ -1240,13 +1254,13 @@ instance Show a => Show (Tree a) where
     \item if unquoted, atoms can contain only lowercase letters, digits and underscore
   \end{itemize}
 
-  \begin{lstlisting}[language=Erlang]
-atom % => atom
+  \begin{erlang}
+atom   % => atom
 'atom' % => atom
 'ATOM' % => 'ATOM'
-\end{lstlisting}
+\end{erlang}
 
-  \breakcolumn
+  \columnbreak
 
   \subsection{Functions}
 
@@ -1262,10 +1276,10 @@ atom % => atom
           \end{itemize}
   \end{itemize}
 
-  \begin{lstlisting}[language=Erlang]
-    factorial(0) -> 1;
-    factorial(N) when N > 0 -> N * factorial(N - 1).
-  \end{lstlisting}
+  \begin{erlang}
+factorial(0) -> 1;
+factorial(N) when N > 0 -> N * factorial(N - 1).
+\end{erlang}
 
   \subsubsection{Apply}
 
@@ -1276,18 +1290,18 @@ atom % => atom
     \item \ierlang{\$MODULE} is a macro that expands to the name of the current module
   \end{itemize}
 
-  \begin{lstlisting}[language=Erlang]
+  \begin{erlang}
 % assumption:factorial is defined in the current module
-apply($MODULE, factorial, [5]) % => 120
-\end{lstlisting}
+apply(\$MODULE, factorial, [5]) % => 120
+\end{erlang}
 
   \subsubsection{Function Guards}
 
   \begin{itemize}
-    \item \ierlang{X} is a number: \ierlang{number(X)}
-    \item \ierlang{X} is an integer: \ierlang{integer(X)}
-    \item \ierlang{X} is a float: \ierlang{float(X)}
-    \item \ierlang{X} is an atom: \ierlang{atom(X)}
+    \item \ierlang{X} is a number: \ierlang{is_number(X)}
+    \item \ierlang{X} is an integer: \ierlang{is_integer(X)}
+    \item \ierlang{X} is a float: \ierlang{is_float(X)}
+    \item \ierlang{X} is an atom: \ierlang{is_atom(X)}
     \item \ierlang{X} is a list: \ierlang{is_list(X)}
     \item \ierlang{X} is a tuple: \ierlang{is_tuple(X)}
     \item \ierlang{X} is a map: \ierlang{is_map(X)}
@@ -1311,11 +1325,11 @@ apply($MODULE, factorial, [5]) % => 120
     \item use \ierlang{-import} to avoid specifying the module name
   \end{itemize}
 
-  \begin{lstlisting}[language=Erlang]
+  \begin{erlang}
 my_module:my_function(1, 2, 3) % => 6
 -import(my_module, [my_function/3]).
 my_function(1, 2, 3) % => 6
-\end{lstlisting}
+\end{erlang}
 
   \subsection{Variables}
 
@@ -1325,10 +1339,10 @@ my_function(1, 2, 3) % => 6
     \item there is no keyword for variable declaration
   \end{itemize}
 
-  \begin{lstlisting}[language=Erlang]
+  \begin{erlang}
 X = 5 % => X = 5
 Long_variable_name = 5 % => Long_variable_name = 5
-  \end{lstlisting}
+\end{erlang}
 
   \subsection{Collections}
 
@@ -1341,10 +1355,10 @@ Long_variable_name = 5 % => Long_variable_name = 5
     \item empty list: \ierlang{[]}
   \end{itemize}
 
-  \begin{lstlisting}[language=Erlang]
+  \begin{erlang}
 [1, 2, 3] % => [1, 2, 3]
 [1, [2, 3]] % => [1, [2, 3]]
-\end{lstlisting}
+\end{erlang}
 
   \breakcolumn
 
@@ -1380,10 +1394,10 @@ Long_variable_name = 5 % => Long_variable_name = 5
     \item fold a list from the right: \ierlang{lists:foldr(<function>, <accumulator>, <list>)}
   \end{itemize}
 
-  \begin{lstlisting}[language=Erlang]
+  \begin{erlang}
 lists:foldl(fun(X, Acc) -> X + Acc end, 0, [1, 2, 3]) % => 6
 lists:foldr(fun(X, Acc) -> X + Acc end, 0, [1, 2, 3]) % => 6
-\end{lstlisting}
+\end{erlang}
 
   \subsubsection{Tuples}
 
@@ -1393,10 +1407,10 @@ lists:foldr(fun(X, Acc) -> X + Acc end, 0, [1, 2, 3]) % => 6
     \item syntax: \ierlang{\{<element1>, <element2>, ...\}}
   \end{itemize}
 
-  \begin{lstlisting}[language=Erlang]
+  \begin{erlang}
 {1, 2, 3} % => {1, 2, 3}
 {1, {2, 3}} % => {1, {2, 3}}
-\end{lstlisting}
+\end{erlang}
 
   \breakcolumn
 
@@ -1408,10 +1422,10 @@ lists:foldr(fun(X, Acc) -> X + Acc end, 0, [1, 2, 3]) % => 6
     \item records are accessed via \ierlang{#<name>.<field>}
   \end{itemize}
 
-  \begin{lstlisting}[language=Erlang]
+  \begin{erlang}
 -record(point, {x, y}).
 #point.x % => x
-\end{lstlisting}
+\end{erlang}
 
   \subsubsection{Maps}
 
@@ -1425,12 +1439,12 @@ lists:foldr(fun(X, Acc) -> X + Acc end, 0, [1, 2, 3]) % => 6
           \end{itemize}
   \end{itemize}
 
-  \begin{lstlisting}[language=Erlang]
+  \begin{erlang}
 Map = #{a => 1, b => 2} % => #{a => 1, b => 2}
 Map#{c => 3} % => #{a => 1, b => 2, c => 3}
 Map#{a := 2} % => #{a => 2, b => 2}
 Map#{d := 4} % => error
-\end{lstlisting}
+\end{erlang}
 
   \subsection{Control flow}
 
@@ -1444,11 +1458,11 @@ Map#{d := 4} % => error
     \item character \ierlang{_} matches everything \textit{(don't care)}
   \end{itemize}
 
-  \begin{lstlisting}[language=Erlang]
+  \begin{erlang}
 sign(X) when X > 0 -> 1;
 sign(X) when X < 0 -> -1;
 sign(_) -> 0.
-  \end{lstlisting}
+\end{erlang}
 
   \breakcolumn
 
@@ -1460,13 +1474,13 @@ sign(_) -> 0.
     \item function guards are necessary
   \end{itemize}
 
-  \begin{lstlisting}[language=Erlang]
+  \begin{erlang}
 if
-    integer(X) -> integer_to_list(X);
-    float(X) -> float_to_list(X);
-    true -> "error" % this is the default case
+  integer(X) -> integer_to_list(X);
+  float(X) -> float_to_list(X);
+  true -> "error" % this is the default case
 end.
-  \end{lstlisting}
+\end{erlang}
 
   \paragraph{case}
 
@@ -1476,13 +1490,13 @@ end.
     \item function guards are not required
   \end{itemize}
 
-  \begin{lstlisting}[language=Erlang]
+  \begin{erlang}
 case X of
-    0 -> "zero";
-    1 -> "one";
-    true -> "other"
+  0 -> "zero";
+  1 -> "one";
+  true -> "other"
 end.
-  \end{lstlisting}
+\end{erlang}
 
   \subsubsection{Loops}
 
@@ -1496,16 +1510,16 @@ end.
     \item syntax: \ierlang{while(<predicate>) -> <then>; ...}
   \end{itemize}
 
-  \begin{lstlisting}[language=Erlang]
+  \begin{erlang}
 while(X) ->
   if
     X > 0 ->
       io:format("~p~n", [X]),
       while(X - 1);
-    true -> % this is the default case
+    true ->
       ok.
-  end.
-  \end{lstlisting}
+end.
+\end{erlang}
 
   \breakcolumn
 
@@ -1515,17 +1529,17 @@ while(X) ->
     \item syntax: \ierlang{for(<variable>) -> <then>; ...}
   \end{itemize}
 
-  \begin{lstlisting}[language=Erlang]
+  \begin{erlang}
 for(X) ->
-    for(X, 0).
+  for(X, 0).
 
 for(X, N) when N < X ->
-    io:format("~p~n", [N]),
-    for(X, N + 1).
+  io:format("~p~n", [N]),
+  for(X, N + 1).
 
 for(_, _) ->
-    ok.
-  \end{lstlisting}
+  ok.
+  \end{erlang}
 
   \subsection{Concurrent programming}
 
@@ -1542,7 +1556,7 @@ for(_, _) ->
 
   \subsubsection{Echo process}
 
-  \begin{lstlisting}[language=Erlang]
+  \begin{erlang}
 -module(echo).
 -export([start/0, loop/0]).
 
@@ -1564,7 +1578,7 @@ loop() ->
     stop ->
       true
   end.
-\end{lstlisting}
+\end{erlang}
 
   \breakcolumn
 
@@ -1576,7 +1590,7 @@ loop() ->
     \item note: both server and client run on the same machine; there's no actual way to communicate between different machines
   \end{itemize}
 
-  \begin{lstlisting}[language=Erlang]
+  \begin{erlang}
 %% server code
 server(Data) ->
   receive
@@ -1607,7 +1621,7 @@ client(Server) ->
 start() ->
   Server = spawn(my_server, server, []),
   spawn(my_client, client, [Server]).
-\end{lstlisting}
+\end{erlang}
 
 \end{multicols*}
 
