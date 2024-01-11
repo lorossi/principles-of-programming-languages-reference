@@ -12,6 +12,7 @@
     "expt",
     "fmap",
     "Gtree",
+    "lstdefinelanguage",
     "lstlisting",
     "ltconcat",
     "ltconcmap",
