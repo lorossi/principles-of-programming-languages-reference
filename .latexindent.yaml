@@ -1,0 +1,4 @@
+verbatimEnvironments:
+  racket: 1
+  haskell: 1
+  erlang: 1
