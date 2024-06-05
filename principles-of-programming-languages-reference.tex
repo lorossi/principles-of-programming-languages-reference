@@ -868,7 +868,7 @@ length (x:xs) = 1 + length xs
 
   \begin{itemize}
     \item list length: \ihaskell{length <list>}
-    \item get the reverse of a list: \ihaskell{reverse}
+    \item get the reverse of a list: \ihaskell{reverse <list>}
     \item concatenate two lists: \ihaskell{<list1> ++ <list2>}
     \item add an element: \ihaskell{<element> : <list>}
     \item get the first element: \ihaskell{head <list>}
@@ -1152,22 +1152,24 @@ x + y = x + y
 -- define a tree
 data Tree a = Empty | Node a (Tree a) (Tree a) deriving (Show, Eq)
 
--- make foldable, functor, applicative
+-- make tree instance of foldable
 instance Foldable Tree where
   foldr f z Empty = z
   foldr f z (Node x l r) = foldr f (f x (foldr f z r)) l
 
+-- make tree instance of functor
 instance Functor Tree where
   fmap f Empty = Empty
   fmap f (Node x l r) = Node (f x) (fmap f l) (fmap f r)
 
+-- make tree instance of applicative
 instance Applicative Tree where
   pure x = Node x Empty Empty
   Empty <*> _ = Empty
   _ <*> Empty = Empty
-  (Node f fl fr) <*> (Node x l r) = Node (f x) (fl <*> l) (fr <*> r)
+  (Node x l r) <*> (Node x' l' r') = Node (f x) (l <*> l') (r <*> r')
 
--- a monad needs foldable, functor, and applicative to be defined
+-- make tree instance of monad
 instance Monad Tree where
   return x = Node x Empty Empty
   fail _ = Empty
@@ -1185,8 +1187,6 @@ instance Monad Tree where
   show Empty = "Empty"
   show (Node x l r) = "Node " ++ show x ++ " (" ++ show l ++ ") (" ++ show r ++ ")"
 \end{haskell}
-
-  \breakcolumn
 
   \begin{haskell}
 -- example usage of the tree monad
@@ -1250,7 +1250,7 @@ tree' = do
   \begin{itemize}
     \item any sequence of letters, digits, underscore, at sign, dollar sign and full stop
     \item atoms are used to represent constants
-    \item syntax: \ierlang{<atom>} or \ierlang{'<atom>'}
+    \item syntax: \ierlang{atom} or \ierlang{'atom'}
     \item if unquoted, atoms can contain only lowercase letters, digits and underscore
   \end{itemize}
 
@@ -1287,12 +1287,12 @@ factorial(N) when N > 0 -> N * factorial(N - 1).
     \item syntax: \ierlang{apply(<module>, <function>, <arguments>)}
     \item any expression can be used as a function
     \item the function is applied to the arguments
-    \item \ierlang{\$MODULE} is a macro that expands to the name of the current module
+    \item \ierlang{?MODULE} is a macro that expands to the name of the current module
   \end{itemize}
 
   \begin{erlang}
 % assumption:factorial is defined in the current module
-apply(\$MODULE, factorial, [5]) % => 120
+apply(?MODULE, factorial, [5]) % => 120
 \end{erlang}
 
   \subsubsection{Function Guards}
@@ -1476,8 +1476,8 @@ sign(_) -> 0.
 
   \begin{erlang}
 if
-  integer(X) -> integer_to_list(X);
-  float(X) -> float_to_list(X);
+  is_integer(X) -> integer_to_list(X);
+  is_float(X) -> float_to_list(X);
   true -> "error" % this is the default case
 end.
 \end{erlang}
@@ -1614,13 +1614,32 @@ client(Server) ->
 client(Server) ->
   Server ! {self(), stop},
   receive
-    {my_server, stopped} ->
-      ok
+    {my_server, stopped} -> ok
   end.
 
 start() ->
-  Server = spawn(my_server, server, []),
-  spawn(my_client, client, [Server]).
+  Server = spawn(?MODULE, server, []),
+  spawn(?MODULE, client, [Server]).
+\end{erlang}
+
+  \columnbreak
+
+  \subsubsection{Catching errors}
+
+  \begin{erlang}
+
+  divide(X, Y) ->
+    {ok, X / Y}.
+
+  main() ->
+    process_flag(trap_exit, true), % catch exit signals
+    Pid = spawn(fun() -> divide(1, 0) end),
+    receive
+      {'EXIT', Pid, Reason} -> % catch exit signal
+        io:format("error: ~p,~p~n", [Pid, Reason]);
+      {result, _, normal} ->  % catch normal exit
+        io:format("result: ~p~n", [Result]);
+    end.
 \end{erlang}
 
 \end{multicols*}
@@ -1654,9 +1673,9 @@ The font used in this document is \textit{Roboto Light Condensed}, available at 
 \subsection{License}
 
 The content of this document is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
+\ccbync
 
 To view a copy of this license, visit \url{https://creativecommons.org/licenses/by-nc/4.0/}.
-\ccbync
 
 \smallskip
 
