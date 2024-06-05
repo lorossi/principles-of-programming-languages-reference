@@ -69,7 +69,7 @@
 % racket language, based on https://github.com/stuhlmueller/scheme-listings
 \lstdefinelanguage{CustomRacket}{
   alsoletter={!, ', *, +, -, /, :, =, >, ?},
-  morekeywords={=, add1, and, append, apply, begin, build-list, caaaar, caaadr, caaar, caadar, caaddr, caadr, caar, cadaar, cadadr, cadar, caddar, cadddr, caddr, cadr, call-with-current-continuation, call-with-input-file, call-with-output-file, call/cc, car, case, cdaaar, cdaadr, cdaar, cdadar, cdaddr, cdadr, cdar, cddaar, cddadr, cddar, cdddar, cddddr, cdddr, cddr, cdr, cond, cons, cons?, count, define, define-macro, define-stream, define-syntax, delay, display, displayln, do, drop, else, empty?, environment, eq?, equal?, eqv?, eval, even?, exact->inexact, exp, export, expt, false?, filter, first, float->integer, fold, foldl, foldr, for, for-each, force, gcd, hash, hash-has-key?, hash-ref, hash-remove, hash-set, if, immutable?, implies, import, in-hash, in-list, in-range, in-set, in-string, in-vector, inexact->exact, integer->float, integer->rational, lambda, last, lcm, length, let, let*, let*-values, let-syntax, let-values, letrec, letrec*, letrec-syntax, list, list->set, list->string, list->vector, list-ref, list-tail, list?, log, make-list, map, match, max, min, negative?, newline, not, null, odd?, or, pair?, positive?, print, printf, println, quasiquote, query, quote, quotient, raise, rational->integer, remainder, rest, reverse, save!, set, set!, set-add, set-member?, set-remove, stream-lambda, string->list, string->vector, string-append, string-length, string-ref, struct, sub1, syntax, syntax-rules, take, true?, unless, unquote, unquote-splicing, vector->list, vector->string, vector-ref, vector-set!, when, with-handlers, xor, zero?}
+  morekeywords={=, add1, and, append, apply, begin, build-list, caaaar, caaadr, caaar, caadar, caaddr, caadr, caar, cadaar, cadadr, cadar, caddar, cadddr, caddr, cadr, call-with-current-continuation, call-with-input-file, call-with-output-file, call/cc, car, case, cdaaar, cdaadr, cdaar, cdadar, cdaddr, cdadr, cdar, cddaar, cddadr, cddar, cdddar, cddddr, cdddr, cddr, cdr, cond, cons, cons?, count, define, define-macro, define-stream, define-syntax, delay, display, displayln, do, drop, else, empty?, environment, eq?, equal?, eqv?, eval, even?, exact->inexact, exp, export, expt, false?, filter, first, float->integer, fold, foldl, foldr, for, for-each, force, gcd, hash, hash-has-key?, hash-ref, hash-remove, hash-set, if, immutable?, implies, import, in-hash, in-list, in-range, in-set, in-string, in-vector, inexact->exact, integer->float, integer->rational, lambda, last, lcm, length, let, let*, let*-values, let-syntax, let-values, letrec, letrec*, letrec-syntax, list, list->set, list->string, list->vector, list-ref, list-tail, list?, log, make-list, map, match, max, min, negative?, newline, not, null, odd?, or, pair?, positive?, print, printf, println, quasiquote, query, quote, quotient, raise, rational->integer, remainder, rest, reverse, save!, set, set!, set-add, set-member?, set-remove, stream-lambda, string->list, string->vector, string-append, string-length, string-ref, struct, sub1, syntax, syntax-rules, take, true?, unless, unquote, unquote-splicing, vector->list, vector->string, vector-ref, vector-set!, when, with-handlers, xor, zero?,}
   sensitive=true,
   morecomment=[l]{;},
   morecomment=[s]{\#|}{|\#},
@@ -78,12 +78,12 @@
 \lstdefinelanguage{CustomHaskell}{
   language=Haskell,
   alsoletter={!, \$, &, *, +, -, ., :, <, =, >, [, ], |},
-  morekeywords={!!, \$, &&, ++, ->, ., :, ::, <*>, <-, >>=, [], Applicative, fmap, for, implies, not, xor, ||}
+  morekeywords={!!, \$, &&, ++, ->, ., :, ::, <*>, <-, >>=, [], Applicative, fmap, Foldable, for, implies, not, xor, ||}
 }
 \lstdefinelanguage{CustomErlang}{
   language=Erlang,
-  alsoletter={!, \$, +, -, /, :, =, >},
-  morekeywords={!\$MODULE, ++, ->, -import, :=, =/=, =:=, ==, =>, for, is_atom, is_float, is_integer, is_list, is_map, is_number, is_tuple, lists:append, lists:delete, lists:drop, lists:droplast, lists:filter, lists:first, lists:flatten, lists:foldl, lists:foldr, lists:foreach, lists:last, lists:map, lists:max, lists:min, lists:nth, lists:sublist}
+  alsoletter={!, \$, +, -, /, :, =, >, ., \,,, ;},
+  morekeywords={!\$MODULE, ++, ->, -import, :=, =/=, =:=, ==, =>, for, is_atom, is_float, is_integer, is_list, is_map, is_number, is_tuple, lists:append, lists:delete, lists:drop, lists:droplast, lists:filter, lists:first, lists:flatten, lists:foldl, lists:foldr, lists:foreach, lists:last, lists:map, lists:max, lists:min, lists:nth, lists:sublist, ., \,, ;}
 }
 % command to switch column
 \newcommand{\breakcolumn}{\vspace*{\fill}\columnbreak}
