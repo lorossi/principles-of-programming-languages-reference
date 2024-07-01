@@ -1430,12 +1430,12 @@ lists:foldr(fun(X, Acc) -> X + Acc end, 0, [1, 2, 3]) % => 6
   \subsubsection{Maps}
 
   \begin{itemize}
-    \item maps are defined via \ierlang{\#{<key> => <value>, <key> => <value>, ...}}
+    \item maps are defined via \ierlang{\#\{<key> => <value>, <key> => <value>, ...\}}
     \item keys are accessed via \ierlang{<map>.<key>}
     \item maps are updated:
           \begin{itemize}
-            \item to add or overwrite a key-value pair: \ierlang{<map>#{<key> => <value>}}
-            \item to only update an existing key-value pair: \ierlang{<map>#{<key> := <value>}}
+            \item to add or overwrite a key-value pair: \ierlang{<map>\#\{<key> => <value>\}}
+            \item to only update an existing key-value pair: \ierlang{<map>\#\{<key> := <value>\}}
           \end{itemize}
   \end{itemize}
 
@@ -1455,7 +1455,7 @@ Map#{d := 4} % => error
   \begin{itemize}
     \item the matching process is done top to bottom, left to right
     \item patterns may have boolean guards
-    \item character \ierlang{_} matches everything \textit{(don't care)}
+    \item symbol \ierlang{_} matches everything \textit{(don't care)}
   \end{itemize}
 
   \begin{erlang}
